@@ -20,12 +20,39 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
+## Docker Setup
+
+Docker install:
+
+```bash
+sudo pacman -S docker docker-buildx
+```
+
+Docker desktop is available in the AUR. Install it with:
+
+```bash
+yay -S docker-desktop
+```
+
+Gnome terminal is required for non gnome desktops.
+
+```bash
+sudo pacman -S gnome-terminal
+```
+
+### Setup Pass
+
+```bash
+gpg --generate-key
+pass init <gpg-id>
+```
+
 ## Neovim Setup
 
 Base packages:
 
 ```bash
-sudo pacman -S neovim lazygit ripgrep fzf fd lazydocker docker
+sudo pacman -S neovim lazygit ripgrep fzf fd lazydocker
 ```
 
 Needed for python support:
@@ -56,7 +83,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo pacamn -S nodejs npm
 ```
 
-## Link Dotfiles
+## Link dotfiles
 
 ```bash
 cd dotfiles && stow .
