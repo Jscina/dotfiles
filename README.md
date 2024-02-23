@@ -3,7 +3,7 @@
 ## Minimal Requirements
 
 ```bash
-sudo pacman -S git zsh stow zoxide
+sudo pacman -S git zsh stow zoxide tmux
 ```
 
 Install Oh My Zsh:
@@ -46,6 +46,14 @@ sudo pacman -S gnome-terminal
 gpg --generate-key
 pass init <gpg-id>
 ```
+
+## Tmux Setup
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Use `prefix` + `I` to install plugins.
 
 ## Neovim Setup
 
