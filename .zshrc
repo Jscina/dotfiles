@@ -87,7 +87,10 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-
+# Start tmux if installed
+if command -v tmux &> /dev/null && []; then
+    tmux attach -t default || tmux new -s default
+fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 export PATH="$HOME/.local/bin:$PATH"
