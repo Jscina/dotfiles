@@ -9,8 +9,8 @@ return {
             sidebars = "transparent",
             floats = "transparent",
           },
-          on_highlights = function(hi, c)
-            hi["@variable"] = { fg = c.yellow, style = "italic" }
+          on_highlights = function(hi, _)
+            hi["@variable"] = { fg = "#f7768e", style = "italic" }
           end,
         })
       end,
