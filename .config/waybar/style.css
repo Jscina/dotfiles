@@ -69,7 +69,6 @@ window#waybar {
 #custom-keyboard-layout,
 #memory,
 #mode,
-#custom-weather,
 #network,
 #pulseaudio,
 #temperature,
@@ -96,10 +95,6 @@ window#waybar.empty #window {
 #clock {
   /* color: #ff4499; */
   color: #73daca;
-}
-
-#custom-weather {
-  color: #ff4499;
 }
 
 #battery {
