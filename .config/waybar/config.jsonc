@@ -21,8 +21,6 @@
     "custom/PBPbattery",
     "pulseaudio",
     "pulseaudio#microphone",
-    "network",
-    "bluetooth",
     "battery",
     "custom/power",
   ],
@@ -54,23 +52,6 @@
     "tooltip-format": "{:%e %B %Y}",
   },
 
-  "network": {
-    "interval": 5,
-    "format-wifi": " ", // Icon: wifi
-    "format-ethernet": " ", // Icon: ethernet
-    "format-disconnected": "⚠  Disconnected",
-    "tooltip-format": "{ifname}: {ipaddr}",
-    "on-click": "kitty -e nmtui",
-  },
-  "network#vpn": {
-    "interface": "tun0",
-    "format": " ",
-    "format-disconnected": "⚠  Disconnected",
-    "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
-  },
-  "bluetooth": {
-    "on-click": "blueman-manager",
-  },
   "hyprland/mode": {
     "format": "{}",
     "tooltip": false,
