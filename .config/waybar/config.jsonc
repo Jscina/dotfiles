@@ -12,7 +12,6 @@
     "hyprland/workspaces",
     "custom/media",
     "hyprland/window",
-    "custom/launcher",
   ],
 
   "modules-center": ["clock"],
@@ -143,12 +142,6 @@
   "custom/firefox": {
     "format": " ",
     "on-click": "exec firefox",
-    "tooltip": false,
-  },
-
-  "custom/launcher": {
-    "format": " ",
-    "on-click": "exec anyrun",
     "tooltip": false,
   },
 
