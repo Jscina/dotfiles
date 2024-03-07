@@ -22,19 +22,12 @@
     "pulseaudio",
     "pulseaudio#microphone",
     "network",
+    "bluetooth",
     "battery",
+    "custom/power",
   ],
 
   // Modules
-
-  "idle_inhibitor": {
-    "format": "{icon} ",
-    "format-icons": {
-      "activated": "",
-      "deactivated": "",
-    },
-  },
-
   "battery": {
     "states": {
       // "good": 95,
@@ -67,7 +60,7 @@
     "format-ethernet": " ", // Icon: ethernet
     "format-disconnected": "⚠  Disconnected",
     "tooltip-format": "{ifname}: {ipaddr}",
-    "on-click": "kitty -e 'nmtui'",
+    "on-click": "kitty -e nmtui",
   },
   "network#vpn": {
     "interface": "tun0",
@@ -75,7 +68,9 @@
     "format-disconnected": "⚠  Disconnected",
     "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
   },
-
+  "bluetooth": {
+    "on-click": "blueman-manager",
+  },
   "hyprland/mode": {
     "format": "{}",
     "tooltip": false,
@@ -139,12 +134,6 @@
     "spacing": 10,
   },
 
-  "custom/firefox": {
-    "format": " ",
-    "on-click": "exec firefox",
-    "tooltip": false,
-  },
-
   "custom/media": {
     "format": "{icon} {}",
     "return-type": "json",
@@ -155,5 +144,10 @@
     },
     "escape": true,
     "exec": "/usr/bin/python3 $HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null", // Script in resources folder
+  },
+  "custom/power": {
+    "format": " ⏻ ",
+    "tooltip": false,
+    "on-click": "wlogout --protocol layer-shell",
   },
 }
