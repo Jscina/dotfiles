@@ -101,5 +101,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias silent-grub="sed -i 's/echo/#ech~o/g' /boot/grub/grub.cfg"
+alias dolphin="dolphin --platformtheme kde"
 
 eval "$(zoxide init --cmd cd zsh)"
