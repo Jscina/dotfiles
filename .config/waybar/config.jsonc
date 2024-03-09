@@ -71,13 +71,12 @@
     "format-icons": {
       "1": "",
       "2": "",
-      "3": "󰙯",
-      "4": "",
-      "5": "󰡨",
-      "6": "",
+      "3": "",
+      "4": "",
+      "5": "󰗃",
+      "6": "󰡨",
     },
   },
-
   "pulseaudio": {
     "scroll-step": 1, // %, can be a float
     "format": "{icon} {volume}%",
@@ -87,7 +86,7 @@
     "format-icons": {
       "headphone": "󰋋",
       "hands-free": "וֹ",
-      "headset": "  ",
+      "headset": "󰋋",
       "phone": "",
       "portable": "",
       "car": "",
