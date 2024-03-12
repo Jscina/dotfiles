@@ -96,3 +96,27 @@ sudo pacamn -S nodejs npm
 ```bash
 cd dotfiles && stow .
 ```
+
+# Hyprland Setup
+
+## Dependencies
+
+There's some changes that need to be added in the pam.d/login file.
+
+```
+  auth required pam_autologin.so always
+  auth optional pam_gnome_keyring.so
+  session optional pam_gnome_keyring.so auto_start
+```
+
+```bash
+sudo pacman -S hyprland hyprpaper kitty dunst xdg-desktop-portal-hyprland polkit-kde-agent qt5-wayland qt6-wayland plasma-framework5 waybar qt5ct qt6ct gnome-keyring
+```
+
+```bash
+yay -S anyrun pam_autologin
+```
+
+## Nvidia
+
+All nvidia things should be set already. Check the [docs](https://wiki.hyprland.org/Nvidia/) for more information.
