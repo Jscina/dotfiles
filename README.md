@@ -110,7 +110,7 @@ There's some changes that need to be added in the pam.d/login file.
 ```
 
 ```bash
-sudo pacman -S hyprland hyprpaper kitty dunst xdg-desktop-portal-hyprland polkit-kde-agent qt5-wayland qt6-wayland plasma-framework5 waybar qt5ct qt6ct gnome-keyring
+sudo pacman -S hyprland hyprpaper kitty dunst xdg-desktop-portal-hyprland polkit-kde-agent qt5-wayland qt6-wayland plasma-framework5 waybar qt5ct qt6ct gnome-keyring brightnessctl
 ```
 
 ```bash
@@ -119,4 +119,20 @@ yay -S anyrun pam_autologin
 
 ## Nvidia
 
-All nvidia things should be set already. Check the [docs](https://wiki.hyprland.org/Nvidia/) for more information.
+All nvidia things should be set already. Check the [docs](https://wiki.hyprland.org/Nvidia/) for more information. Nvidia specific config is in the nvidia branch.
+
+Enable the nvidia services for suspend/wakeup
+
+```bash
+sudo systemctl enable nvidia-suspend
+sudo systemctl enable nvidia-resume
+sudo systemctl enable nvidia-hibernate
+```
+
+There's a kernel paremeter that needs to be set so check the [docs](https://wiki.hyprland.org/Nvidia/)
+If it's not already set.
+
+### Flickering
+
+There are flickering issues with 550 and 545 drivers when playing games through XWayland.
+Just use the xorg kde session for games.
