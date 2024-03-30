@@ -114,7 +114,7 @@ sudo pacman -S hyprland hyprpaper kitty dunst xdg-desktop-portal-hyprland polkit
 ```
 
 ```bash
-yay -S anyrun pam_autologin
+yay -S anyrun pam_autologin hyprshot
 ```
 
 ## Nvidia
