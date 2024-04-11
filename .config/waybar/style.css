@@ -63,6 +63,7 @@ window#waybar {
 
 /* Every modules */
 #battery,
+#bluetooth,
 #clock,
 #backlight,
 #cpu,
@@ -200,6 +201,10 @@ window#waybar.empty #window {
 
 #custom-media {
   color: #bb9af7;
+}
+
+#bluetooth {
+  font-size: 16px;
 }
 
 #workspaces {
