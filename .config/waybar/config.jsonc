@@ -7,25 +7,43 @@
   // If height property would be not present, it'd be calculated dynamically
   "height": 30,
 
-  "modules-left": [
-    // "custom/launcher",
-    "hyprland/workspaces",
-    "custom/media",
-    "hyprland/window",
-  ],
+  "modules-left": ["hyprland/workspaces", "custom/media", "hyprland/window"],
 
   "modules-center": ["clock"],
 
   "modules-right": [
     "tray",
+    "network",
+    "bluetooth",
     "custom/PBPbattery",
     "pulseaudio",
     "pulseaudio#microphone",
     "battery",
     "custom/power",
   ],
-
-  // Modules
+  "network": {
+    "format-wifi": "  {essid} ({signalStrength}%)",
+    "format-ethernet": "⬇{bandwidthDownBytes} ⬆{bandwidthUpBytes}",
+    "interval": 3,
+    "format-linked": "{ifname} (No IP) ",
+    "format": "",
+    "format-disconnected": "",
+    "on-click": "kitty -e tmux new-window 'nmtui'",
+    "tooltip-format": " {bandwidthUpBits}  {bandwidthDownBits}\n{ifname}\n{ipaddr}/{cidr}\n",
+    "tooltip-format-wifi": " {essid} {frequency}MHz\nStrength: {signaldBm}dBm ({signalStrength}%)\nIP: {ipaddr}/{cidr}\n {bandwidthUpBits}  {bandwidthDownBits}",
+    "min-length": 17,
+    "max-length": 17,
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "blueman-manager",
+  }, // Modules
   "battery": {
     "states": {
       // "good": 95,
@@ -35,8 +53,6 @@
     "format": "{capacity}% {icon} ",
     "format-charging": "{capacity}% 󰂄",
     "format-plugged": "{capacity}% ",
-    // "format-good": "", // An empty format will hide the module
-    // "format-full": "",
     "format-icons": ["", "", "", "", ""],
   },
 
@@ -71,10 +87,9 @@
     "format-icons": {
       "1": "",
       "2": "",
-      "3": "",
-      "4": "",
-      "5": "󰗃",
-      "6": "󰡨",
+      "3": "",
+      "4": "󰗃",
+      "5": "󰡨",
     },
   },
   "pulseaudio": {

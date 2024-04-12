@@ -55,14 +55,14 @@ window#waybar {
   /* background-color: rgba(0,0,0,0.8); */
   /* background-color: rgba(8,0,37,0.85); */
   background-color: rgba(0, 0, 0, 0);
-  /* font-family: JetBrains Mono Nerd Font; */
-  font-family: Intel One Mono Nerd Font;
+  font-family: JetBrains Mono Nerd Font;
   font-size: 14px;
   /* border-radius: 22px; */
 }
 
 /* Every modules */
 #battery,
+#bluetooth,
 #clock,
 #backlight,
 #cpu,
@@ -200,6 +200,10 @@ window#waybar.empty #window {
 
 #custom-media {
   color: #bb9af7;
+}
+
+#bluetooth {
+  font-size: 14px;
 }
 
 #workspaces {
