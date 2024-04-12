@@ -110,7 +110,7 @@ There's some changes that need to be added in the pam.d/login file.
 ```
 
 ```bash
-sudo pacman -S hyprland hyprpaper kitty dunst xdg-desktop-portal-hyprland polkit-kde-agent qt5-wayland qt6-wayland plasma-framework5 waybar qt5ct qt6ct gnome-keyring brightnessctl
+sudo pacman -S hyprland hyprpaper hyprlock kitty dunst xdg-desktop-portal-hyprland polkit-kde-agent qt5-wayland qt6-wayland plasma-framework5 waybar qt5ct qt6ct gnome-keyring brightnessctl
 ```
 
 ```bash
