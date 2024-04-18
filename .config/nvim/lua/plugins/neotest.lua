@@ -3,7 +3,7 @@ return {
   opts = {
     adapters = {
       "neotest-python",
-      "neotest-rust",
+      "rustaceanvim",
     },
   },
 }
