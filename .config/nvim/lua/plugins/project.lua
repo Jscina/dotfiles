@@ -5,7 +5,7 @@ return {
     detection_methods = { "lsp", "pattern" },
     patterns = { ".git", "cargo.toml", "pyproject.toml", "package.json" },
     ignore_lsp = {},
-    exclude_dirs = {},
+    exclude_dirs = { "*/src-tauri/*", "~/dotfiles/*" },
     show_hidden = false,
     silent_chdir = true,
     scope_chdir = "global",
