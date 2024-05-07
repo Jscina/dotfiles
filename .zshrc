@@ -107,3 +107,5 @@ alias dolphin="dolphin --platformtheme kde"
 
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
+# Added by LM Studio CLI tool (lms)
+export PATH="$PATH:/home/joshs/.cache/lm-studio/bin"
