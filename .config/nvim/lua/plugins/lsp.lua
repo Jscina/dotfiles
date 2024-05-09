@@ -12,14 +12,10 @@ return {
                 disabled = { "unresolved-proc-macro" },
                 enableExperimental = true,
               },
-              procMacro = {
-                ignored = { leptos_macro = { "server", "component" } },
-              },
             },
           },
         },
         tailwindcss = {
-          filetypes_include = { "rust" },
           settings = {
             experimental = {
               classRegex = {
