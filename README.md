@@ -66,7 +66,7 @@ sudo pacman -S neovim lazygit ripgrep fzf fd lazydocker
 Needed for python support:
 
 ```bash
-sudo pacman -S python-pynvim python-poetry
+sudo pacman -S python-pynvim python-poetry python-prompt_toolkit
 ```
 
 Needed for Copilot Chat (Neovim):
