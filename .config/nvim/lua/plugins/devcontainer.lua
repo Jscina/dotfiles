@@ -16,7 +16,7 @@ return {
           options = {},
         },
       },
-      container_runtime = "devcontainer-cli",
+      container_runtime = "devcontainer",
       backup_runtime = "docker",
     })
   end,
