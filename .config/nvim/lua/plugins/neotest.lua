@@ -3,7 +3,7 @@ return {
   opts = {
     adapters = {
       "neotest-python",
-      "rustaceanvim",
+      require("rustaceanvim.neotest"),
     },
   },
 }
