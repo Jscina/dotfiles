@@ -29,6 +29,7 @@ return {
       { "nvim-lua/plenary.nvim" },
     },
     opts = {
+      model = "gpt-4",
       question_header = "## User ",
       answer_header = "## Copilot ",
       error_header = "## Error ",
