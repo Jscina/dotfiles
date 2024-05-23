@@ -22,7 +22,7 @@ button:focus {
 }
 
 button:hover {
-  background-color: #800080;
+  background-color: #038cfc;
   color: #1e1e2e;
   background-size: 50%;
   margin: 30px;
@@ -31,7 +31,7 @@ button:hover {
     all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682),
     box-shadow 0.2s ease-in-out,
     background-color 0.2s ease-in-out;
-  box-shadow: 0 0 20px #800080;
+  box-shadow: 0 0 20px #008080;
 }
 
 /* Adjust the size of the icon or content inside the button */

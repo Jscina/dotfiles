@@ -105,6 +105,7 @@ export PATH="$HOME/.local/bin:$PATH"
 alias silent-grub="sed -i 's/echo/#ech~o/g' /boot/grub/grub.cfg"
 alias dolphin="dolphin --platformtheme kde"
 
-eval "$(zoxide init --cmd cd zsh)"
+. "$HOME/.cargo/env"
+eval "$(zoxide init --cmd=cd zsh)"
 # Added by LM Studio CLI tool (lms)
 export PATH="$PATH:/home/joshs/.cache/lm-studio/bin"
