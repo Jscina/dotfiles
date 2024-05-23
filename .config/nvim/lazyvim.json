@@ -1,8 +1,6 @@
 {
   "extras": [
     "lazyvim.plugins.extras.dap.core",
-    "lazyvim.plugins.extras.test.core",
-    "lazyvim.plugins.extras.coding.copilot",
     "lazyvim.plugins.extras.formatting.black",
     "lazyvim.plugins.extras.formatting.prettier",
     "lazyvim.plugins.extras.lang.markdown",
@@ -17,3 +15,4 @@
     "NEWS.md": "4964"
   },
   "version": 4
+}
