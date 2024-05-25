@@ -187,15 +187,9 @@ return {
         mode = "x",
         desc = "CopilotChat - Open in vertical split",
       },
-      {
-        "<leader>cci",
-        ":CopilotChatInline<cr>",
-        mode = "x",
-        desc = "CopilotChat - Inline chat",
-      },
       -- Custom input for CopilotChat
       {
-        "<leader>ccq",
+        "<leader>cci",
         function()
           local input = vim.fn.input("Ask Copilot: ")
           if input ~= "" then
