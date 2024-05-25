@@ -8,8 +8,6 @@ local prompts = {
   FixError = "Please explain the error in the following text and provide a solution.",
   BetterNamings = "Please provide better names for the following variables and functions.",
   Documentation = "Please provide documentation for the following code.",
-  SwaggerApiDocs = "Please provide documentation for the following API using Swagger.",
-  SwaggerJsDocs = "Please write JSDoc for the following API using Swagger.",
   -- Text related prompts
   Summarize = "Please summarize the following text.",
   Spelling = "Please correct any grammar and spelling errors in the following text.",
@@ -160,7 +158,7 @@ return {
     keys = {
       -- Show help actions with telescope
       {
-        "<leader>ah",
+        "<leader>cch",
         function()
           local actions = require("CopilotChat.actions")
           require("CopilotChat.integrations.telescope").pick(actions.help_actions())
@@ -169,17 +167,11 @@ return {
       },
       -- Show prompts actions with telescope
       {
-        "<leader>ap",
+        "<leader>ccp",
         function()
           local actions = require("CopilotChat.actions")
           require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
         end,
-        desc = "CopilotChat - Prompt actions",
-      },
-      {
-        "<leader>ap",
-        ":lua require('CopilotChat.integrations.telescope').pick(require('CopilotChat.actions').prompt_actions({selection = require('CopilotChat.select').visual}))<CR>",
-        mode = "x",
         desc = "CopilotChat - Prompt actions",
       },
       -- Code related commands
@@ -196,14 +188,14 @@ return {
         desc = "CopilotChat - Open in vertical split",
       },
       {
-        "<leader>ccI",
+        "<leader>cci",
         ":CopilotChatInline<cr>",
         mode = "x",
         desc = "CopilotChat - Inline chat",
       },
       -- Custom input for CopilotChat
       {
-        "<leader>cci",
+        "<leader>ccq",
         function()
           local input = vim.fn.input("Ask Copilot: ")
           if input ~= "" then
@@ -222,17 +214,6 @@ return {
         "<leader>ccM",
         "<cmd>CopilotChatCommitStaged<cr>",
         desc = "CopilotChat - Generate commit message for staged changes",
-      },
-      -- Quick chat with Copilot
-      {
-        "<leader>ccq",
-        function()
-          local input = vim.fn.input("Quick Chat: ")
-          if input ~= "" then
-            vim.cmd("CopilotChatBuffer " .. input)
-          end
-        end,
-        desc = "CopilotChat - Quick chat",
       },
       -- Debug
       { "<leader>ccd", "<cmd>CopilotChatDebugInfo<cr>", desc = "CopilotChat - Debug Info" },
