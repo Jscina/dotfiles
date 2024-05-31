@@ -69,12 +69,6 @@ Needed for python support:
 sudo pacman -S python-pynvim python-poetry python-prompt_toolkit
 ```
 
-Needed for Copilot Chat (Neovim):
-
-```bash
-sudo pacman -S python-requests python-dotenv
-```
-
 ## Programming Languages
 
 Arch includes the latest version of Python so no need to install it.
@@ -85,10 +79,10 @@ Arch includes the latest version of Python so no need to install it.
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-### Node.js
+### JavaScript
 
 ```bash
-sudo pacamn -S nodejs npm
+sudo pacman -S nodejs npm
 ```
 
 ## Link dotfiles
@@ -97,20 +91,22 @@ sudo pacamn -S nodejs npm
 cd dotfiles && stow .
 ```
 
-# Hyprland Setup
+## Hyprland Setup
 
-## Dependencies
+### Dependencies
 
 There's some changes that need to be added in the pam.d/login file.
 
-```
+```bash
   auth required pam_autologin.so always
   auth optional pam_gnome_keyring.so
   session optional pam_gnome_keyring.so auto_start
 ```
 
 ```bash
-sudo pacman -S hyprland hyprpaper hyprlock kitty dunst xdg-desktop-portal-hyprland polkit-kde-agent qt5-wayland qt6-wayland plasma-framework5 waybar qt5ct qt6ct gnome-keyring brightnessctl
+sudo pacman -S hyprland hyprpaper hyprlock hypridle alacritty dunst \
+  xdg-desktop-portal-hyprland polkit-kde-agent qt6-wayland \
+  plasma-framework5 waybar qt6ct gnome-keyring brightnessctl
 ```
 
 ```bash
@@ -119,7 +115,9 @@ yay -S anyrun pam_autologin hyprshot
 
 ## Nvidia
 
-All nvidia things should be set already. Check the [docs](https://wiki.hyprland.org/Nvidia/) for more information. Nvidia specific config is in the nvidia branch.
+All nvidia things should be set already.
+Check the [docs](https://wiki.hyprland.org/Nvidia/) for more information.
+Nvidia specific config is in the nvidia branch.
 
 Enable the nvidia services for suspend/wakeup
 
@@ -131,8 +129,3 @@ sudo systemctl enable nvidia-hibernate
 
 There's a kernel paremeter that needs to be set so check the [docs](https://wiki.hyprland.org/Nvidia/)
 If it's not already set.
-
-### Flickering
-
-There are flickering issues with 550 and 545 drivers when playing games through XWayland.
-Just use the xorg kde session for games.
