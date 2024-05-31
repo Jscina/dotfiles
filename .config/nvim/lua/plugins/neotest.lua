@@ -2,7 +2,7 @@ return {
   "nvim-neotest/neotest",
   opts = {
     adapters = {
-      "neotest-python",
+      require("neotest-python"),
       require("rustaceanvim.neotest"),
     },
   },
