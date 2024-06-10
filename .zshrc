@@ -94,7 +94,7 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 # Add user scripts to path
-export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$HOME/Repos/scripts/*.py:$PATH"
+export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$HOME/Repos/scripts:$PATH"
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
