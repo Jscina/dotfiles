@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # Assuming this part is added to your zshrc or a similar startup script
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -93,7 +93,7 @@ source $ZSH/oh-my-zsh.sh
 # fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -108,5 +108,3 @@ alias dolphin="dolphin --platformtheme kde"
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
 eval `keychain --noask --quiet --quick --eval  --agents ssh id_rsa`
-# Added by LM Studio CLI tool (lms)
-export PATH="$PATH:/home/joshs/.cache/lm-studio/bin"
