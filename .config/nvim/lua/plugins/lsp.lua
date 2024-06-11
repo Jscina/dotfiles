@@ -5,19 +5,12 @@ return {
       inlay_hints = {
         enabled = false,
       },
+      setup = {
+        rust_analyzer = function()
+          return true
+        end,
+      },
       servers = {
-        rust_analyzer = {
-          standalone = true,
-          settings = {
-            ["rust-analyzer"] = {
-              diagnostics = {
-                enable = true,
-                disabled = { "unresolved-proc-macro" },
-                enableExperimental = true,
-              },
-            },
-          },
-        },
         tailwindcss = {
           settings = {
             experimental = {
