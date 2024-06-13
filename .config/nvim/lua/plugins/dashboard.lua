@@ -24,14 +24,12 @@ return {
         header = vim.split(logo, "\n"),
         -- stylua: ignore
         center = {
-          { action = LazyVim.telescope("files"), desc = " Find File", icon = " ", key = "f" },
+          { action = LazyVim.pick("files"), desc = " Find File", icon = " ", key = "f" },
           { action = "ene | startinsert", desc = " New File", icon = " ", key = "n" },
-          { action = "Telescope oldfiles", desc = " Recent Files", icon = " ", key = "r" },
           { action = "LazyGit", desc = " Lazy Git", icon = " ", key = "g" },
-          { action = "Telescope live_grep", desc = " Find Text", icon = " ", key = "t" },
-          { action = [[lua LazyVim.telescope.config_files()()]], desc = " Config", icon = " ", key = "c" },
-          { action = 'lua require("persistence").load()', desc = " Restore Session", icon = " ", key = "s" },
-          { action = "Mason", desc = " Mason", icon="⚡ ", key = "m" },
+          { action = [[lua LazyVim.pick.config_files()()]], desc = " Config", icon = " ", key = "c" },
+          { action = "lua require('persistence').load()", desc = " Restore Session", icon = " ", key = "s" },
+          { action = "Mason", desc = " Mason", icon = " ", key = "m" },
           { action = "LazyExtras", desc = " Lazy Extras", icon = " ", key = "x" },
           { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
           { action = "qa", desc = " Quit", icon = " ", key = "q" },
