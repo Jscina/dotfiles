@@ -215,6 +215,7 @@ window#waybar.empty #window {
 #workspaces button {
   border-bottom: 3px solid transparent;
   margin-bottom: 0px;
+  font-size: 16;
   color: #dfdfdf;
 }
 
