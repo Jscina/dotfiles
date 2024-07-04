@@ -223,6 +223,11 @@ window#waybar.empty #window {
   color: #c9545d;
 }
 
+#custom-notification {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 #custom-power {
   font-size: 18px;
   padding-right: 1rem;
