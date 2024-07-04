@@ -53,7 +53,7 @@ Arc-Dark Color Scheme
 window#waybar {
   background-color: rgba(0, 0, 0, 0);
   font-family: JetBrains Mono Nerd Font;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* Every modules */
@@ -200,7 +200,7 @@ window#waybar.empty #window {
 }
 
 #workspaces {
-  font-size: 16px;
+  font-size: 18px;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
 }
@@ -208,7 +208,7 @@ window#waybar.empty #window {
 #workspaces button {
   border-bottom: 3px solid transparent;
   margin-bottom: 0px;
-  font-size: 16;
+  font-size: 16px;
   color: #dfdfdf;
 }
 
