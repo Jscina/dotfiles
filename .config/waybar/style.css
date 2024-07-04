@@ -50,14 +50,9 @@ Arc-Dark Color Scheme
 
 /* The whole bar */
 window#waybar {
-  /* color: #dfdfdf; */
-  /* background-color: rgba(0,0,0,0.8); */
-  /* background-color: rgba(8,0,37,0.85); */
   background-color: rgba(0, 0, 0, 0);
-  /* font-family: JetBrains Mono Nerd Font; */
   font-family: JetBrains Mono Nerd Font;
   font-size: 14px;
-  /* border-radius: 22px; */
 }
 
 /* Every modules */
@@ -239,7 +234,7 @@ window#waybar.empty #window {
 
 #custom-notification {
   margin-left: 5px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 #backlight.icon {
