@@ -3,7 +3,6 @@
  * Waybar configuration
  *
  * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
- *
  * =========================================================================== */
 
 /* -----------------------------------------------------------------------------
@@ -236,6 +235,11 @@ window#waybar.empty #window {
 #custom-launcher {
   font-size: 15px;
   margin-left: 15px;
+  margin-right: 10px;
+}
+
+#custom-notification {
+  margin-left: 5px;
   margin-right: 10px;
 }
 
