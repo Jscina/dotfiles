@@ -1,11 +1,9 @@
 return {
-  "nvim-neotest/neotest",
-  dependencies = {
+  {
     "marilari88/neotest-vitest",
   },
-  opts = {
-    adapters = {
-      ["neotest-vitest"] = {},
-    },
+  {
+    "nvim-neotest/neotest",
+    opts = { adapters = { "neotest-vitest", "rustaceanvim", "neotest-python" } },
   },
 }
