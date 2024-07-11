@@ -4,6 +4,6 @@ return {
   },
   {
     "nvim-neotest/neotest",
-    opts = { adapters = { "neotest-vitest", "rustaceanvim", "neotest-python" } },
+    opts = { adapters = { "neotest-vitest", "rustaceanvim.neotest", "neotest-python" } },
   },
 }
