@@ -51,7 +51,7 @@ Arc-Dark Color Scheme
 /* The whole bar */
 window#waybar {
   background-color: rgba(0, 0, 0, 0);
-  font-family: JetBrains Mono Nerd Font;
+  font-family: SFMono Nerd Font;
   font-size: 14px;
 }
 
