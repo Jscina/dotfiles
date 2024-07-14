@@ -9,8 +9,5 @@ return {
     buffers = {
       follow_current_file = { enabled = true },
     },
-    window = {
-      position = "right",
-    },
   },
 }

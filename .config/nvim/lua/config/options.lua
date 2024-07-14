@@ -7,4 +7,20 @@ vim.opt.foldcolumn = "1"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = false
-vim.opt.clipboard = "unnamedplus"
+
+vim.g.rustaceanvim = {
+  server = {
+    default_settings = {
+      -- rust-analyzer language server configuration
+      ["rust-analyzer"] = {
+        diagnostics = {
+          enable = true,
+          disabled = { "unresolved-proc-macro" },
+        },
+        procMacro = {
+          enable = true,
+        },
+      },
+    },
+  },
+}

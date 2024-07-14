@@ -66,7 +66,7 @@ sudo pacman -S neovim lazygit ripgrep fzf fd lazydocker
 Needed for python support:
 
 ```bash
-sudo pacman -S python-pynvim python-poetry python-prompt_toolkit
+sudo pacman -S python-pynvim python-poetry
 ```
 
 ## Programming Languages
@@ -104,13 +104,13 @@ There's some changes that need to be added in the pam.d/login file.
 ```
 
 ```bash
-sudo pacman -S  alacritty dunst \
+sudo pacman -S hyprland hyprpaper hyprlock hypridle alacritty dunst \
   xdg-desktop-portal-hyprland polkit-kde-agent qt6-wayland \
   plasma-framework5 waybar qt6ct gnome-keyring brightnessctl
 ```
 
 ```bash
-yay -S anyrun pam_autologin hyprshot hyprland-git hyprpaper-git hyprlock-git hypridle-git
+yay -S anyrun pam_autologin hyprshot
 ```
 
 ## Nvidia
