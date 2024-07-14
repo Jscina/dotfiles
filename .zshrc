@@ -21,7 +21,7 @@ ZSH_THEME="rkj-repos"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
@@ -41,7 +41,7 @@ ZSH_THEME="rkj-repos"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -102,8 +102,9 @@ export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias silent-grub="sed -i 's/echo/#ech~o/g' /boot/grub/grub.cfg"
 alias dolphin="dolphin --platformtheme kde"
+alias lzg="lazygit"
+alias lzd="lazydocker"
 
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
