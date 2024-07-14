@@ -51,7 +51,7 @@ Arc-Dark Color Scheme
 /* The whole bar */
 window#waybar {
   background-color: rgba(0, 0, 0, 0);
-  font-family: JetBrains Mono Nerd Font;
+  font-family: SFMono Nerd Font;
   font-size: 14px;
 }
 
@@ -199,7 +199,7 @@ window#waybar.empty #window {
 }
 
 #workspaces {
-  font-size: 16px;
+  font-size: 18px;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 20px;
 }
@@ -207,6 +207,7 @@ window#waybar.empty #window {
 #workspaces button {
   border-bottom: 3px solid transparent;
   margin-bottom: 0px;
+  font-size: 16px;
   color: #dfdfdf;
 }
 
@@ -219,6 +220,11 @@ window#waybar.empty #window {
 #workspaces button.urgent {
   border-color: #c9545d;
   color: #c9545d;
+}
+
+#custom-notification {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 #custom-power {
