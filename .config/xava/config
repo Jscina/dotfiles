@@ -12,13 +12,13 @@
 # 0 = off
 # 1 up to screen refresh rate = visualizer runs at refresh rate divided by this
 # number
-; vsync = 1
+vsync = 1
 
 # The number of bars. 0 sets it to auto (put as many as you can).
 # Bars' width and space between bars in number of pixels on screen.
 ; bars = 0
-; bar_width = 13
-; bar_spacing = 5
+bar_width = 10
+bar_spacing = 2
 
 
 [window]
@@ -259,7 +259,7 @@ y_padding = 200
 # 'stereo' mirrors both channels with low frequencies in center.
 # 'mono' averages both channels and outputs left to right lowest to highest
 # frequencies.
-; channels = mono
+channels = mono
 
 
 [color]
@@ -272,8 +272,8 @@ y_padding = 200
 #  Xrdb
 #  - Under Windows 'default' uses your system accent color
 #  - And on any other 'default' is just black and cyan (the default colorscheme)
-background = default
-foreground = default
+;background = default
+;foreground = default
 
 # This adjusts the opacity of the bars (must have transparency for it to work)
 ; foreground_opacity = 1.0
@@ -285,14 +285,7 @@ foreground = default
 # defined in hex or remain commented out.
 # To enable gradients, just change gradient_count to the number of colors you
 # have specified (0 = disabled)
-gradient_count = 7
-gradient_color_1 = '#FF0000'
-gradient_color_2 = '#FF7F00'
-gradient_color_3 = '#FFFF00'
-gradient_color_4 = '#00FF00'
-gradient_color_5 = '#0000FF'
-gradient_color_6 = '#4B0082'
-gradient_color_7 = '#8B00FF'
+gradient_count = 0
 
 [filter]
 # These are settings related to the audio processing engine, or a audio "filter"
@@ -354,8 +347,8 @@ gradient_color_7 = '#8B00FF'
 # This one is tricky. You can have as much keys as you want.
 # Remember to uncomment more then one key! More keys = more precision.
 # Look at readme.md on github for further explanations and examples.
-1 = 1 # bass
-2 = 1
-3 = 1 # midtone
-4 = 1
-5 = 1 # treble
+;1 = 1 # bass
+;2 = 1
+;3 = 1 # midtone
+;4 = 1
+;5 = 1 # treble
