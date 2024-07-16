@@ -105,6 +105,7 @@ export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 alias dolphin="dolphin --platformtheme kde"
 alias lzg="lazygit"
 alias lzd="lazydocker"
+alias xava="xava.AppImage"
 
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
