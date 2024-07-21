@@ -3,7 +3,7 @@
 
 [general]
 # Accepts only non-negative values.
-; framerate = 60
+framerate = 60
 
 # Keep the application in sync with the monitor to prevent tearing
 # It's generally recommended to keep it on, as different framerates may lead to
