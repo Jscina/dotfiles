@@ -6,13 +6,13 @@
 }
 {
     "label" : "lock",
-    "action" : "hyprlock --immediate",
+    "action" : "hyprlock --immediate-render",
     "text" : "Lock",
     "keybind" : "l"
 }
 {
     "label" : "logout",
-    "action" : "pkill -u $USER",
+    "action" : "hyprctl dispatch exit",
     "text" : "Logout",
     "keybind" : "e"
 }
