@@ -7,6 +7,8 @@ fi
 
 echo <<EOF
 This is a post-install script for Arch Linux. It sets up the system for my personal use. 
+DO NOT RUN THIS SCRIPT IF YOU DO NOT KNOW WHAT IT DOES.
+OR IF YOUR SYSTEM IS NOT A FRESH INSTALL.
 EOF
 
 $confirm = read -p "Do you want to continue? [y/N]" -n 1 -r
@@ -23,7 +25,7 @@ echo "Installing fonts"
 yay -S --noconfirm ttf-ms-win11-auto otf-san-francisco oft-san-francisco-mono ttf-jetbrains-mono-nerd
 
 echo "Installing Dependencies"
-pacman -S --noconfirm git zsh stow zoxide tmux sddm
+pacman -S --noconfirm git zsh stow zoxide tmux sddm pacman-contrib
 
 echo "Installing ohmyzsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -34,9 +36,10 @@ git clone --depth 1 https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 echo "Setup Hyprland"
-yay -S --noconfirm anyrun pam_autologin firefox-nightly-bin nwg-look hyprshot hyprland-git hyprpaper-git hyprlock-git hypridle-git alacritty swaync \
+yay -S --noconfirm anyrun pam_autologin firefox-nightly-bin nwg-look \
+	hyprshot-git hyprland-git hyprpaper-git hyprlock-git hypridle-git alacritty swaync \
 	xdg-desktop-portal-hyprland-git polkit-kde-agent qt6-wayland \
-	plasma-framework5 waybar qt6ct kvantum gnome-keyring brightnessctl
+	plasma-framework5 waybar qt6ct kvantum gnome-keyring brightnessctl libreoffice-fresh
 
 echo "Adding required pam modules"
 cat <<EOF >>/etc/pam.d/login
@@ -107,3 +110,4 @@ fi
 
 echo "Cleaning up"
 pacman -Rns --noconfirm $(pacman -Qtdq)
+paccache -rk0
