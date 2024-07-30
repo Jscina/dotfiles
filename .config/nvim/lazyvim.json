@@ -15,7 +15,8 @@
     "lazyvim.plugins.extras.lang.typescript",
     "lazyvim.plugins.extras.lsp.neoconf",
     "lazyvim.plugins.extras.lsp.none-ls",
-    "lazyvim.plugins.extras.test.core"
+    "lazyvim.plugins.extras.test.core",
+    "lazyvim.plugins.extras.util.rest"
   ],
   "news": {
     "NEWS.md": "6520"
