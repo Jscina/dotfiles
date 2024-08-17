@@ -10,7 +10,7 @@ return {
       follow_current_file = { enabled = true },
     },
     window = {
-      position = "right",
+      position = "left",
     },
   },
 }

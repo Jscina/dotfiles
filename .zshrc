@@ -92,16 +92,13 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+export ARCHFLAGS="-arch x86_64"
+export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
+export JAVA_HOME=/opt/android-studio/jbr
+export ANDROID_HOME="$HOME/Android/Sdk"
+export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
+alias emulator="$ANDROID_HOME/emulator/emulator"
 alias dolphin="dolphin --platformtheme kde"
 alias lzg="lazygit"
 alias lzd="lazydocker"
