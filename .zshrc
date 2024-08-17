@@ -91,7 +91,11 @@ fi
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
+export JAVA_HOME=/opt/android-studio/jbr
+export ANDROID_HOME="$HOME/Android/Sdk"
+export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
 export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
+alias emulator="$ANDROID_HOME/emulator/emulator"
 alias dolphin="dolphin --platformtheme kde"
 alias lzd="lazydocker"
 alias lzg="lazygit"
