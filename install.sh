@@ -6,7 +6,9 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 echo <<EOF
-This is a setup script for Mac OS X.
+This is a post-install script for MacOS. It sets up the system for my personal use. 
+DO NOT RUN THIS SCRIPT IF YOU DO NOT KNOW WHAT IT DOES.
+OR IF YOUR SYSTEM IS NOT A FRESH INSTALL.
 EOF
 
 $confirm = read -p "Do you want to continue? [y/N]" -n 1 -r
