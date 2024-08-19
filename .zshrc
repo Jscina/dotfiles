@@ -93,7 +93,6 @@ source $ZSH/oh-my-zsh.sh
 # fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -102,11 +101,8 @@ export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias dolphin="dolphin --platformtheme kde"
 alias lzg="lazygit"
 alias lzd="lazydocker"
-alias xava="xava.AppImage"
 
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
-eval `keychain --noask --quiet --quick --eval  --agents ssh id_rsa`
