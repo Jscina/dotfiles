@@ -10,3 +10,6 @@ vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
 vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
 vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
 vim.keymap.set("n", "<leader>ua", "<cmd>UfoEnable<CR>", { desc = "Enable UFO", noremap = true, silent = true })
+
+-- Toggle undotree
+vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
