@@ -27,10 +27,6 @@ shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
 shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
 shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
 
-# Cycle through windows
-cmd - n : yabai -m space --focus next || yabai -m space --focus first
-cmd - p : yabai -m space --focus prev || yabai -m space --focus last
-
 # toggle window zoom
 cmd - d : yabai -m window --toggle zoom-parent
 cmd - f : yabai -m window --toggle zoom-fullscreen
@@ -45,4 +41,4 @@ cmd + shift- p : yabai -m window --focus stack.prev
 # applications
 cmd - s : open -a "System Settings" -n
 cmd - b : open -a "Firefox" -n
-cmd - return : open -a "Alacritty" -n
+cmd - t: open -a "Alacritty" -n

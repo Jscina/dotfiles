@@ -106,3 +106,4 @@ alias lzd="lazydocker"
 
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
+eval "$(gh copilot alias -- zsh)"
