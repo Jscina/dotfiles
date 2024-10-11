@@ -107,3 +107,4 @@ alias xava="xava.AppImage"
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
 eval `keychain --noask --quiet --quick --eval  --agents ssh id_rsa`
+eval "$(gh copilot alias -- zsh)"
