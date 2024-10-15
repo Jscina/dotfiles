@@ -104,3 +104,4 @@ alias lzg="lazygit"
 
 eval `keychain --noask --quiet --quick --eval  --agents ssh id_rsa`
 eval "$(zoxide init --cmd=cd zsh)"
+eval "$(gh copilot alias -- zsh)"
