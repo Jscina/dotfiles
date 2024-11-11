@@ -15,24 +15,24 @@ shift + cmd - l : yabai -m window --warp east
 # fast focus desktop
 # enabled in Sys Pref > Keyboard > Shortcuts > Mission Control > Switch To Desktop X
 
-# send window to desktop and follow focus
-#shift + cmd - z : yabai -m window --space next; yabai -m space --focus next
-shift + cmd - 1 : yabai -m window --space  1; yabai -m space --focus 1
-shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
-shift + cmd - 3 : yabai -m window --space  3; yabai -m space --focus 3
-shift + cmd - 4 : yabai -m window --space  4; yabai -m space --focus 4
-shift + cmd - 5 : yabai -m window --space  5; yabai -m space --focus 5
-shift + cmd - 6 : yabai -m window --space  6; yabai -m space --focus 6
-shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
-shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
-shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
+# send window to desktop 
+#shift + cmd - z : yabai -m window --space next
+shift + cmd - 1 : yabai -m window --space  1
+shift + cmd - 2 : yabai -m window --space  2
+shift + cmd - 3 : yabai -m window --space  3
+shift + cmd - 4 : yabai -m window --space  4
+shift + cmd - 5 : yabai -m window --space  5
+shift + cmd - 6 : yabai -m window --space  6
+shift + cmd - 7 : yabai -m window --space  7
+shift + cmd - 8 : yabai -m window --space  8
+shift + cmd - 9 : yabai -m window --space  9
 
 # toggle window zoom
 cmd - d : yabai -m window --toggle zoom-parent
 cmd - f : yabai -m window --toggle zoom-fullscreen
 
 # float / unfloat window and center on screen
-shift + cmd - space : yabai -m window --toggle float
+cmd + shift - v : yabai -m window --toggle float
 
 # Focus window up/down in stack
 cmd + shift - n : yabai -m window --focus stack.next
@@ -41,4 +41,4 @@ cmd + shift- p : yabai -m window --focus stack.prev
 # applications
 cmd - s : open -a "System Settings" -n
 cmd - b : open -a "Firefox" -n
-cmd - t: open -a "Alacritty" -n
+cmd - a: open -a "Alacritty" -n
