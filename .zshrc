@@ -81,7 +81,8 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
+# Disable microsoft telemetry
+export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
