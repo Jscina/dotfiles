@@ -52,7 +52,7 @@ install_zsh_plugins() {
 
 setup_hyprland() {
 	echo "Setting up Hyprland"
-	yay -S --noconfirm anyrun pam_autologin firefox-nightly-bin nwg-look \
+	yay -S --noconfirm anyrun pam_autologin firefox nwg-look \
 		hyprshot-git hyprland-git hyprpaper-git hyprlock-git hypridle-git alacritty swaync \
 		xdg-desktop-portal-hyprland-git polkit-kde-agent qt6-wayland \
 		plasma-framework5 waybar qt6ct kvantum gnome-keyring brightnessctl libreoffice-fresh
@@ -108,11 +108,6 @@ install_javascript() {
 	pacman -S --noconfirm nodejs npm
 }
 
-rice_firefox() {
-	echo "Attempting to rice Firefox"
-	curl -s -o- https://raw.githubusercontent.com/PROxZIMA/Sweet-Pop/master/programs/install-curl.sh | bash
-}
-
 install_nvidia_drivers() {
 	echo "Installing Nvidia Drivers"
 	pacman -S --noconfirm nvidia nvidia-utils nvidia-settings lib32-nvidia-utils egl-wayland libva-nvidia-driver
@@ -132,7 +127,8 @@ install_nvidia_drivers() {
 
 install_steam() {
 	echo "Installing Steam"
-	pacman -S --noconfirm steam
+	pacman -S --noconfirm steam gamemoderun gamescope
+	yay -S --noconfirm steamtinkerlaunch
 }
 
 setup_security_services() {
@@ -212,7 +208,6 @@ main() {
 	setup_neovim
 	install_rust
 	install_javascript
-	rice_firefox
 
 	if confirm "Do you want to install Nvidia drivers?"; then
 		install_nvidia_drivers

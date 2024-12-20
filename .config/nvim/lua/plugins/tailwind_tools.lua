@@ -17,7 +17,7 @@ return {
           fg = "#38BDF8",
         },
       },
-      custom_filetypes = {}, -- see the extension section to learn how it works
+      custom_filetypes = { "rust" }, -- see the extension section to learn how it works
     },
   },
 }
