@@ -90,8 +90,8 @@ alias .5='cd ../../../../..'
 # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
 alias mkdir='mkdir -p'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh# Oh-my-zsh installation path
+
+source ~/.p10k.zsh
 
 # User configuration
 export MANPATH="/usr/local/man:$MANPATH"
