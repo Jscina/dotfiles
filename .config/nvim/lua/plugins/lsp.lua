@@ -12,7 +12,9 @@ return {
       },
       servers = {
         tailwindcss = {
+          filetypes = { "rust" },
           settings = {
+
             experimental = {
               classRegex = {
                 '"(.*)"',
