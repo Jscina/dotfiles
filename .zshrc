@@ -119,3 +119,10 @@ alias lzg="lazygit"
 eval `keychain --noask --quiet --quick --eval  --agents ssh id_rsa`
 eval "$(zoxide init --cmd=cd zsh)"
 eval "$(gh copilot alias -- zsh)"
+
+# bun completions
+[ -s "/home/joshs/.bun/_bun" ] && source "/home/joshs/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
