@@ -94,10 +94,10 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 #
 export ARCHFLAGS="-arch x86_64"
-export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 export JAVA_HOME=/opt/android-studio/jbr
 export ANDROID_HOME="$HOME/Android/Sdk"
 export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
+export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 alias emulator="$ANDROID_HOME/emulator/emulator"
 alias dolphin="dolphin --platformtheme kde"
 alias lzg="lazygit"
@@ -106,5 +106,4 @@ alias xava="xava.AppImage"
 
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
-eval `keychain --noask --quiet --quick --eval  --agents ssh id_rsa`
 eval "$(gh copilot alias -- zsh)"
