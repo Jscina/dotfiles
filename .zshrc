@@ -5,7 +5,7 @@ fi
 # If you come from bash you might have to change your $PATH.
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
 ZSH=/usr/share/oh-my-zsh/
-
+ENABLE_CORRECTION="true"
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 # List of plugins used
