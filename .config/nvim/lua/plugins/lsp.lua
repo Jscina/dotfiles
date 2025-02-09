@@ -1,30 +1,9 @@
 vim.g.rustaceanvim = {
   server = {
-    default_settings = {
+    settings = {
       ["rust-analyzer"] = {
-        imports = {
-          granularity = {
-            group = "module",
-          },
-          prefix = "self",
-        },
-        cargo = {
-          features = { "ssr" },
-          loadOutDirsFromCheck = true,
-          buildScripts = {
-            enable = true,
-          },
-        },
-        check = {
-          features = { "ssr" },
-        },
-        checkOnSave = {
-          features = { "ssr" },
-          command = "clippy",
-          extraArgs = { "--no-deps" },
-        },
         procMacro = {
-          enable = false,
+          enable = true,
         },
       },
     },
@@ -46,7 +25,6 @@ return {
       servers = {
         tailwindcss = {
           settings = {
-
             experimental = {
               classRegex = {
                 '"(.*)"',
