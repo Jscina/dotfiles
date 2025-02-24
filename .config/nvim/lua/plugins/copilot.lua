@@ -7,4 +7,7 @@ return {
       },
     }
   end,
+  keys = {
+    { "<leader>am", ":CopilotChatModels<CR>", desc = "Open Copilot Chat Models", mode = { "n", "v" } },
+  },
 }
