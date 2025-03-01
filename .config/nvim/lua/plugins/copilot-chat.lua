@@ -3,8 +3,11 @@ return {
   opts = function()
     return {
       window = {
-        layout = "float",
+        layout = "vertical",
       },
     }
   end,
+  keys = {
+    { "<leader>am", ":CopilotChatModels<CR>", desc = "Open Copilot Chat Models", mode = { "n", "v" } },
+  },
 }
