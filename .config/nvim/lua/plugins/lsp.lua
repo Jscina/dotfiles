@@ -2,6 +2,10 @@ vim.g.rustaceanvim = {
   server = {
     settings = {
       ["rust-analyzer"] = {
+        check = {
+          command = "clippy",
+          extraArgs = { "--all-features", "--workspace" },
+        },
         procMacro = {
           enable = true,
         },
