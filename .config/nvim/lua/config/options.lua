@@ -11,8 +11,10 @@ vim.opt.foldenable = false
 vim.g.rustaceanvim = {
   server = {
     default_settings = {
-      -- rust-analyzer language server configuration
       ["rust-analyzer"] = {
+        rustfmt = {
+          overrideCommand = { "leptosfmt", "--stdin", "--rustfmt" },
+        },
         diagnostics = {
           enable = true,
           disabled = { "unresolved-proc-macro" },
