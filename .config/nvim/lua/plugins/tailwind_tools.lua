@@ -30,18 +30,4 @@ return {
     },
     custom_filetypes = {}, -- see the extension section to learn how it works
   },
-  {
-    "rayliwell/tree-sitter-rstml",
-    dependencies = { "nvim-treesitter" },
-    build = ":TSUpdate",
-    config = function()
-      require("tree-sitter-rstml").setup()
-    end,
-  },
-  {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
-  },
 }
