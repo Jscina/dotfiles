@@ -113,6 +113,9 @@ export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 #alias emulator="$ANDROID_HOME/emulator/emulator"
 alias lzd="lazydocker"
 alias lzg="lazygit"
+alias ls="exa --icons --git"
+alias tree="exa -T --icons"
+
 
 . "$HOME/.cargo/env"
 
