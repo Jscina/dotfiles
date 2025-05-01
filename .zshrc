@@ -114,10 +114,11 @@ export ARCHFLAGS="-arch x86_64"
 #export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
 export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
 #alias emulator="$ANDROID_HOME/emulator/emulator"
-alias lzd="lazydocker"
 alias lzg="lazygit"
 alias lzd="lazydocker"
 alias xava="xava.AppImage"
+alias tree='exa -T -L 2 --git --icons'
+alias ls='exa --icons'
 
 . "$HOME/.cargo/env"
 eval "$(zoxide init --cmd=cd zsh)"
