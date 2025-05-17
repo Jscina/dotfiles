@@ -1,0 +1,6 @@
+# SSH Key
+id_*
+*.pub
+*.pem 
+*.key
+

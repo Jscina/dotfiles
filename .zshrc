@@ -106,11 +106,11 @@ fi
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
-#export JAVA_HOME=/opt/android-studio/jbr
-#export ANDROID_HOME="$HOME/Android/Sdk"
-#export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
+export JAVA_HOME=/opt/android-studio/jbr
+export ANDROID_HOME="$HOME/Android/Sdk"
+export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
 export PATH="/home/joshs/.cache/lm-studio/bin:$HOME/.local/bin:$PATH"
-#alias emulator="$ANDROID_HOME/emulator/emulator"
+alias emulator="$ANDROID_HOME/emulator/emulator"
 alias lzd="lazydocker"
 alias lzg="lazygit"
 alias ls="exa --icons --git"
@@ -119,7 +119,7 @@ alias tree="exa -T --icons"
 
 . "$HOME/.cargo/env"
 
-eval `keychain --noask --quiet --quick --eval  --agents ssh id_rsa`
+eval $(keychain --quiet --noask --eval ~/.ssh/id_ed25519)
 eval "$(zoxide init --cmd=cd zsh)"
 eval "$(gh copilot alias -- zsh)"
 
