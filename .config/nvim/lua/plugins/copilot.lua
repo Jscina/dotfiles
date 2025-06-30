@@ -3,7 +3,7 @@ return {
   opts = function()
     return {
       window = {
-        layout = "float",
+        layout = "vertical",
       },
     }
   end,

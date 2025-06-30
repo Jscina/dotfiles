@@ -40,5 +40,5 @@ cmd + shift- p : yabai -m window --focus stack.prev
 
 # applications
 cmd - s : open -a "System Settings" -n
-cmd - b : open -a "Firefox" -n
-cmd - a: open -a "Alacritty" -n
+cmd - b : open -a "Arc" -n
+cmd - i: open -a "Alacritty" -n

@@ -83,6 +83,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 # Disable microsoft telemetry
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
+export AZURE_DEV_COLLECT_TELEMETRY='no'
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -114,3 +115,5 @@ eval "$(gh copilot alias -- zsh)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="/usr/local/opt/openjdk@17/bin:$PATH"
+export PATH="/usr/local/opt/node@22/bin:$PATH"
