@@ -4,3 +4,5 @@ id_*
 *.pem 
 *.key
 
+.ssh/
+
