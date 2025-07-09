@@ -9,6 +9,10 @@ return {
         rust_analyzer = function()
           return true
         end,
+        snyk_ls = function(_, opts)
+          opts.cmd = { "/usr/local/bin/snyk", "language-server" }
+          return false
+        end,
       },
       servers = {
         tailwindcss = {
@@ -18,6 +22,13 @@ return {
                 '"(.*)"',
               },
             },
+          },
+        },
+        snyk_ls = {
+          init_options = {
+            activateSnykCode = "true",
+            authenticationMethod = "oauth",
+            automaticAuthentication = "true",
           },
         },
       },
