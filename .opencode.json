@@ -1,0 +1,14 @@
+{
+  "data": {},
+  "agents": {
+    "coder": {
+      "model": "copilot.o3-mini",
+      "maxTokens": 100000,
+      "reasoningEffort": ""
+    }
+  },
+  "tui": {
+    "theme": "tokyonight"
+  },
+  "shell": {}
+}
