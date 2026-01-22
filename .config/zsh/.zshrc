@@ -121,7 +121,6 @@ alias tree="exa -T --icons"
 
 eval $(keychain --quiet --noask --eval ~/.ssh/id_ed25519)
 eval "$(zoxide init --cmd=cd zsh)"
-eval "$(gh copilot alias -- zsh)"
 
 # bun completions
 [ -s "/home/joshs/.bun/_bun" ] && source "/home/joshs/.bun/_bun"
