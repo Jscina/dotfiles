@@ -8,7 +8,7 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3-30b-16k:latest": {
+        "qwen3:14b": {
           "name": "Qwen 3.0",
           "tool_call": true,
           "reasoning": true
