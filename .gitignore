@@ -1,0 +1,4 @@
+/.ssh
+.config/azp/bastion-cache.json
+.config/azp/options.json
+.config/gh-copilot/config.yml

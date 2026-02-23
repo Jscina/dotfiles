@@ -1,8 +1,8 @@
 return {
   "linux-cultist/venv-selector.nvim",
-  branch = "regexp", -- Use this branch for the new version
+  branch = "main", -- Use this branch for the new version
   cmd = "VenvSelect",
-  dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
+  dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim", "mfussenegger/nvim-dap-python" },
   enabled = function()
     return LazyVim.has("telescope.nvim")
   end,

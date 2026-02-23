@@ -13,8 +13,16 @@ return {
           opts.cmd = { "/usr/local/bin/snyk", "language-server" }
           return false
         end,
+        jdtls = function()
+          -- jdtls is configured via ftplugin/java.lua
+          return true
+        end,
       },
       servers = {
+        jdtls = {
+          -- Disable auto-start, configured via ftplugin/java.lua
+          autostart = false,
+        },
         tailwindcss = {
           settings = {
             experimental = {

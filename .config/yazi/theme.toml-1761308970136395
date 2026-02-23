@@ -19,7 +19,7 @@ light = "tokyo-night"
 
 # : Manager {{{
 
-[mgr]
+[manager]
 cwd = { fg = "cyan" }
 
 # Hovered

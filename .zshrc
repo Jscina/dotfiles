@@ -84,6 +84,18 @@ source $ZSH/oh-my-zsh.sh
 # Disable microsoft telemetry
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 export AZURE_DEV_COLLECT_TELEMETRY='no'
+export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+export PATH="/usr/local/opt/node@22/bin:$PATH"
+export PATH="$HOME/nvrh:$PATH"
+export NVM_DIR="$HOME/.nvm"
+export CATALINA_HOME='/opt/homebrew/Cellar/tomcat@10/10.1.48/libexec'
+export ORG_GRADLE_PROJECT_externalMavenRepoUrl='https://pkgs.dev.azure.com/ColdChainConn/_packaging/conn_api/maven/v1'
+export ORG_GRADLE_PROJECT_externalUsername='ColdChainConn'
+export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+export NODE_EXTRA_CA_CERTS="$HOME/.certs/ZscalerRootCA.pem"
+export SQLCMDENCRYPT=optional
+export SQLCMDTRUSTSERVERCERTIFICATE=1
+export SQLCMDOPTIONS="-C"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -107,8 +119,11 @@ alias lzg="lazygit"
 alias lzd="lazydocker"
 
 . "$HOME/.cargo/env"
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 eval "$(zoxide init --cmd=cd zsh)"
-eval "$(gh copilot alias -- zsh)"
+eval "$(pyenv init -)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
