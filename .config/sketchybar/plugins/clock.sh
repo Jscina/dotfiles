@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-LABEL=$(date '+%I:%M %p')
+LABEL=$(date '+%H:%M:%S')
 sketchybar --set "$NAME" label="$LABEL"

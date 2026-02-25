@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-COLOR="$ORANGE"
+COLOR="$GREEN"
 
 sketchybar --add item spotify q \
 	--set spotify \
@@ -16,7 +16,7 @@ sketchybar --add item spotify q \
 	background.padding_right=-5 \
 	background.drawing=on \
 	label.padding_right=10 \
-	label.max_chars=20 \
+	label.max_chars=23 \
 	associated_display=active \
 	updates=on \
 	script="$PLUGIN_DIR/spotify.sh" \

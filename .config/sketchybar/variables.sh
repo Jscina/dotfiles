@@ -48,5 +48,3 @@ CORNER_RADIUS=15
 BORDER_WIDTH=2
 
 SHADOW=on
-
-SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
