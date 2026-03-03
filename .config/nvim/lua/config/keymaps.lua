@@ -13,3 +13,6 @@ vim.keymap.set("n", "<leader>ua", "<cmd>UfoEnable<CR>", { desc = "Enable UFO", n
 
 -- UndoTree  Toggle
 vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
+
+-- Terminal mode keybind to escape
+vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Exit terminal mode", noremap = true, silent = true })
