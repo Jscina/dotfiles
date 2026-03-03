@@ -14,5 +14,16 @@
         }
       }
     }
+  },
+  "mcp": {
+    "copeland-code-search": {
+      "type": "remote",
+      "url": "http://copeland-cortex-dev-mcp-fg5edwewdaqxy.eastus.azurecontainer.io:8000/mcp",
+      "enabled": true
+    },
+    "lazytail": {
+      "type": "local",
+      "command": ["lazytail", "--mcp"]
+    }
   }
 }
