@@ -15,5 +15,11 @@
         }
       }
     }
+  },
+  "mcp": {
+    "lazytail": {
+      "type": "local",
+      "command": ["lazytail", "--mcp"]
+    }
   }
 }
