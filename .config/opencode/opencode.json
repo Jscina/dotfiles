@@ -6,9 +6,17 @@
       "name": "Ollama (local)",
       "options": {
         "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen3.5": {
+          "name": "qwen 3.5 Ollama",
+          "tool_call": true,
+          "reasoning": true
+        }
       }
     }
   },
+
   "mcp": {
     "lazytail": {
       "type": "local",
