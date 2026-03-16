@@ -19,7 +19,8 @@
     "copeland-code-search": {
       "type": "remote",
       "url": "https://copeland-cortex-dev-mcp.azurewebsites.net/mcp",
-      "enabled": true
+      "enabled": true,
+      "oauth": false
     },
     "lazytail": {
       "type": "local",

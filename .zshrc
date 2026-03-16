@@ -41,7 +41,7 @@ HYPHEN_INSENSITIVE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -128,3 +128,6 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="/usr/local/opt/openjdk@17/bin:$PATH"
 export PATH="/usr/local/opt/node@22/bin:$PATH"
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Created by `pipx` on 2026-03-04 20:09:30
+export PATH="$PATH:/Users/jscina/.local/bin"
