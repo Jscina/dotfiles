@@ -6,3 +6,6 @@ id_*
 
 .ssh/
 
+# Secrets
+.secrets
+

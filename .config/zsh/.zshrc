@@ -117,6 +117,9 @@ alias ls="exa --icons --git"
 alias tree="exa -T --icons"
 
 
+# Secrets (gitignored)
+[[ -f "$HOME/.dotfiles/.secrets" ]] && source "$HOME/.dotfiles/.secrets"
+
 . "$HOME/.cargo/env"
 
 eval $(keychain --quiet --noask --eval ~/.ssh/id_ed25519)
