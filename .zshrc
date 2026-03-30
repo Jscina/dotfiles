@@ -114,6 +114,8 @@ export SQLCMDOPTIONS="-C"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias lzg="lazygit"
 alias lzd="lazydocker"
+# Secrets (gitignored)
+[[ -f "$HOME/.dotfiles/.secrets" ]] && source "$HOME/.dotfiles/.secrets"
 
 . "$HOME/.cargo/env"
 export NVM_DIR="$HOME/.nvm"
@@ -131,3 +133,10 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Created by `pipx` on 2026-03-04 20:09:30
 export PATH="$PATH:/Users/jscina/.local/bin"
+
+# bun completions
+[ -s "/Users/jscina/.bun/_bun" ] && source "/Users/jscina/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

@@ -1,21 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "provider": {
-    "ollama": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama (local)",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
-      },
-      "models": {
-        "jscina/Qwen3-Coder-30B-A3B-Instruct:latest": {
-          "name": "Qwen3-Coder-30B-A3B-Instruct",
-          "tool_call": true
-        }
-      }
-    }
-  },
+  "plugin": [
+    "opencode-gemini-auth@latest",
+    "@ex-machina/opencode-anthropic-auth",
+    "oh-my-openagent@latest"
+  ],
   "mcp": {
+    "github": {
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:GITHUB_MCP_TOKEN}"
+      }
+    },
     "copeland-code-search": {
       "type": "remote",
       "url": "https://copeland-cortex-dev-mcp.azurewebsites.net/mcp",
@@ -23,8 +21,29 @@
       "oauth": false
     },
     "lazytail": {
-      "type": "local",
-      "command": ["lazytail", "--mcp"]
+      "command": ["lazytail", "--mcp"],
+      "type": "local"
+    }
+  },
+  "provider": {
+    "ollama": {
+      "name": "Ollama",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen3.5": {
+          "reasoning": true,
+          "tool_call": true,
+          "name": "qwen3.5"
+        }
+      }
+    },
+    "google": {
+      "options": {
+        "projectId": "gemini-cli-491423"
+      }
     }
   }
 }
