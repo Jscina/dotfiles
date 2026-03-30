@@ -115,7 +115,7 @@ export SQLCMDOPTIONS="-C"
 alias lzg="lazygit"
 alias lzd="lazydocker"
 # Secrets (gitignored)
-[[ -f "$HOME/.dotfiles/.secrets" ]] && source "$HOME/.dotfiles/.secrets"
+[[ -f "$HOME/.secrets" ]] && source "$HOME/.secrets"
 
 . "$HOME/.cargo/env"
 export NVM_DIR="$HOME/.nvm"
