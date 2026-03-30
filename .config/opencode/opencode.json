@@ -53,5 +53,16 @@
         "projectId": "gemini-cli-491423"
       }
     }
+  },
+  "permission": {
+    "skill": {
+      "azure-readonly": "allow",
+      "git-rebase-fixup": "allow"
+    },
+    "bash": {
+      "az *": "ask",
+      "git push": "deny",
+      "git log --oneline -n 10": "allow"
+    }
   }
 }

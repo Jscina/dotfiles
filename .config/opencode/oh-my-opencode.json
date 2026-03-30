@@ -28,7 +28,8 @@
       "fallback_models": [
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/big-pickle" }
-      ]
+      ],
+      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     },
     "hephaestus": {
       "model": "google/gemini-3.1-pro-preview",
@@ -36,7 +37,8 @@
       "fallback_models": [
         { "model": "anthropic/claude-sonnet-4-6" },
         { "model": "opencode/big-pickle" }
-      ]
+      ],
+      "skills": [".opencode/skills/azure-readonly/SKILL.md"]
     },
     "oracle": {
       "model": "google/gemini-3.1-pro-preview",
@@ -44,7 +46,8 @@
       "fallback_models": [
         { "model": "anthropic/claude-sonnet-4-6" },
         { "model": "opencode/nemotron-3-super-free" }
-      ]
+      ],
+      "skills": [".opencode/skills/azure-readonly/SKILL.md"]
     },
     "explore": {
       "model": "anthropic/claude-haiku-4-5",
@@ -66,7 +69,8 @@
       "fallback_models": [
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/big-pickle" }
-      ]
+      ],
+      "skills": [".opencode/skills/azure-readonly/SKILL.md"]
     },
     "metis": {
       "model": "anthropic/claude-sonnet-4-6",
@@ -89,14 +93,16 @@
       "fallback_models": [
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/mimo-v2-pro-free" }
-      ]
+      ],
+      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     },
     "sisyphus-junior": {
       "model": "anthropic/claude-sonnet-4-6",
       "fallback_models": [
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/mimo-v2-pro-free" }
-      ]
+      ],
+      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     }
   },
   "categories": {
