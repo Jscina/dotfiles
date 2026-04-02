@@ -20,7 +20,14 @@
     },
     "ado": {
       "type": "local",
-      "command": ["npx", "-y", "@azure-devops/mcp@next", "${env:ADO_ORG}"]
+      "command": [
+        "npx",
+        "-y",
+        "@azure-devops/mcp@next",
+        "{env:ADO_ORG}",
+        "--authentication",
+        "envvar"
+      ]
     },
     "copeland-code-search": {
       "type": "remote",
@@ -46,11 +53,6 @@
           "tool_call": true,
           "name": "qwen3.5"
         }
-      }
-    },
-    "google": {
-      "options": {
-        "projectId": "gemini-cli-491423"
       }
     }
   },

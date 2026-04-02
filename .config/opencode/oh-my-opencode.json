@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "tmux": {
     "enabled": true,
-    "layout": "tiled",
+    "layout": "main-vertical",
     "main_pane_size": 60,
     "main_pane_min_width": 120,
     "agent_pane_min_width": 40,
