@@ -29,7 +29,11 @@
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/big-pickle" }
       ],
-      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
+      "skills": [
+        ".opencode/skills/git-rebase-fixup/SKILL.md",
+        ".opencode/skills/copeland-code-search/SKILL.md",
+        ".opencode/skills/pr-workflow/SKILL.md"
+      ]
     },
     "hephaestus": {
       "model": "google/gemini-3.1-pro-preview",
@@ -38,7 +42,11 @@
         { "model": "anthropic/claude-sonnet-4-6" },
         { "model": "opencode/big-pickle" }
       ],
-      "skills": [".opencode/skills/azure-readonly/SKILL.md"]
+      "skills": [
+        ".opencode/skills/azure-deploy/SKILL.md",
+        ".opencode/skills/bicep-iac/SKILL.md",
+        ".opencode/skills/git-rebase-fixup/SKILL.md"
+      ]
     },
     "oracle": {
       "model": "google/gemini-3.1-pro-preview",
@@ -47,14 +55,19 @@
         { "model": "anthropic/claude-sonnet-4-6" },
         { "model": "opencode/nemotron-3-super-free" }
       ],
-      "skills": [".opencode/skills/azure-readonly/SKILL.md"]
+      "skills": [
+        ".opencode/skills/azure-readonly/SKILL.md",
+        ".opencode/skills/code-review/SKILL.md",
+        ".opencode/skills/debug/SKILL.md"
+      ]
     },
     "explore": {
       "model": "anthropic/claude-haiku-4-5",
       "fallback_models": [
         { "model": "google/gemini-3.1-flash-lite-preview" },
         { "model": "ollama/qwen3.5" }
-      ]
+      ],
+      "skills": [".opencode/skills/copeland-code-search/SKILL.md"]
     },
     "multimodal-looker": {
       "model": "google/gemini-2.5-flash",
@@ -70,7 +83,10 @@
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/big-pickle" }
       ],
-      "skills": [".opencode/skills/azure-readonly/SKILL.md"]
+      "skills": [
+        ".opencode/skills/copeland-code-search/SKILL.md",
+        ".opencode/skills/azure-readonly/SKILL.md"
+      ]
     },
     "metis": {
       "model": "anthropic/claude-sonnet-4-6",
@@ -86,7 +102,8 @@
       "fallback_models": [
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/nemotron-3-super-free" }
-      ]
+      ],
+      "skills": [".opencode/skills/code-review/SKILL.md"]
     },
     "atlas": {
       "model": "anthropic/claude-sonnet-4-6",
@@ -94,7 +111,10 @@
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/mimo-v2-pro-free" }
       ],
-      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
+      "skills": [
+        ".opencode/skills/git-rebase-fixup/SKILL.md",
+        ".opencode/skills/copeland-code-search/SKILL.md"
+      ]
     },
     "sisyphus-junior": {
       "model": "anthropic/claude-sonnet-4-6",
@@ -102,7 +122,10 @@
         { "model": "google/gemini-3.1-pro-preview" },
         { "model": "opencode/mimo-v2-pro-free" }
       ],
-      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
+      "skills": [
+        ".opencode/skills/git-rebase-fixup/SKILL.md",
+        ".opencode/skills/copeland-code-search/SKILL.md"
+      ]
     }
   },
   "categories": {

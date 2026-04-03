@@ -32,12 +32,13 @@
     "copeland-code-search": {
       "type": "remote",
       "url": "https://copeland-cortex-dev-mcp.azurewebsites.net/mcp",
-      "enabled": true,
+      "enabled": false,
       "oauth": false
     },
     "lazytail": {
       "command": ["lazytail", "--mcp"],
-      "type": "local"
+      "type": "local",
+      "enabled": false
     }
   },
   "provider": {
@@ -59,12 +60,13 @@
   "permission": {
     "skill": {
       "azure-readonly": "allow",
-      "git-rebase-fixup": "allow"
-    },
-    "bash": {
-      "az *": "ask",
-      "git push": "deny",
-      "git log --oneline -n 10": "allow"
+      "azure-deploy": "ask",
+      "bicep-iac": "allow",
+      "code-review": "allow",
+      "copeland-code-search": "allow",
+      "git-rebase-fixup": "allow",
+      "pr-workflow": "allow",
+      "debug": "allow"
     }
   }
 }
