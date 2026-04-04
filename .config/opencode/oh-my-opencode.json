@@ -2,26 +2,21 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "tmux": {
     "enabled": true,
-    "layout": "even-horizontal",
+    "layout": "main-vertical",
     "main_pane_size": 60,
     "main_pane_min_width": 120,
     "agent_pane_min_width": 40,
-    "isolation": "inline"
+    "isolation": "window"
   },
   "git_master": {
     "commit_footer": true,
-    "include_co_authored_by": false,
+    "include_co_authored_by": true,
     "git_env_prefix": "GIT_MASTER=1"
   },
   "runtime_fallback": {
     "enabled": true,
-    "retry_on_errors": [
-      400,
-      429,
-      503,
-      529
-    ],
-    "max_fallback_attempts": 2,
+    "retry_on_errors": [400, 429, 503, 529],
+    "max_fallback_attempts": 3,
     "cooldown_seconds": 60,
     "timeout_seconds": 30,
     "notify_on_fallback": true
@@ -31,129 +26,71 @@
       "model": "anthropic/claude-sonnet-4-6",
       "variant": "max",
       "fallback_models": [
-        {
-          "model": "google/gemini-3.1-pro-preview"
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
+        { "model": "opencode/big-pickle" },
+        { "model": "openai/gpt-5.4", "variant": "medium" }
       ],
-      "skills": [
-        ".opencode/skills/git-rebase-fixup/SKILL.md"
-      ]
+      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     },
     "hephaestus": {
       "model": "google/gemini-3.1-pro-preview",
       "variant": "high",
       "fallback_models": [
-        {
-          "model": "anthropic/claude-sonnet-4-6"
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
-      ]
+        { "model": "anthropic/claude-sonnet-4-6" },
+        { "model": "openai/gpt-5.4", "variant": "medium" }
+      ],
+      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     },
     "oracle": {
       "model": "google/gemini-3.1-pro-preview",
       "variant": "high",
       "fallback_models": [
-        {
-          "model": "anthropic/claude-sonnet-4-5"
-        },
-        {
-          "model": "opencode/nemotron-3-super-free"
-        }
-      ]
+        { "model": "anthropic/claude-opus-4-6", "variant": "max" },
+        { "model": "openai/gpt-5.4", "variant": "high" }
+      ],
+      "skills": [".opencode/skills/code-review/SKILL.md"]
     },
     "explore": {
       "model": "anthropic/claude-haiku-4-5",
-      "fallback_models": [
-        {
-          "model": "google/gemini-3.1-flash-lite-preview"
-        },
-        {
-          "model": "opencode/qwen3.6-plus-free"
-        }
-      ]
+      "fallback_models": [{ "model": "opencode/gpt-5-nano" }]
     },
     "multimodal-looker": {
       "model": "google/gemini-2.5-flash",
       "fallback_models": [
-        {
-          "model": "anthropic/claude-3-5-sonnet-latest"
-        },
-        {
-          "model": "opencode/mimo-v2-omni-free"
-        }
+        { "model": "openai/gpt-5.4", "variant": "medium" },
+        { "model": "openai/gpt-5-nano" }
       ]
     },
     "prometheus": {
       "model": "anthropic/claude-sonnet-4-6",
       "variant": "max",
       "fallback_models": [
-        {
-          "model": "google/gemini-3.1-pro-preview"
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
-      ],
-      "skills": [
-        ".opencode/skills/azure-readonly/SKILL.md"
+        { "model": "openai/gpt-5.4", "variant": "high" },
+        { "model": "google/gemini-3.1-pro-preview" }
       ]
     },
     "metis": {
       "model": "anthropic/claude-sonnet-4-6",
       "variant": "max",
-      "fallback_models": [
-        {
-          "model": "google/gemini-3.1-pro-preview"
-        },
-        {
-          "model": "opencode/minimax-m2.5-free"
-        }
-      ]
+      "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "high" }]
     },
     "momus": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-opus-4-6",
       "variant": "max",
       "fallback_models": [
-        {
-          "model": "google/gemini-3.1-pro-preview"
-        },
-        {
-          "model": "opencode/nemotron-3-super-free"
-        }
-      ]
+        { "model": "openai/gpt-5.4", "variant": "xhigh" },
+        { "model": "google/gemini-3.1-pro-preview", "variant": "high" }
+      ],
+      "skills": [".opencode/skills/code-review/SKILL.md"]
     },
     "atlas": {
       "model": "anthropic/claude-sonnet-4-6",
-      "fallback_models": [
-        {
-          "model": "google/gemini-3.1-pro-preview"
-        },
-        {
-          "model": "opencode/mimo-v2-pro-free"
-        }
-      ],
-      "skills": [
-        ".opencode/skills/git-rebase-fixup/SKILL.md"
-      ]
+      "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "medium" }],
+      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     },
     "sisyphus-junior": {
-      "model": "anthropic/claude-sonnet-3-5",
-      "fallback_models": [
-        {
-          "model": "google/gemini-3.1-pro-preview"
-        },
-        {
-          "model": "opencode/mimo-v2-pro-free"
-        }
-      ],
-      "skills": [
-        ".opencode/skills/git-rebase-fixup/SKILL.md"
-      ]
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "medium" }],
+      "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     }
   },
   "categories": {
@@ -161,86 +98,49 @@
       "model": "google/gemini-3.1-pro-preview",
       "variant": "high",
       "fallback_models": [
-        {
-          "model": "anthropic/claude-3-7-sonnet-latest"
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
+        { "model": "anthropic/claude-opus-4-6", "variant": "max" }
       ]
     },
     "ultrabrain": {
       "model": "google/gemini-3.1-pro-preview",
       "variant": "high",
       "fallback_models": [
-        {
-          "model": "anthropic/claude-sonnet-4-6"
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
+        { "model": "openai/gpt-5.4", "variant": "xhigh" },
+        { "model": "anthropic/claude-opus-4-6", "variant": "max" }
       ]
     },
     "artistry": {
       "model": "google/gemini-3.1-pro-preview",
       "variant": "high",
       "fallback_models": [
-        {
-          "model": "anthropic/claude-3-7-sonnet-latest"
-        },
-        {
-          "model": "opencode/mimo-v2-omni-free"
-        }
+        { "model": "anthropic/claude-opus-4-6", "variant": "max" },
+        { "model": "openai/gpt-5.4" }
       ]
     },
     "quick": {
       "model": "anthropic/claude-haiku-4-5",
       "fallback_models": [
-        {
-          "model": "google/gemini-3.1-flash-lite-preview"
-        },
-        {
-          "model": "opencode/gpt-5-nano"
-        }
+        { "model": "openai/gpt-5.4-mini" },
+        { "model": "google/gemini-3-flash-preview" },
+        { "model": "opencode-go/minimax-m2.7" },
+        { "model": "opencode/gpt-5-nano" },
+        { "model": "ollama/qwen3.5" }
       ]
     },
     "unspecified-low": {
       "model": "anthropic/claude-sonnet-4-6",
       "fallback_models": [
-        {
-          "model": "google/gemini-3.1-flash-lite-preview"
-        },
-        {
-          "model": "opencode/gpt-5-nano"
-        }
+        { "model": "openai/gpt-5.3-codex", "variant": "medium" },
+        { "model": "google/gemini-3-flash-preview" }
       ]
     },
     "unspecified-high": {
       "model": "anthropic/claude-sonnet-4-6",
-      "fallback_models": [
-        {
-          "model": "google/gemini-3.1-pro-preview"
-        },
-        {
-          "model": "opencode/qwen3.6-plus-free"
-        }
-      ]
+      "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "high" }]
     },
     "writing": {
       "model": "google/gemini-3-flash-preview",
-      "fallback_models": [
-        {
-          "model": "anthropic/claude-sonnet-4-6"
-        },
-        {
-          "model": "opencode/nemotron-3-super-free"
-        }
-      ]
+      "fallback_models": [{ "model": "anthropic/claude-sonnet-4-6" }]
     }
-  },
-  "_migrations": [
-    "model-version:anthropic/claude-sonnet-4-5->anthropic/claude-sonnet-4-6",
-    "model-version:anthropic/claude-sonnet-4-5->anthropic/claude-sonnet-4-6",
-    "model-version:anthropic/claude-sonnet-4-5->anthropic/claude-sonnet-4-6"
-  ]
+  }
 }
