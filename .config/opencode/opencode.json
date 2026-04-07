@@ -32,8 +32,7 @@
     "copeland-code-search": {
       "type": "remote",
       "url": "https://copeland-cortex-dev-mcp.azurewebsites.net/mcp",
-      "enabled": false,
-      "oauth": false
+      "enabled": true
     },
     "lazytail": {
       "command": ["lazytail", "--mcp"],
@@ -49,10 +48,17 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3.5": {
-          "reasoning": true,
+        "omo-explore": {
           "tool_call": true,
-          "name": "qwen3.5"
+          "name": "omo-explore"
+        },
+        "omo-librarian": {
+          "tool_call": true,
+          "name": "omo-librarian"
+        },
+        "omo-quick": {
+          "tool_call": true,
+          "name": "omo-quick"
         }
       }
     }
@@ -63,7 +69,7 @@
       "azure-deploy": "ask",
       "bicep-iac": "allow",
       "code-review": "allow",
-      "copeland-code-search": "allow",
+      "copeland-code-search": "deny",
       "git-rebase-fixup": "allow",
       "pr-workflow": "allow",
       "debug": "allow"
