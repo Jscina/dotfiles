@@ -27,10 +27,13 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3.5": {
+        "qwen3-coder": {
           "reasoning": true,
           "tool_call": true,
-          "name": "qwen3.5"
+          "name": "qwen3-coder",
+          "options": {
+            "num_ctx": 65535
+          }
         }
       }
     }
