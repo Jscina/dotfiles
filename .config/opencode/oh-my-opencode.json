@@ -47,18 +47,20 @@
         { "model": "anthropic/claude-opus-4-6", "variant": "max" },
         { "model": "openai/gpt-5.4", "variant": "high" }
       ],
-      "skills": [".opencode/skills/code-review/SKILL.md"]
+      "skills": [
+        ".opencode/skills/code-review/SKILL.md",
+        ".opencode/skills/debug/SKILL.md"
+      ]
     },
     "explore": {
-      "model": "anthropic/claude-haiku-4-5",
-      "fallback_models": [{ "model": "opencode/gpt-5-nano" }]
+      "model": "ollama/qwen3-coder"
+    },
+    "librarian": {
+      "model": "ollama/qwen3-coder"
     },
     "multimodal-looker": {
       "model": "google/gemini-2.5-flash",
-      "fallback_models": [
-        { "model": "openai/gpt-5.4", "variant": "medium" },
-        { "model": "openai/gpt-5-nano" }
-      ]
+      "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "medium" }]
     },
     "prometheus": {
       "model": "anthropic/claude-sonnet-4-6",
@@ -77,19 +79,25 @@
       "model": "anthropic/claude-opus-4-6",
       "variant": "max",
       "fallback_models": [
-        { "model": "openai/gpt-5.4", "variant": "xhigh" },
-        { "model": "google/gemini-3.1-pro-preview", "variant": "high" }
+        { "model": "google/gemini-3.1-pro-preview", "variant": "high" },
+        { "model": "openai/gpt-5.4", "variant": "xhigh" }
       ],
       "skills": [".opencode/skills/code-review/SKILL.md"]
     },
     "atlas": {
       "model": "anthropic/claude-sonnet-4-6",
-      "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "medium" }],
+      "fallback_models": [
+        { "model": "openai/gpt-5.4", "variant": "medium" },
+        { "model": "ollama/qwen3-coder" }
+      ],
       "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     },
     "sisyphus-junior": {
       "model": "anthropic/claude-sonnet-4-6",
-      "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "medium" }],
+      "fallback_models": [
+        { "model": "openai/gpt-5.4", "variant": "medium" },
+        { "model": "ollama/qwen3-coder" }
+      ],
       "skills": [".opencode/skills/git-rebase-fixup/SKILL.md"]
     }
   },
@@ -118,14 +126,8 @@
       ]
     },
     "quick": {
-      "model": "anthropic/claude-haiku-4-5",
-      "fallback_models": [
-        { "model": "openai/gpt-5.4-mini" },
-        { "model": "google/gemini-3-flash-preview" },
-        { "model": "opencode-go/minimax-m2.7" },
-        { "model": "opencode/gpt-5-nano" },
-        { "model": "ollama/qwen3.5" }
-      ]
+      "model": "ollama/qwen3-coder",
+      "fallback_models": [{ "model": "opencode/gpt-5-nano" }]
     },
     "unspecified-low": {
       "model": "anthropic/claude-sonnet-4-6",
@@ -139,8 +141,12 @@
       "fallback_models": [{ "model": "openai/gpt-5.4", "variant": "high" }]
     },
     "writing": {
-      "model": "google/gemini-3-flash-preview",
-      "fallback_models": [{ "model": "anthropic/claude-sonnet-4-6" }]
+      "model": "opencode/qwen3.6-plus-free",
+      "fallback_models": [
+        {
+          "model": "google/gemini-3-flash-preview"
+        }
+      ]
     }
   }
 }
