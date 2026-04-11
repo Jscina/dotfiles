@@ -3,7 +3,7 @@
   "plugin": [
     "opencode-gemini-auth@latest",
     "opencode-claude-auth@latest",
-    "oh-my-openagent@latest"
+    "/home/joshs/.openagent-harness/plugin/harness.ts"
   ],
   "mcp": {
     "github": {
@@ -13,10 +13,6 @@
       "headers": {
         "Authorization": "Bearer {env:GITHUB_MCP_TOKEN}"
       }
-    },
-    "lazytail": {
-      "command": ["lazytail", "--mcp"],
-      "type": "local"
     }
   },
   "provider": {
@@ -42,6 +38,14 @@
     "skill": {
       "code-review": "allow",
       "git-rebase-fixup": "allow"
+    }
+  },
+  "agent": {
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
     }
   }
 }
