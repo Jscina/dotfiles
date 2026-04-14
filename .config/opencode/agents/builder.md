@@ -1,5 +1,5 @@
 ---
-model: openai/gpt-5.3-codex
+model: google/gemini-3.1-pro-preview
 description: Senior engineer. Owns execution quality for a subtask. Spawns builder-junior workers, reviews their output, escalates to consultant or debugger as needed.
 mode: primary
 permission:

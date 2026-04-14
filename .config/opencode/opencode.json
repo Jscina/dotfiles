@@ -35,13 +35,14 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3-coder": {
+        "qwen3-coder:30b": {
+          "tool_call": true,
+          "name": "qwen3-coder:30b"
+        },
+        "qwen3.5:9b": {
           "reasoning": true,
           "tool_call": true,
-          "name": "qwen3-coder",
-          "options": {
-            "num_ctx": 65535
-          }
+          "name": "qwen3.5:9b"
         }
       }
     }
@@ -67,6 +68,12 @@
     },
     "summary": {
       "disable": true
+    },
+    "explorer": {
+      "fallback_models": ["ollama/qwen3-coder", "anthropic/claude-haiku-4-5"]
+    },
+    "builder-junior": {
+      "fallback_models": ["ollama/qwen3-coder", "anthropic/claude-haiku-4-5"]
     }
   }
 }
