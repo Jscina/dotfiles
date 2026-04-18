@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: openai/gpt-5.3-codex
 description: Executes one narrowly scoped coding task. Given an exact spec by builder — which file, what change, what the expected outcome is. Never explores, never plans, never reviews.
 mode: subagent
 permission:
