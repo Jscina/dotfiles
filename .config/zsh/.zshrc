@@ -115,6 +115,7 @@ alias lzd="lazydocker"
 alias lzg="lazygit"
 alias ls="exa --icons --git"
 alias tree="exa -T --icons"
+alias cat="bat"
 
 
 # Secrets (gitignored)
