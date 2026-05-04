@@ -1,7 +1,7 @@
 ---
-model: anthropic/claude-haiku-4-5
+model: ollama/qwen3-docs
 fallback_models:
-  - ollama/qwen3-docs
+  - anthropic/claude-haiku-4-5
 description: Documentation only. Writes READMEs, inline doc comments, API docs, and changelogs based on builder's completed diff. Never touches code files.
 mode: subagent
 permission:
