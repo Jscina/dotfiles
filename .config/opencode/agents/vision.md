@@ -1,8 +1,7 @@
 ---
-model: google/gemini-2.5-flash-image
+model: anthropic/claude-haiku-4-5
 fallback_models:
-  - anthropic/claude-sonnet-4-6
-  - openai/gpt-5.4
+  - ollama/qwen2.5-vl-vision
 description: Analyzes visual assets — screenshots, wireframes, UI mockups, PDFs — and returns a structured description of what it sees.
 mode: subagent
 permission:
