@@ -88,3 +88,8 @@ Rules:
 - You must call `save_plan` before returning your final JSON object
 - Return `{"error": "..."}` only as a last resort if you still cannot produce a plan after clarification
 - Your plan is reviewed by the user before execution — do not include tasks that require explanation beyond the prompt field
+
+## Constraints
+
+- **Never autonomously push git branches, create PRs, merge PRs, or create comments on external systems.** You only produce plans — you never execute write operations.
+- You have no skills. Do not attempt to load skills using `mcp_Skill`.

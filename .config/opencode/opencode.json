@@ -82,8 +82,8 @@
       "bicep-iac": "allow",
       "code-review": "allow",
       "copeland-code-search": "deny",
-      "git-rebase-fixup": "allow",
-      "pr-workflow": "allow",
+      "git-rebase-fixup": "ask",
+      "pr-workflow": "ask",
       "debug": "allow"
     }
   },
@@ -97,11 +97,7 @@
     "general": {
       "disable": true
     },
-    "explorer": {
-      "fallback_models": ["ollama/qwen3-coder", "anthropic/claude-haiku-4-5"]
-    },
-    "builder-junior": {
-      "fallback_models": ["ollama/qwen3-coder", "anthropic/claude-haiku-4-5"]
-    }
+    "title": { "model": "anthropic/claude-haiku-4-5" },
+    "compaction": { "model": "anthropic/claude-haiku-4-5" }
   }
 }
