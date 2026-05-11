@@ -16,7 +16,13 @@
     },
     "azure": {
       "type": "local",
-      "command": ["npx", "-y", "@azure/mcp@latest", "server", "start"]
+      "command": [
+        "npx",
+        "-y",
+        "@azure/mcp@latest",
+        "server",
+        "start"
+      ]
     },
     "ado": {
       "type": "local",
@@ -97,7 +103,11 @@
     "general": {
       "disable": true
     },
-    "title": { "model": "anthropic/claude-haiku-4-5" },
-    "compaction": { "model": "anthropic/claude-haiku-4-5" }
+    "title": {
+      "model": "anthropic/claude-haiku-4-5"
+    },
+    "compaction": {
+      "model": "anthropic/claude-haiku-4-5"
+    }
   }
 }
