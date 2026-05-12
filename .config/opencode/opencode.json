@@ -34,21 +34,22 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3-coder:30b": {
-          "reasoning": true,
+        "qwen3-coder-builder": {
           "tool_call": true,
-          "name": "qwen3-coder:30b",
-          "options": {
-            "num_ctx": 65535
-          }
+          "name": "qwen3-coder-builder"
         },
-        "qwen3.5:9b": {
+        "qwen3-coder-junior": {
+          "tool_call": true,
+          "name": "qwen3-coder-junior"
+        },
+        "qwen3-docs": {
           "reasoning": true,
           "tool_call": true,
-          "name": "qwen3.5:9b",
-          "options": {
-            "num_ctx": 65535
-          }
+          "name": "qwen3-docs"
+        },
+        "qwen2.5-vl-vision": {
+          "tool_call": false,
+          "name": "qwen2.5-vl-vision"
         }
       }
     }
