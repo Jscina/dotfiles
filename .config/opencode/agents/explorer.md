@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-haiku-4-5
+model: openai/gpt-5.4-mini
 fallback_models:
   - ollama/qwen3-coder-builder
 description: Read-only codebase reconnaissance. Maps files, traces call chains, identifies interfaces and patterns. Never modifies anything.

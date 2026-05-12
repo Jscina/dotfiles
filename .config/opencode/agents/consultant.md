@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: openai/gpt-5.4
 fallback_models:
   - ollama/qwen3-coder-builder
 description: Read-only architecture advisor. Consulted by builder mid-task for design decisions. Returns a structured recommendation with tradeoffs. Never touches files.

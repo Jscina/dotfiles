@@ -1,9 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "@ex-machina/opencode-claude-auth@@1.8.0",
-    "/home/joshs/.openagent-harness/harness.ts"
-  ],
+  "plugin": ["/home/joshs/.openagent-harness/harness.ts"],
   "mcp": {
     "github": {
       "type": "remote",

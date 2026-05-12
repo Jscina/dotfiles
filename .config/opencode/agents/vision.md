@@ -1,7 +1,5 @@
 ---
-model: anthropic/claude-sonnet-4-6
-fallback_models:
-  - ollama/qwen2.5-vl-vision
+model: ollama/qwen2.5-vl-vision
 description: Analyzes visual assets — screenshots, wireframes, UI mockups, PDFs — and returns a structured description of what it sees.
 mode: subagent
 permission:

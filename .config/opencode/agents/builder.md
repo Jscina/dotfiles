@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: openai/gpt-5.4
 fallback_models:
   - ollama/qwen3-coder-builder
 description: Senior engineer. Owns execution quality for a subtask. Spawns builder-junior workers, reviews their output, escalates to consultant or debugger as needed.

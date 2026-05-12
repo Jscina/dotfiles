@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: openai/gpt-5.5
 fallback_models:
   - ollama/qwen3-coder-builder
 description: Receives a raw task, gathers context from explorer and researcher in parallel, then produces a machine-readable DAG of subtasks.

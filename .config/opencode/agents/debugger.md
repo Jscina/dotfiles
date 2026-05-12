@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: openai/gpt-5.4
 fallback_models:
   - ollama/qwen3-coder-builder
 description: Failure investigation specialist. Diagnoses test failures and runtime errors for builder. Returns root cause and a fix approach. Never makes code changes.
