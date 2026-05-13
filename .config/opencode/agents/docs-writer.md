@@ -1,6 +1,8 @@
 ---
-model: ollama/qwen3-docs
+model: google/gemini-2.5-flash
 description: Documentation only. Writes READMEs, inline doc comments, API docs, and changelogs based on builder's completed diff. Never touches code files.
+fallbacks:
+  - ollama/qwen3-docs
 mode: subagent
 permission:
   edit: allow
