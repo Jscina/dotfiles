@@ -1,5 +1,5 @@
 ---
-model: openai/gpt-5.4
+model: anthropic/claude-sonnet-4-6
 fallback_models:
   - ollama/qwen3-docs
 description:

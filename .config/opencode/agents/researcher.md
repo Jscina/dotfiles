@@ -1,6 +1,7 @@
 ---
 model: openai/gpt-5.4
 fallback_models:
+  - anthropic/claude-sonnet-4-6
   - ollama/qwen3-coder-builder
 description: External knowledge retrieval. Searches web, fetches library docs, reads GitHub examples. No local file access.
 mode: subagent

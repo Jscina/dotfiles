@@ -1,6 +1,7 @@
 ---
 model: openai/gpt-5.3-codex
 fallback_models:
+  - anthropic/claude-sonnet-4-6
   - ollama/qwen3-coder-junior
 description: Executes one narrowly scoped coding task. Given an exact spec by builder — which file, what change, what the expected outcome is. Never explores, never plans, never reviews.
 mode: subagent

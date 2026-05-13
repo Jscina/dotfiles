@@ -1,6 +1,7 @@
 ---
-model: openai/gpt-5.5
+model: anthropic/claude-opus-4-6
 fallback_models:
+  - openai/gpt-5.5
   - ollama/qwen3-coder-builder
 description: Receives a raw task, gathers context from explorer and researcher in parallel, then produces a machine-readable DAG of subtasks.
 mode: subagent

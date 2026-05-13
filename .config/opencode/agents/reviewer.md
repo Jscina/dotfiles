@@ -1,6 +1,7 @@
 ---
 model: openai/gpt-5.4
 fallback_models:
+  - anthropic/claude-sonnet-4-6
   - ollama/qwen3-coder-builder
 description: Quality gate. Reviews planner output before execution and builder output after. Read-only. Returns approved or a list of blocking issues.
 mode: subagent
