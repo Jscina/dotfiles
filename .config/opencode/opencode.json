@@ -74,6 +74,9 @@
     "general": {
       "disable": true
     },
+    "scout": {
+      "disable": true
+    },
     "summary": {
       "disable": true
     }
