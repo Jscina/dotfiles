@@ -39,6 +39,5 @@ cmd + shift - n : yabai -m window --focus stack.next
 cmd + shift- p : yabai -m window --focus stack.prev
 
 # applications
-cmd - s : open -a "System Settings" -n
 cmd - b : open -a "Arc" -n
-cmd - i: open -a "Alacritty" -n
+cmd - i: open -a "Ghostty" -n

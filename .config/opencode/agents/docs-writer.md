@@ -1,7 +1,7 @@
 ---
-model: ollama/qwen3-docs
+model: anthropic/claude-haiku-4-5
 fallback_models:
-  - anthropic/claude-haiku-4-5
+  - ollama/qwen3-docs:latest
 description: Documentation only. Writes READMEs, inline doc comments, API docs, and changelogs based on builder's completed diff. Never touches code files.
 mode: subagent
 permission:
@@ -35,9 +35,3 @@ Style:
 - Be concise — one sentence is often enough for a doc comment
 
 When done, list every documentation file you modified with a one-line description of what you added or changed.
-
-## Constraints
-
-- **Never autonomously push git branches, create PRs, merge PRs, or create comments on external systems.** Report your documentation changes and let the orchestrator/user decide on committing.
-- **Never autonomously perform write operations on external systems** (Azure, GitHub, ADO). Local documentation file edits are fine; external writes are not.
-- You have no skills. Do not attempt to load skills using `mcp_Skill`.

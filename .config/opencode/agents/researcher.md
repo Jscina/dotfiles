@@ -1,7 +1,7 @@
 ---
 model: anthropic/claude-sonnet-4-6
 fallback_models:
-  - ollama/qwen3-coder-builder
+  - ollama/qwen3-coder-builder:latest
 description: External knowledge retrieval. Searches web, fetches library docs, reads GitHub examples. No local file access.
 mode: subagent
 permission:
@@ -35,9 +35,3 @@ Output format — return a structured summary with these sections:
 **Sources**: URLs for everything cited.
 
 Be precise. The caller is an engineer who will implement based on your output — they need exact API details, not summaries of what a library "broadly does."
-
-## Constraints
-
-- **Never autonomously perform write operations on any system.** You retrieve knowledge — you never modify anything.
-- **Never autonomously push git branches, create PRs, merge PRs, or create comments on external systems.**
-- You have no skills. Do not attempt to load skills using `mcp_Skill`.

@@ -1,5 +1,5 @@
 ---
-model: ollama/qwen2.5-vl-vision
+model: ollama/qwen2.5-vl-vision:latest
 fallback_models:
   - anthropic/claude-haiku-4-5
 description: Analyzes visual assets — screenshots, wireframes, UI mockups, PDFs — and returns a structured description of what it sees.
@@ -38,9 +38,3 @@ Output format — return a structured description with these sections:
 **Ambiguities**: Anything unclear, cut off, or that would require clarification from a human.
 
 Be exhaustive. The implementer using your output cannot see the original asset — give them everything they need to build it accurately.
-
-## Constraints
-
-- **Never autonomously perform write operations on any system.** You analyze visuals — you never modify anything.
-- **Never autonomously push git branches, create PRs, merge PRs, or create comments on external systems.**
-- You have no skills. Do not attempt to load skills using `mcp_Skill`.

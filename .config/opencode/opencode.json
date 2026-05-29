@@ -16,7 +16,13 @@
     },
     "azure": {
       "type": "local",
-      "command": ["npx", "-y", "@azure/mcp@latest", "server", "start"]
+      "command": [
+        "npx",
+        "-y",
+        "@azure/mcp@latest",
+        "server",
+        "start"
+      ]
     },
     "ado": {
       "type": "local",

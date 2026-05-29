@@ -84,7 +84,8 @@ source $ZSH/oh-my-zsh.sh
 # Disable microsoft telemetry
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 export AZURE_DEV_COLLECT_TELEMETRY='no'
-export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@21"
+export PATH="$JAVA_HOME/bin:$PATH"
 export PATH="/usr/local/opt/node@22/bin:$PATH"
 export PATH="$HOME/nvrh:$PATH"
 export NVM_DIR="$HOME/.nvm"
@@ -127,7 +128,7 @@ eval "$(pyenv init -)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/usr/local/opt/openjdk@17/bin:$PATH"
+
 export PATH="/usr/local/opt/node@22/bin:$PATH"
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 

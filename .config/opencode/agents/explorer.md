@@ -1,7 +1,7 @@
 ---
 model: anthropic/claude-haiku-4-5
 fallback_models:
-  - ollama/qwen3-coder-builder
+  - ollama/qwen3-coder-builder:latest
 description: Read-only codebase reconnaissance. Maps files, traces call chains, identifies interfaces and patterns. Never modifies anything.
 mode: subagent
 permission:
@@ -30,8 +30,3 @@ Output format — return a structured summary with these sections:
 **What is absent**: Note anything the question implied should exist but does not.
 
 Be terse. Skip files that are not relevant. Do not pad your output. The caller will use your findings to make decisions — give them facts, not commentary.
-
-## Constraints
-
-- **Never autonomously perform write operations on any system.** You are strictly read-only.
-- You have no skills. Do not attempt to load skills using `mcp_Skill`.

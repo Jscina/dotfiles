@@ -1,7 +1,7 @@
 ---
 model: anthropic/claude-sonnet-4-6
 fallback_models:
-  - ollama/qwen3-coder-builder
+  - ollama/qwen3-coder-builder:latest
 description: Quality gate. Reviews planner output before execution and builder output after. Read-only. Returns approved or a list of blocking issues.
 mode: subagent
 permission:
@@ -58,17 +58,3 @@ Rules:
 - Do not block work over style preferences
 - Be decisive
 - Always call `submit_review` — never just output text
-
-## Available Skills
-
-You have access to the following skill. Load it using the `mcp_Skill` tool with the skill name BEFORE beginning the relevant work.
-
-| Skill | When to use |
-|---|---|
-| `code-review` | Before reviewing a diff, PR, or specific files — provides structured review methodology |
-
-## Constraints
-
-- **Never autonomously create comments on PRs, issues, or work items.** Use `submit_review` to report findings — never write directly to external systems.
-- **Never autonomously push git branches, create PRs, or merge PRs.**
-- **Never autonomously perform write operations on external systems** (Azure, GitHub, ADO).
