@@ -1,49 +1,55 @@
 ---
 name: pr-workflow
-description: Pull request creation and lifecycle management for the Copeland platform. Use this whenever creating, updating, or reviewing PRs — enforces branch naming, ADO card linking, and the Connect-Plus PR template.
+description: Pull request creation and lifecycle management. Enforces branch naming, ADO card linking, and the correct PR template. Owned by orchestrator — apply this skill whenever the user asks to create or update a PR.
 compatibility: opencode
 metadata:
   mcp: github, ado
-  access: read-write
-  safety: confirmation-required
+  agents: [orchestrator]
 ---
 
-# PR Workflow Protocol
+# PR Workflow
 
-You are responsible for creating and managing pull requests that conform to Copeland's branch conventions, ADO card structure, and the Connect-Plus PR template. Every PR must be traceable to an ADO work item. No card number, no PR.
+You are creating or updating a pull request. Every PR must be traceable to an ADO work item. No card number, no PR — stop and ask the user before proceeding.
 
-## Branch naming convention
+---
 
-All branches follow this pattern:
-
-```
-<card-number>-<short-description>
-```
-
-Examples: `12345-fix-hibernate-timeout`, `67890-add-qa-deploy-flag`
-
-Before creating a PR, extract the card number from the current branch name:
+## Section 0: Extract the card number
 
 ```bash
 git branch --show-current
-# e.g. → 12345-fix-hibernate-timeout → card number is 12345
 ```
 
-If the branch name does not contain a card number, stop and ask the user before proceeding. Do not invent or assume a card number.
+Branch format: `<card-number>-<short-description>`
 
-## Resolving ADO card details
+Extract the card number from the branch name. If the branch name contains no card number, stop immediately:
 
-Use the `ado` MCP to fetch the work item title and description for the extracted card number before writing the PR body. This populates the `Card Number` and `Desc` fields accurately.
+> "The current branch `<name>` has no card number. Please confirm the ADO card number before I create the PR."
+
+Do not invent or assume a card number.
+
+---
+
+## Section 1: Fetch the ADO work item
+
+Use the `ado` MCP to retrieve the work item:
 
 ```
 ado: get_work_item(id=<card-number>)
 ```
 
-Use the work item title as the PR title if the user hasn't specified one.
+Use the work item title as the PR title unless the user has specified one. Use the description to inform the PR summary.
 
-## PR template
+---
 
-Every PR body must use this structure exactly — do not omit or reorder sections:
+## Section 2: Confirm the target branch
+
+Ask the user which branch to target before creating the PR. Default to `main` unless told otherwise. Never assume.
+
+---
+
+## Section 3: Write the PR body
+
+Every PR body uses this structure exactly — do not omit or reorder sections:
 
 ```markdown
 Card Number: <card-number>
@@ -51,40 +57,45 @@ Desc: <work item title from ADO>
 
 <1–3 sentence summary of what this change does and why>
 
-This workflow enables manual deployment of Connect-Plus to designated Azure Windows VMs for QA testing, supporting branch/PR/tag-based deployments. It builds the WAR package and a deployment patch (including Hibernate and license files) via Gradle, and automates Azure VM deployment through PowerShell script execution.
-
 Testing Procedures:
-<bullet list of steps a QA engineer would follow to verify this change>
+<bullet list of concrete steps a QA engineer would follow to verify this change>
 ```
 
-Rules for filling in the template:
+Rules:
 
-- **Card Number** — always the ADO card number from the branch name, never freeform
-- **Desc** — the ADO work item title, fetched via MCP, not paraphrased
-- **Summary paragraph** — your own concise description of the change; keep it factual
-- **Testing Procedures** — concrete, ordered steps. If the change has no testable surface, write "No functional changes — verify CI passes."
+- **Card Number** — the ADO card number from the branch name, never freeform
+- **Desc** — the ADO work item title verbatim, fetched via MCP, not paraphrased
+- **Summary** — your own concise factual description of the change
+- **Testing Procedures** — ordered, concrete steps. If the change has no testable surface, write: "No functional changes — verify CI passes."
 
-## Creating the PR
+---
 
-Use the `github` MCP to open the PR. Always confirm the target branch with the user before submitting — default to `main` unless told otherwise.
+## Section 4: Create the PR
+
+Use the `github` MCP:
 
 ```
 github: create_pull_request(
   title=<work item title>,
   body=<filled template>,
   head=<current branch>,
-  base=<target branch>
+  base=<confirmed target branch>
 )
 ```
 
-After creation, post the PR URL back and confirm the ADO card number is visible in the PR body.
+After creation, confirm the PR URL and verify the ADO card number is visible in the body.
 
-## Updating an existing PR
+---
 
-If the PR already exists, use the `github` MCP to fetch the current body, update only the changed sections, and push the update. Never rewrite the whole body unless the user asks.
+## Section 5: Updating an existing PR
+
+If the PR already exists, fetch the current body via the `github` MCP, update only the sections that have changed, and push the update. Never rewrite the whole body unless the user explicitly asks.
+
+---
 
 ## Hard stops
 
-- Never open a PR from a branch with no card number in its name without explicit user confirmation
+- Never open a PR from a branch with no card number without explicit user confirmation
 - Never target `main` with a PR that has no Testing Procedures entry
 - Never fabricate ADO card details — always fetch from the `ado` MCP
+- Never push or create a PR without confirming the target branch with the user first
