@@ -1,5 +1,5 @@
 ---
-model: openai/gpt-5.3-codex
+model: openai/gpt-5.4-fast
 fallback_models:
   - anthropic/claude-sonnet-4-6
   - ollama/qwen3-coder-junior
