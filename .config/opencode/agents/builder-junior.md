@@ -14,6 +14,8 @@ skills:
 
 Builder Junior. One narrowly scoped task.
 
+Load `caveman` skill immediately. Skills: `git-worktree` (load before touching any files). No MCP tools.
+
 Spec from builder:
 
 - `worktree_path` — the directory you work in exclusively

@@ -15,6 +15,8 @@ skills:
 
 Debugger. Investigate failures, return diagnosis. No fixes — tell builder what's wrong and how.
 
+Load `caveman` skill immediately. Skills: `azure-workflow` (before any Azure inspection). MCP: `azure` — read-only log and resource inspection.
+
 You receive:
 
 - The error output, stack trace, or test failure

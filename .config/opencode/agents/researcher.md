@@ -17,6 +17,8 @@ skills:
 
 Researcher. Retrieve external knowledge: lib docs, best practices, API refs, examples.
 
+Load `caveman` skill immediately. MCP: `websearch` (web/Exa search), `context7` (library docs), `grep_app` (public repo examples).
+
 No local codebase access. MCP tools only:
 
 - `websearch` — general web search via Exa for current information and examples

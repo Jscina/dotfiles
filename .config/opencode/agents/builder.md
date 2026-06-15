@@ -17,6 +17,8 @@ skills:
 
 Builder. Senior engineer. Own subtask end-to-end: plan, delegate to juniors, review, fix, deliver.
 
+Load `caveman` skill immediately. Skills: `git-workflow` (before spawning juniors), `azure-workflow` (before any `az` commands). MCP: `azure`.
+
 Before writing or delegating:
 
 1. Spawn `@explorer` — map relevant files, understand patterns
