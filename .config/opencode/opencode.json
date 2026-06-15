@@ -16,7 +16,13 @@
     },
     "azure": {
       "type": "local",
-      "command": ["npx", "-y", "@azure/mcp@latest", "server", "start"]
+      "command": [
+        "npx",
+        "-y",
+        "@azure/mcp@latest",
+        "server",
+        "start"
+      ]
     },
     "ado": {
       "type": "local",
@@ -28,11 +34,6 @@
         "--authentication",
         "envvar"
       ]
-    },
-    "copeland-code-search": {
-      "type": "remote",
-      "url": "https://copeland-cortex-dev-mcp.azurewebsites.net/mcp",
-      "enabled": true
     },
     "websearch": {
       "type": "remote",
@@ -82,15 +83,17 @@
   },
   "permission": {
     "bash": {
-      "*": "ask",
-      "git status *": "allow",
-      "git log *": "allow",
-      "git diff *": "allow",
-      "az *": "ask"
+      "*": "allow",
+      "rm *": "ask",
+      "rm -rf *": "deny",
+      "sudo *": "ask",
+      "npm publish *": "deny",
+      "git push *": "deny",
+      "az * create *": "ask",
+      "az * delete *": "deny",
+      "az * update *": "ask"
     },
     "edit": "ask",
-    "webfetch": "ask",
-    "websearch": "ask",
     "task": "allow",
     "doom_loop": "ask"
   },
@@ -102,6 +105,9 @@
       "disable": true
     },
     "general": {
+      "disable": true
+    },
+    "explore": {
       "disable": true
     },
     "title": {

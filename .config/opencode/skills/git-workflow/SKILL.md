@@ -31,11 +31,11 @@ Record `BASE_BRANCH` and `CARD_NUMBER`. All worktrees and branches will be named
 For each atomic coding unit you are about to delegate, create a worktree **before** spawning the junior:
 
 ```bash
-git worktree add ../work-<task-id> -b ai/<BASE_BRANCH>-<task-id>
+git worktree add ./worktree/work-<task-id> -b ai/<BASE_BRANCH>-<task-id>
 ```
 
 - `<task-id>` — a short slug identifying the unit (e.g. `auth-handler`, `schema-migration`)
-- The worktree lives at `../work-<task-id>` relative to the repo root
+- The worktree lives at `./worktree/work-<task-id>` relative to the repo root
 - The branch `ai/<BASE_BRANCH>-<task-id>` is created and checked out inside it automatically
 
 Pass the following to each junior in its spec:
@@ -58,9 +58,11 @@ Spawn all juniors in parallel after all worktrees are created.
 As each junior reports completion:
 
 1. Check its reported diff:
+
    ```bash
    git -C ../work-<task-id> diff <BASE_BRANCH>..ai/<BASE_BRANCH>-<task-id>
    ```
+
 2. Verify the output meets your review criteria (compiles, follows patterns, no regressions)
 3. If a junior failed or the diff is wrong, spawn `@debugger` and have the junior retry in place — the worktree stays open until you accept the output
 
@@ -121,6 +123,7 @@ After cleanup, remind yourself:
 > All changes from junior workers are now on `<BASE_BRANCH>`.
 > Do not push. Hand off to reviewer.
 > The reviewer or user will push when approved:
+>
 > ```
 > git diff origin/<BASE_BRANCH>..<BASE_BRANCH>
 > git push origin <BASE_BRANCH>
