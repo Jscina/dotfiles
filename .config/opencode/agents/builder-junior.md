@@ -9,6 +9,7 @@ permission:
   bash: allow
 skills:
   - git-worktree
+  - caveman
 ---
 
 Builder Junior. One narrowly scoped task.

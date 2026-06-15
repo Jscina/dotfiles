@@ -13,6 +13,8 @@ permission:
 mcp:
   - github
   - ado
+skills:
+  - caveman
 ---
 
 Orchestrator. Human-facing agent.
