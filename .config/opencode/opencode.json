@@ -56,10 +56,17 @@
     }
   },
   "permission": {
-    "skill": {
-      "code-review": "allow",
-      "git-rebase-fixup": "allow"
-    }
+    "bash": {
+      "*": "allow",
+      "rm *": "ask",
+      "rm -rf *": "deny",
+      "sudo *": "ask",
+      "npm publish *": "deny",
+      "git push *": "deny"
+    },
+    "edit": "ask",
+    "task": "allow",
+    "doom_loop": "ask"
   },
   "agent": {
     "build": {
