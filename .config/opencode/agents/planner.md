@@ -1,7 +1,8 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: google/gemini-3.1-pro-preview
 fallback_models:
-  - ollama/qwen3-coder-builder:latest
+  - openai/gpt-5.4
+  - anthropic/claude-sonnet-4-6
 description: Receives a raw task, gathers context from explorer and researcher in parallel, then produces a machine-readable DAG of subtasks.
 mode: subagent
 permission:

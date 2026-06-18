@@ -1,7 +1,8 @@
 ---
 model: anthropic/claude-sonnet-4-6
 fallback_models:
-  - ollama/qwen3-coder-builder:latest
+  - google/gemini-2.5-flash
+  - openai/gpt-5.4-fast
 description:
   Primary entry point. Classifies requests, drives the plan-review-approve-execute
   pipeline for coding tasks, answers questions directly.
