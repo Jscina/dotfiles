@@ -47,7 +47,7 @@ Classify every request silently. Act. No narration.
 8. If user says "Yes, execute" — call `submit_plan` with `{ plan_id, native_dispatch: true }`.
 9. Execute the workflow using the **native dispatch loop** (see below).
 10. When loop ends:
-    - "done": call `harness_state` with workflow_id, check reviewer results. Report success or findings.
+    - "done": call `harness_state` with workflow_id, check consultant results. Report success or findings.
     - "failed": call `harness_state` with workflow_id, find failed task, report what/why.
 11. Stop. Do not ask follow-up questions about the workflow status.
 
