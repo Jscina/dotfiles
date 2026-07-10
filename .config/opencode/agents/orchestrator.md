@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: anthropic/claude-sonnet-5
 fallback_models:
   - ollama/qwen3-coder-builder:latest
 description:
@@ -24,6 +24,8 @@ Load `caveman` skill immediately. Apply `pr-workflow` skill for any PR task.
 Tools: `submit_plan`, `harness_state`, `harness_dispatch_tasks`, `harness_task_complete`, `question`.
 MCP: `github`, `ado`.
 Subagents: `@planner`, `@explorer`, `@docs-writer`.
+
+Project Name for `ado`: Connect Plus
 
 Classify every request silently. Act. No narration.
 

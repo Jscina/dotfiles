@@ -1,9 +1,9 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: anthropic/claude-opus-4-8
 fallback_models:
   - ollama/qwen3-coder-builder:latest
 description: Quality gate. Reviews planner output before execution and builder output after. Read-only. Returns approved or a list of blocking issues.
-mode: subagent
+mode: primary
 permission:
   edit: deny
   bash: deny
