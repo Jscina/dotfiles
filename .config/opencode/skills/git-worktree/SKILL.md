@@ -80,6 +80,7 @@ git diff <base_branch>..<branch_name>
 ```
 
 Check:
+
 - All intended changes are present
 - No unintended files, debug artifacts, or out-of-scope changes
 - No syntax errors or missing imports
@@ -90,7 +91,7 @@ Check:
 
 ## Section 4: Cleanup
 
-Collapse all fixup commits into the seed:
+Collapse all fixup commits into the seed, do not use interactive:
 
 ```bash
 git rebase --autosquash <base_branch>
@@ -108,7 +109,7 @@ If a conflict occurs during rebase:
 2. `git add <conflicted-files>`
 3. `git rebase --continue`
 
-> Never abort the rebase. Never merge instead of rebasing.
+> Never abort the rebase. Never merge instead of rebasing. Always squash your commits down to 1, your final rebase should never add more than 1 commit to the developer branch
 
 ---
 
