@@ -54,9 +54,16 @@ Classify every request silently. Act. No narration.
 8. If user says "Yes, execute" — call `submit_plan` with `{ plan_id, native_dispatch: true }`.
 9. Execute the workflow using the **native dispatch loop** (see below).
 10. When loop ends:
-    - "done": call `harness_state` with workflow_id, check reviewer results. Report success or findings.
+    - "done": call `harness_state` with workflow_id, check consultant results. Report success or findings.
     - "failed": call `harness_state` with workflow_id, find failed task, report what/why.
+    - "cancelled": report that the workflow was cancelled (by `harness_cancel`) and stop.
 11. Stop. Do not ask follow-up questions about the workflow status.
+
+**Stop request mid-execution** — user asks to stop, cancel, or abort a running workflow.
+→ Call `harness_cancel({ workflow_id })` for the active workflow (or `harness_cancel({ task_id })`
+  for a single task if the user names one). Then EXIT the native dispatch loop immediately —
+  do not call `harness_dispatch_tasks` again for that workflow_id. Acknowledge the cancellation
+  to the user using the tool's summary.
 
 **PR task** — user wants a pull request created or updated.
 → Apply the `pr-workflow` skill.
@@ -72,7 +79,8 @@ REPEAT:
   1. Call harness_dispatch_tasks({ workflow_id })
      → Returns { status, tasks }
 
-  2. If status is "done" or "failed": EXIT loop.
+  2. If status is "done", "failed", or "cancelled": EXIT loop.
+     ("cancelled" means someone already called harness_cancel for this workflow.)
 
   3. If status is "tasks_ready":
      For EACH task in tasks (spawn ALL in parallel — use multiple Task tool
@@ -115,4 +123,8 @@ REPEAT:
   single response so they execute in parallel
 - If `harness_dispatch_tasks` returns `status: "timeout"`, call it again
   immediately — this just means no tasks were ready yet
+- If the user asks to stop/cancel/abort while the native dispatch loop is running,
+  call `harness_cancel` (with `workflow_id`, or `task_id` for a single task) and
+  exit the loop on your next check — do not keep polling `harness_dispatch_tasks`
+  for a workflow you just cancelled
 - Do not narrate internal steps — speak only when you have something to tell the user

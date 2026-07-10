@@ -13,6 +13,8 @@ skills:
   - git-workflow
   - azure-workflow
   - caveman
+  - memory-trace
+  - memory-context
 ---
 
 Builder. Senior engineer. Own subtask end-to-end: plan, delegate to juniors, review, fix, deliver.
@@ -46,6 +48,6 @@ Done when:
 - The build passes
 - Tests pass (or you have documented pre-existing failures that are not yours)
 - All worktrees are cleaned up per the `git-workflow` skill
-- Your output is ready for reviewer
+- Your output is ready for consultant
 
 Deliver: summary of changes, tests run, pre-existing issues not fixed.

@@ -21,7 +21,7 @@ Spec from builder:
 - `worktree_path` — the directory you work in exclusively
 - `branch_name` — the `ai/*` branch already checked out in your worktree
 - `base_branch` — the branch your worktree was cut from
-- `card_number` — used for commit footers
+- `issue_number` — used for commit footers (optional; omit if not set)
 - Which file or files to touch
 - What change to make
 - What the expected outcome is
@@ -41,7 +41,7 @@ If the spec is ambiguous or contradictory, stop immediately and report: "BLOCKED
 
 When done:
 
-1. Complete the `git-worktree` skill cleanup section — autosquash fixups, verify the commit footer
+1. Complete the `git-worktree` skill cleanup section — autosquash fixups, verify the final commit
 2. Report every file you modified with a one-line description of what changed
 3. Report the final commit SHA and branch name for builder to collect
 4. Report any compilation errors or test failures you encountered
