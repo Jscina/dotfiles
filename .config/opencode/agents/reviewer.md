@@ -1,6 +1,7 @@
 ---
-model: anthropic/claude-sonnet-4-6
+model: anthropic/claude-sonnet-5
 fallback_models:
+  - google/gemini-3.1-pro-preview
   - ollama/qwen3-coder-builder:latest
 description: Quality gate. Reviews planner output before execution and builder output after. Read-only. Returns approved or a list of blocking issues.
 mode: primary

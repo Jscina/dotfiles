@@ -2,6 +2,7 @@
 model: google/gemini-2.5-flash
 fallback_models:
   - anthropic/claude-haiku-4-5
+  - openai/gpt-5.6-luna-fast
   - ollama/qwen3-coder-builder:latest
 description: Read-only codebase reconnaissance. Maps files, traces call chains, identifies interfaces and patterns. Never modifies anything.
 mode: subagent
