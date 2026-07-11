@@ -1,7 +1,6 @@
 ---
-model: google/gemini-3.1-flash-image-preview
+model: anthropic/claude-haiku-4-5
 fallback_models:
-  - anthropic/claude-haiku-4-5
   - openai/gpt-5.6-luna-fast
   - ollama/qwen2.5-vl-vision:latest
 description: Analyzes visual assets — screenshots, wireframes, UI mockups, PDFs — and returns a structured description of what it sees.

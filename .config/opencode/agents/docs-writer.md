@@ -1,7 +1,6 @@
 ---
-model: google/gemini-3.5-flash
+model: anthropic/claude-haiku-4-5
 fallback_models:
-  - anthropic/claude-haiku-4-5
   - openai/gpt-5.6-luna-fast
   - ollama/qwen3-docs:latest
 description: Documentation only. Writes READMEs, inline doc comments, API docs, and changelogs based on builder's completed diff. Never touches code files.

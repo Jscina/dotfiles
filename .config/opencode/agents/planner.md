@@ -1,8 +1,7 @@
 ---
-model: google/gemini-3.1-pro-preview
+model: anthropic/claude-opus-4-8
 fallback_models:
   - openai/gpt-5.6-sol-pro
-  - anthropic/claude-opus-4-8
 description: Receives a raw task, gathers context from explorer and researcher in parallel, then produces a machine-readable DAG of subtasks.
 mode: subagent
 permission:
