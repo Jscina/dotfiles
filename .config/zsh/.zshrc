@@ -1,12 +1,12 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
 
 # If you come from bash you might have to change your $PATH.
 export PATH="$HOME/bin:/usr/local/bin:$PATH"
 ZSH=/usr/share/oh-my-zsh/
 
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+#source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 # List of plugins used
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf tmux)
@@ -91,7 +91,7 @@ alias .5='cd ../../../../..'
 alias mkdir='mkdir -p'
 
 
-source ~/.p10k.zsh
+#source ~/.p10k.zsh
 
 # User configuration
 export MANPATH="/usr/local/man:$MANPATH"
@@ -136,3 +136,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

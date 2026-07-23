@@ -1,5 +1,5 @@
 ---
-model: openai/gpt-5.6-terra-pro
+model: openai/gpt-5.6-terra
 fallback_models:
   - anthropic/claude-sonnet-5
   - ollama/qwen3-coder-builder:latest

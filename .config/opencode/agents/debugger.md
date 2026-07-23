@@ -1,7 +1,7 @@
 ---
 model: anthropic/claude-sonnet-5
 fallback_models:
-  - openai/gpt-5.6-terra-pro
+  - openai/gpt-5.6-terra
   - ollama/qwen3-coder-builder:latest
 description: Failure investigation specialist. Diagnoses test failures and runtime errors for builder. Returns root cause and a fix approach. Never makes code changes.
 mode: subagent
