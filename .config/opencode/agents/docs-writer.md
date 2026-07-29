@@ -7,8 +7,6 @@ mode: subagent
 permission:
   edit: allow
   bash: deny
-skills:
-  - caveman
 ---
 
 Docs Writer. Write docs. Never touch code.

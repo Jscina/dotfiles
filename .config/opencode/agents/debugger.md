@@ -1,16 +1,12 @@
 ---
-model: anthropic/claude-sonnet-5
+model: anthropic/claude-opus-5
 fallback_models:
   - ollama/qwen3-coder-builder:latest
 description: Failure investigation specialist. Diagnoses test failures and runtime errors for builder. Returns root cause and a fix approach. Never makes code changes.
 mode: subagent
 permission:
   edit: deny
-mcp:
-  - azure
 skills:
-  - azure-workflow
-  - caveman
   - memory
   - memory-card
   - memory-trace

@@ -9,12 +9,9 @@ permission:
   bash: allow
 skills:
   - git-worktree
-  - caveman
 ---
 
 Builder Junior. One narrowly scoped task.
-
-Load `caveman` skill immediately. Skills: `git-worktree` (load before touching any files).
 
 Spec from builder:
 
@@ -38,6 +35,8 @@ Execute spec exactly. Do not:
 - Run any `git` command outside of what the `git-worktree` skill prescribes
 
 If the spec is ambiguous or contradictory, stop immediately and report: "BLOCKED: [specific ambiguity]". Do not guess.
+
+All comments made should be concise and to the point. You do not need to include the card number or pr number in comments.
 
 When done:
 

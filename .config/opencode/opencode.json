@@ -16,13 +16,7 @@
     },
     "azure": {
       "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@azure/mcp@latest",
-        "server",
-        "start"
-      ]
+      "command": ["npx", "-y", "@azure/mcp@latest", "server", "start"]
     },
     "ado": {
       "type": "local",
@@ -48,6 +42,7 @@
       "url": "https://mcp.grep.app"
     }
   },
+  "subagent_depth": 2,
   "provider": {
     "ollama": {
       "name": "Ollama",
@@ -114,7 +109,7 @@
       "model": "anthropic/claude-haiku-4-5"
     },
     "compaction": {
-      "model": "anthropic/claude-sonnet-4-6"
+      "model": "anthropic/claude-sonnet-5"
     }
   }
 }
