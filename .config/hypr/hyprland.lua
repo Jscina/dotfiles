@@ -48,13 +48,23 @@ require("userprefs")
 require("windowrules")
 require("nvidia")
 
+hl.env("HYPRCURSOR_THEME", "McMojave-cursors")
+hl.env("HYPRCURSOR_SIZE", "36")
 hl.env("XCURSOR_THEME", "McMojave-cursors")
 hl.env("XCURSOR_SIZE", "36")
 
 hl.on("hyprland.start", function()
-	hl.exec_cmd("hyprctl setcursor McMojave-cursors 36")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'McMojave-cursors'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 36")
+	-- `hyprctl setcursor THEME SIZE` has a known bug: it silently no-ops
+	-- if SIZE is the same as whatever's already active, so the theme
+	-- doesn't actually reapply. It can also fire before the IPC socket is
+	-- fully up if called immediately on startup. hl.timer with a short
+	-- delay dodges both — set to a throwaway size first, then the real one.
+	hl.timer(function()
+		hl.exec_cmd("hyprctl setcursor McMojave-cursors 1")
+		hl.exec_cmd("hyprctl setcursor McMojave-cursors 36")
+		hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'McMojave-cursors'")
+		hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 36")
+	end, { timeout = 300, type = "oneshot" })
 
 	-- Icon theme + color scheme (GTK theme intentionally skipped)
 	hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'BeautyLine'")
