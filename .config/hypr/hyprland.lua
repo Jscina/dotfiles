@@ -48,35 +48,7 @@ require("userprefs")
 require("windowrules")
 require("nvidia")
 
-hl.env("HYPRCURSOR_THEME", "McMojave-cursors")
-hl.env("HYPRCURSOR_SIZE", "36")
-hl.env("XCURSOR_THEME", "McMojave-cursors")
-hl.env("XCURSOR_SIZE", "36")
-
 hl.on("hyprland.start", function()
-	-- `hyprctl setcursor THEME SIZE` has a known bug: it silently no-ops
-	-- if SIZE is the same as whatever's already active, so the theme
-	-- doesn't actually reapply. It can also fire before the IPC socket is
-	-- fully up if called immediately on startup. hl.timer with a short
-	-- delay dodges both — set to a throwaway size first, then the real one.
-	hl.timer(function()
-		hl.exec_cmd("hyprctl setcursor McMojave-cursors 1")
-		hl.exec_cmd("hyprctl setcursor McMojave-cursors 36")
-		hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'McMojave-cursors'")
-		hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 36")
-	end, { timeout = 300, type = "oneshot" })
-
-	-- Icon theme + color scheme (GTK theme intentionally skipped)
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface icon-theme 'BeautyLine'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
-
-	-- Fonts
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface font-name 'SF Pro Text Regular 12'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface document-font-name 'SF Pro Text Regular 12'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface monospace-font-name 'SFMono 10'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'")
-	hl.exec_cmd("gsettings set org.gnome.desktop.interface font-hinting 'full'")
-
 	hl.exec_cmd("uwsm app -- kitty", { workspace = "1 silent" })
 	hl.exec_cmd("uwsm app -- zen-browser", { workspace = "2 silent" })
 	hl.exec_cmd("uwsm app -- steam", { workspace = "3 silent" })
