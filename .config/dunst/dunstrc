@@ -18,7 +18,7 @@ icon_theme = "Tela-circle-dracula,hicolor,Tela-circle-pink,Tela-circle-green,Tel
 
 # [Type-2]
 # appname = "HyDE Notify"
-# format = "<span size="250%">%s</span>\n%b"
+# format = "<span size='250%%'>%s</span>\n%b"
 
 [Type-1]
 appname = "HyDE Alert"
@@ -26,7 +26,7 @@ format = "<b>%s</b>"
 
 [Type-2]
 appname = "HyDE Notify"
-format = "<span size="250%">%s</span>\n%b"
+format = "<span size='250%%'>%s</span>\n%b"
 
 
 
@@ -110,7 +110,7 @@ new_icon = skype
 # [notification]
 # font = "mononoki Nerd Font"
 # font_size = 10
-font = Mononoki Nerd Font Mono Cantarell_SIZE,JetBrainsMono Nerd Font Cantarell_SIZE
+font = Cantarell Cantarell_SIZE,JetBrainsMono Nerd Font Cantarell_SIZE
 
 dmenu = /usr/bin/rofi -config notification -dmenu -p dunst:
 

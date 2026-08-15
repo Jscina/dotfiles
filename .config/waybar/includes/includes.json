@@ -45,6 +45,7 @@
         "/home/joshs/.local/share/waybar/modules/image#wallpaper.json",
         "/home/joshs/.local/share/waybar/modules/wlr-taskbar#windows.json",
         "/home/joshs/.local/share/waybar/modules/privacy.json",
+        "/home/joshs/.local/share/waybar/modules/user.json",
         "/home/joshs/.local/share/waybar/modules/tray.json",
         "/home/joshs/.local/share/waybar/modules/wlr-taskbar.json",
         "/home/joshs/.local/share/waybar/modules/wlr-taskbar#windows.jsonc",
@@ -85,6 +86,7 @@
         "/home/joshs/.local/share/waybar/modules/group-volumecontrol.jsonc",
         "/home/joshs/.local/share/waybar/modules/mpris.jsonc",
         "/home/joshs/.local/share/waybar/modules/custom-weather.jsonc",
+        "/home/joshs/.local/share/waybar/modules/group-user-menu.jsonc",
         "/home/joshs/.local/share/waybar/modules/battery.jsonc",
         "/home/joshs/.local/share/waybar/modules/network#bandwidth.jsonc",
         "/home/joshs/.local/share/waybar/modules/wlr-taskbar.jsonc",
@@ -128,5 +130,12 @@
         "icon-size": 16,
         "icon-size-multiplier": 1.6
     },
-    "position": "top"
+    "position": "top",
+    "user": {
+        "format": "",
+        "interval": 60,
+        "height": 20,
+        "width": 20,
+        "icon": true
+    }
 }
