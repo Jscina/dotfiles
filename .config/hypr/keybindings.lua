@@ -21,6 +21,7 @@ local terminal = "kitty"
 local editor = "nvim"
 local explorer = "dolphin"
 local browser = "zen-browser"
+local word_processor = "libreoffice --writer"
 local rofiLaunch = scrPath .. "/rofilaunch.sh"
 
 -------------------------------------
@@ -130,9 +131,10 @@ hl.bind(mainMod .. " + X", hl.dsp.window.resize(), { desc = "hold to resize wind
 ---- LAUNCHER: APPS -----------------
 -------------------------------------
 
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("uwsm app -- " .. terminal), { desc = "terminal emulator" })
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("uwsm app -- " .. explorer), { desc = "file explorer" })
-hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("uwsm app -- " .. browser), { desc = "web browser" })
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("app2unit -- " .. terminal), { desc = "terminal emulator" })
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("app2unit -- " .. explorer), { desc = "file explorer" })
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("app2unit -- " .. browser), { desc = "web browser" })
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("app2unit -- " .. word_processor), { desc = "word processor" })
 
 -------------------------------------
 ---- LAUNCHER: ROFI MENUS -----------
