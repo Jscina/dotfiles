@@ -94,6 +94,7 @@ export NODE_EXTRA_CA_CERTS="$HOME/.certs/ZscalerRootCA.pem"
 export SQLCMDENCRYPT=optional
 export SQLCMDTRUSTSERVERCERTIFICATE=1
 export SQLCMDOPTIONS="-C"
+export OPENCODE_EXPERIMENTAL_BASH_DEFAULT_TIMEOUT_MS=3600000
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 

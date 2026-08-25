@@ -5,6 +5,11 @@
     "@ex-machina/opencode-anthropic-auth",
     "/Users/jscina/.openagent-harness/harness.ts"
   ],
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000
+  },
   "mcp": {
     "github": {
       "type": "remote",
@@ -16,7 +21,13 @@
     },
     "azure": {
       "type": "local",
-      "command": ["npx", "-y", "@azure/mcp@latest", "server", "start"]
+      "command": [
+        "npx",
+        "-y",
+        "@azure/mcp@latest",
+        "server",
+        "start"
+      ]
     },
     "ado": {
       "type": "local",
