@@ -1,7 +1,6 @@
 ---
-model: openai/gpt-5.6-luna-fast
+model: anthropic/claude-haiku-4-5
 fallback_models:
-  - anthropic/claude-haiku-4-5
   - ollama/qwen3-coder-builder:latest
 description: Read-only codebase reconnaissance. Maps files, traces call chains, identifies interfaces and patterns. Never modifies anything.
 mode: subagent
