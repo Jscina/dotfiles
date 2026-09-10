@@ -1,7 +1,7 @@
 ---
 model: anthropic/claude-sonnet-5
 fallback_models:
-  - openai/gpt-5.4-fast
+  - openai/gpt-5.6-sol
 description:
   Primary entry point. Classifies requests, drives the plan-review-approve-execute
   pipeline for coding tasks, answers questions directly.

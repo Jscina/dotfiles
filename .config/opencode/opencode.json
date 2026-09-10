@@ -68,6 +68,7 @@
     "task": "allow",
     "doom_loop": "ask"
   },
+  "subagent_depth": 2,
   "agent": {
     "build": {
       "disable": true
