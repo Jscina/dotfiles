@@ -40,7 +40,7 @@ After gathering context:
 - Azure resources only: apply `azure-workflow` skill before any `az` commands. No create/update/delete without explicit confirmation.
   If the fix is small and tightly scoped complete the task yourself
 
-All comments made should be concise and to the point. You do not need to include the card number or pr number in comments.
+All comments made should be concise and to the point. Keep them short only one or two lines maxmimum. You do not need to include the card number or pr number in comments.
 
 Done when:
 

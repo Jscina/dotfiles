@@ -36,7 +36,7 @@ Execute spec exactly. Do not:
 
 If the spec is ambiguous or contradictory, stop immediately and report: "BLOCKED: [specific ambiguity]". Do not guess.
 
-All comments made should be concise and to the point. You do not need to include the card number or pr number in comments.
+All comments made should be concise and to the point. Keep them short only one or two lines maxmimum. You do not need to include the card number or pr number in comments.
 
 When done:
 

@@ -16,6 +16,7 @@ Personal dotfiles for a macOS development environment. Manages shell, terminal, 
 | GitHub CLI | gh | `.config/gh/` |
 | Azure Tooling | azp | `.config/azp/` |
 | SSH | OpenSSH | `.ssh/config` |
+| Container Runtime | Colima | `.ssh/config` |
 
 ## Shell (`.zshrc`)
 
@@ -194,6 +195,42 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 - Includes Colima SSH config (for container runtime)
 - Auto-adds keys to agent on all hosts
 
+## Colima (Container Runtime)
+
+[Colima](https://github.com/abiosoft/colima) runs Docker locally without Docker Desktop.
+
+**Install:**
+```bash
+brew install colima docker docker-compose docker-buildx
+```
+
+**Start** (reproduces this machine's profile):
+```bash
+colima start --cpus 4 --memory 8 --disk 100 --arch aarch64 --vm-type vz --vz-rosetta --mount-type virtiofs
+```
+
+**Profile** (`~/.colima/default/colima.yaml`, local to the machine &mdash; not tracked in this repo):
+- **CPU:** 4
+- **Memory:** 8 GiB
+- **Disk:** 100 GiB
+- **Arch:** aarch64 (native Apple Silicon)
+- **VM type:** `vz` (Apple Virtualization Framework)
+- **Mount type:** `virtiofs`
+- **Rosetta:** enabled, for running x86_64 images
+
+**Integration:**
+- `.ssh/config` &mdash; auto-includes Colima's generated SSH config
+- Docker CLI, Compose, and Buildx target the Colima socket automatically (no `DOCKER_HOST` override needed)
+- `lzd` alias &mdash; opens [lazydocker](https://github.com/jesseduffield/lazydocker) against the Colima runtime
+
+**Commands:**
+| Command | Action |
+|---|---|
+| `colima status` | Check VM state |
+| `colima stop` | Stop the VM |
+| `colima ssh` | Shell into the VM |
+| `colima delete` | Destroy the VM (required before changing arch, VM type, or mount type) |
+
 ## Gitignored / Secrets
 
 The following are tracked locally but excluded from the repo:
@@ -218,4 +255,5 @@ This setup assumes the following are installed:
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
 - [fzf](https://github.com/junegunn/fzf)
 - [nvm](https://github.com/nvm-sh/nvm), [pyenv](https://github.com/pyenv/pyenv), [Rust/Cargo](https://rustup.rs/), [Bun](https://bun.sh/)
+- [colima](https://github.com/abiosoft/colima) + [docker](https://docs.docker.com/engine/reference/commandline/cli/), [docker-compose](https://github.com/docker/compose), [docker-buildx](https://github.com/docker/buildx)
 - [lazygit](https://github.com/jesseduffield/lazygit), [lazydocker](https://github.com/jesseduffield/lazydocker)

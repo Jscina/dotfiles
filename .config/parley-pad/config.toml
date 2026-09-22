@@ -1,5 +1,11 @@
 whisper_model_path = "/Users/jscina/.local/share/whisper/ggml-base.en.bin"
 
+[legal]
+# ParleyPad does not record without user action. You are responsible for
+# complying with all applicible recording laws in your jurisdiction.
+# Set to true to confirm you understand this before the app will run.
+i_accept_recording_responsibility = true
+
 [llm]
 # Can be either "ollama" or "azure"
 backend = "ollama"
@@ -56,6 +62,36 @@ ollama_url = "http://127.0.0.1:11434"
 [output]
 # Folder for raw recordings (e.g., .wav)
 recordings_dir = "~/ParleyPad/recordings"
-
+# Set true to include verbatim 
+include_transcript = false
 # Folder for summarized notes (.md)
 notes_dir = "~/Documents/notes/ConnectPlus/meetings/"
+
+# Speaker Diarization (optional)
+# When enabled, ParleyPad automatically installs a Python + diarize environment at app startup
+# (into ~/Library/Application Support/ParleyPad/pyembed/), no terminal required.
+# This is a one-time ~853MB download of python-build-standalone + torch/scipy/onnxruntime.
+# Alternatively, run `bash scripts/setup_pyembed.sh` manually for fast dev-cycle iteration.
+[diarization]
+# Set to true to enable speaker diarization after transcription
+enabled = true
+# Number of speakers to detect (0 = auto-detect)
+num_speakers = 0
+# Path to Python installation root (empty = auto-install at ~/Library/Application Support/ParleyPad/pyembed/python)
+python_home = ""
+# Path to diarize_worker.py (empty = auto-resolve from bundle or auto-install location)
+worker_script = ""
+# When true (default) and python_home is empty, download and install Python at app startup.
+# Set to false to skip auto-install and manage Python yourself (e.g. via scripts/setup_pyembed.sh or Conda).
+auto_install = true
+
+[app_monitoring]
+enabled = true
+check_interval_secs = 3 # How often to check for calls
+debounce_start_secs = 6 # Seconds to wait before auto-starting
+debounce_stop_secs = 15 # Seconds to wait before auto-stopping
+apps = [
+  "com.microsoft.teams2",
+  "com.microsoft.teams",
+  "com.tinyspeck.slackmacgap",
+]
