@@ -204,6 +204,13 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 brew install colima docker docker-compose docker-buildx
 ```
 
+**Link as CLI plugins** (Homebrew doesn't do this automatically, so `docker compose`/`docker buildx` won't work as subcommands without it):
+```bash
+mkdir -p ~/.docker/cli-plugins
+ln -sfn "$(brew --prefix docker-compose)/bin/docker-compose" ~/.docker/cli-plugins/docker-compose
+ln -sfn "$(brew --prefix docker-buildx)/bin/docker-buildx" ~/.docker/cli-plugins/docker-buildx
+```
+
 **Start** (reproduces this machine's profile):
 ```bash
 colima start --cpus 4 --memory 8 --disk 100 --arch aarch64 --vm-type vz --vz-rosetta --mount-type virtiofs
