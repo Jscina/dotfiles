@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-sonnet-5
+model: anthropic/claude-sonnet-5-5
 fallback_models:
   - openai/gpt-5.4-fast
 description:
