@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-opus-5
+model: anthropic/claude-opus-5-5
 fallback_models:
   - openai/gpt-6-astra
 description: Receives a raw task, gathers context from explorer and researcher in parallel, then produces a machine-readable DAG of subtasks.
