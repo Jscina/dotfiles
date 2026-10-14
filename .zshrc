@@ -119,12 +119,18 @@ alias lzd="lazydocker"
 # Secrets (gitignored)
 [[ -f "$HOME/.secrets" ]] && source "$HOME/.secrets"
 
+# Convenience only; bypassable (`command opencode`, /opt/homebrew/bin/opencode).
+# Real guarantee: the nvim plugin and launcher always use srt, and the launcher
+# refuses to start while an unsandboxed opencode exists.
 opencode() {
-  if [[ -z $NVIM ]]; then
+  if [[ $OPENCODE_SANDBOXED == 1 && $SANDBOX_RUNTIME == 1 ]]; then
+    command opencode "$@"
+  elif [[ -z $NVIM ]]; then
     echo "Nope. Open it from Neovim, champ"
-    return =
+    return 1
+  else
+    "$HOME/dotfiles/bin/opencode-sandboxed" "$@"
   fi
-  command opencode "$@"
 }
 
 . "$HOME/.cargo/env"

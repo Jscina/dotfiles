@@ -9,7 +9,13 @@ return {
   config = function()
     ---@type opencode.Opts
     vim.g.opencode_opts = {
-      -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
+      server = {
+        -- Same as the plugin default, but via the srt sandbox launcher (no unsandboxed fallback).
+        start = function()
+          local launcher = vim.fn.fnameescape(vim.fn.expand("~/dotfiles/bin/opencode-sandboxed"))
+          vim.cmd("vsplit term://" .. launcher .. " | wincmd p")
+        end,
+      },
     }
     -- Required for `opts.events.reload`.
     vim.o.autoread = true
