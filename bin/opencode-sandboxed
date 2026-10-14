@@ -1,0 +1,99 @@
+#!/bin/sh
+# opencode-sandboxed: run opencode inside the Anthropic sandbox-runtime (srt,
+# macOS Seatbelt). Layer 2 of the opencode hardening; details and known gaps
+# in /Users/jscina/dotfiles/.config/srt/README.md.
+#
+# Threat model: a well-meaning (or mistaken) agent must not read credentials
+# (~/.azure, ssh keys, shell history), edit its own config/launcher/sandbox
+# settings, write outside the project areas, or reach hosts outside the
+# allowlist. It does NOT defend against a deliberately malicious agent.
+#
+# Fail closed: if srt, opencode, or the settings file is missing, or an
+# unsandboxed opencode is already running, this exits non-zero. There is no
+# unsandboxed fallback and no override variable.
+#
+# Usage (e.g. from opencode.nvim): opencode-sandboxed [opencode args...]
+
+set -u
+
+OPENCODE_BIN=/opt/homebrew/bin/opencode
+SETTINGS="$HOME/dotfiles/.config/srt/opencode.json"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/opencode"
+
+die() { printf 'opencode-sandboxed: %s\n' "$*" >&2; exit 1; }
+
+[ -x "$OPENCODE_BIN" ] || die "opencode not found at $OPENCODE_BIN"
+
+# Nested call from inside the sandbox: already confined, run opencode directly.
+# Both markers are required so a stray exported OPENCODE_SANDBOXED=1 in an
+# unsandboxed shell cannot bypass the sandbox.
+if [ "${OPENCODE_SANDBOXED:-}" = 1 ] && [ "${SANDBOX_RUNTIME:-}" = 1 ]; then
+  exec "$OPENCODE_BIN" "$@"
+fi
+
+[ -r "$SETTINGS" ] || die "srt settings not found: $SETTINGS"
+
+# Resolve srt. Prefer the newest nvm-installed copy (not writable from inside
+# the sandbox), then PATH. srt is a node script, so its bin dir goes on PATH.
+SRT=
+for d in $(ls -1d "$HOME"/.nvm/versions/node/v* 2>/dev/null | sort -t. -k1.2,1n -k2,2n -k3,3n -r); do
+  if [ -x "$d/bin/srt" ]; then SRT="$d/bin/srt"; break; fi
+done
+[ -n "$SRT" ] || SRT=$(command -v srt 2>/dev/null || true)
+[ -n "$SRT" ] && [ -x "$SRT" ] || die "srt not found; run: npm install -g @anthropic-ai/sandbox-runtime"
+PATH="$(dirname "$SRT"):$PATH"
+export PATH
+command -v node >/dev/null 2>&1 || die "node not found on PATH (srt needs it)"
+
+# Stale/unsandboxed guard: never run alongside an opencode that is not under
+# srt (its tools would be unconfined and the nvim plugin could attach to it).
+# Never kills anything; only reports. Skipped for --version/--help.
+case "${1:-}" in
+  -v|--version|-h|--help) ;;
+  *)
+    candidates=$(ps -axo pid=,command= 2>/dev/null | awk -v me="$$" '
+      { n = split($2, p, "/"); if (p[n] == "opencode" && $1 != me) print $1 }')
+    svc_pid=$(sed -n 's/.*"pid"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$STATE_DIR/service.json" 2>/dev/null | head -n 1)
+    [ -n "$svc_pid" ] && candidates="$candidates
+$svc_pid"
+    offenders=
+    for pid in $(printf '%s\n' "$candidates" | sort -u); do
+      [ "$pid" = "$$" ] && continue
+      kill -0 "$pid" 2>/dev/null || continue
+      # Fail closed: if the environment cannot be read, treat as unsandboxed.
+      if ! ps eww -p "$pid" -o command= 2>/dev/null | grep -Eq '(^|[[:space:]])OPENCODE_SANDBOXED=1([[:space:]]|$)'; then
+        offenders="$offenders $pid"
+      fi
+    done
+    if [ -n "$offenders" ]; then
+      printf 'opencode-sandboxed: refusing to start: unsandboxed opencode process(es) running, PID(s):%s\n' "$offenders" >&2
+      printf 'Stop them yourself (e.g. kill <pid>), then retry. Nothing was killed.\n' >&2
+      exit 1
+    fi
+    ;;
+esac
+
+# Environment for the sandboxed tree.
+OPENCODE_SANDBOXED=1
+export OPENCODE_SANDBOXED
+: "${NODE_EXTRA_CA_CERTS:=$HOME/.certs/ZscalerRootCA.pem}"
+export NODE_EXTRA_CA_CERTS
+export NODE_USE_ENV_PROXY=1   # node >= 24: make fetch() honor srt's proxy env
+
+mkdir -p /tmp/claude/gradle-daemon || die "cannot create /tmp/claude/gradle-daemon"
+
+# Append (never clobber) JVM flags. srt itself prepends its -javaagent proxy
+# agent to whatever is here, so the two coexist.
+JTO_ADD="-Djava.net.preferIPv4Stack=true -Djava.io.tmpdir=/tmp/claude -Dorg.gradle.daemon.registry.base=/tmp/claude/gradle-daemon"
+case " ${JAVA_TOOL_OPTIONS:-} " in
+  *" $JTO_ADD "*) ;;
+  *) JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:+$JAVA_TOOL_OPTIONS }$JTO_ADD" ;;
+esac
+export JAVA_TOOL_OPTIONS
+
+# srt sets NO_PROXY to include RFC1918 ranges, which would make curl/JVM dial
+# the internal Artifactory (10.161.92.100) directly and be blocked. Narrow it
+# to loopback so it goes through the srt proxy allowlist instead.
+exec "$SRT" --settings "$SETTINGS" -- /bin/sh -c \
+  'NO_PROXY=localhost,127.0.0.1,::1; no_proxy=$NO_PROXY; export NO_PROXY no_proxy; exec "$@"' \
+  opencode-sandboxed "$OPENCODE_BIN" "$@"

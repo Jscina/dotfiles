@@ -1,0 +1,81 @@
+{
+  "network": {
+    "allowedDomains": [
+      "github.com",
+      "api.github.com",
+      "*.githubusercontent.com",
+      "api.githubcopilot.com",
+      "api.anthropic.com",
+      "console.anthropic.com",
+      "claude.ai",
+      "models.dev",
+      "opencode.ai",
+      "registry.npmjs.org",
+      "mcp.exa.ai",
+      "mcp.context7.com",
+      "mcp.grep.app",
+      "dev.azure.com",
+      "*.dev.azure.com",
+      "*.visualstudio.com",
+      "login.microsoftonline.com",
+      "management.azure.com",
+      "services.gradle.org",
+      "downloads.gradle.org",
+      "plugins.gradle.org",
+      "plugins-artifacts.gradle.org",
+      "repo.maven.apache.org",
+      "repo1.maven.org",
+      "jitpack.io",
+      "repo.spring.io",
+      "jaspersoft.jfrog.io",
+      "sonarcloud.io",
+      "maven-repo.eastus.cloudapp.azure.com",
+      "www.datanucleus.org",
+      "10.161.92.100"
+    ],
+    "deniedDomains": [],
+    "allowLocalBinding": true
+  },
+  "filesystem": {
+    "denyRead": [
+      "~/.azure",
+      "~/.gradle/daemon",
+      "~/.zsh_history",
+      "~/.zsh_sessions",
+      "~/.bash_history",
+      "~/.secrets",
+      "~/.ssh",
+      "/Users/jscina/dotfiles/.secrets",
+      "/Users/jscina/dotfiles/.ssh",
+      "~/.config/gh/hosts.yml",
+      "/Users/jscina/dotfiles/.config/gh/hosts.yml"
+    ],
+    "allowWrite": [
+      "~/repos",
+      "~/dotfiles",
+      "~/.gradle",
+      "/tmp/claude",
+      "/private/tmp/claude",
+      "/private/var/folders/7j/r919xps50yqbwz3g7ccqpdqw0000gn/T",
+      "~/.local/state/opencode",
+      "~/.local/share/opencode",
+      "~/.cache/opencode",
+      "~/.npm",
+      "~/.bun"
+    ],
+    "denyWrite": [
+      "/Users/jscina/dotfiles/.config/opencode/opencode.json",
+      "/Users/jscina/dotfiles/.config/opencode/agents",
+      "/Users/jscina/dotfiles/.config/opencode/skills",
+      "/Users/jscina/dotfiles/.config/srt",
+      "/Users/jscina/dotfiles/bin",
+      "/Users/jscina/dotfiles/.zshrc",
+      "/Users/jscina/dotfiles/.config/nvim/lua/plugins/opencode.lua",
+      "/Users/jscina/dotfiles/.ssh",
+      "/Users/jscina/dotfiles/.secrets",
+      "**/.mcp.json",
+      "**/opencode.json"
+    ]
+  },
+  "allowPty": true
+}
