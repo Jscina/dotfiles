@@ -1,4 +1,7 @@
 #!/bin/sh
+# Trusted PATH before ANY command: never resolve tools via the caller's PATH.
+PATH=/usr/bin:/bin:/usr/sbin:/sbin; export PATH
+
 # opencode-sandboxed: run opencode inside the Anthropic sandbox-runtime (srt,
 # macOS Seatbelt). Layer 2 of the opencode hardening; details and known gaps
 # in /Users/jscina/dotfiles/.config/srt/README.md.
@@ -18,52 +21,89 @@ set -u
 
 OPENCODE_BIN=/opt/homebrew/bin/opencode
 SETTINGS="$HOME/dotfiles/.config/srt/opencode.json"
+LAUNCHER="$HOME/dotfiles/bin/opencode-sandboxed"
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/opencode"
+TMP_BASE=/tmp/claude
 
 die() { printf 'opencode-sandboxed: %s\n' "$*" >&2; exit 1; }
 
 [ -x "$OPENCODE_BIN" ] || die "opencode not found at $OPENCODE_BIN"
 
 # Nested call from inside the sandbox: already confined, run opencode directly.
-# Both markers are required so a stray exported OPENCODE_SANDBOXED=1 in an
-# unsandboxed shell cannot bypass the sandbox.
+# Both markers are required, and are then verified with real open() attempts on
+# paths srt denies (access()/test -r and even test -e are unreliable here:
+# Seatbelt hides denied files). A stray exported marker pair in an unsandboxed
+# shell therefore cannot bypass the sandbox.
 if [ "${OPENCODE_SANDBOXED:-}" = 1 ] && [ "${SANDBOX_RUNTIME:-}" = 1 ]; then
+  # Write probe: this file is in srt denyWrite and must exist. Append-open
+  # modifies nothing; if it succeeds we are not sandboxed.
+  [ -f "$LAUNCHER" ] || die "cannot verify sandbox: $LAUNCHER missing"
+  if (exec 3>>"$LAUNCHER") 2>/dev/null; then
+    die "markers set but not sandboxed (launcher is writable)"
+  fi
+  # Read probe: srt denyRead files; only meaningful where the file exists.
+  for f in "$HOME/.zsh_history" "$HOME/.secrets"; do
+    if [ -e "$f" ] && (exec 3<"$f") 2>/dev/null; then
+      die "markers set but not sandboxed ($f is readable)"
+    fi
+  done
   exec "$OPENCODE_BIN" "$@"
 fi
 
 [ -r "$SETTINGS" ] || die "srt settings not found: $SETTINGS"
 
-# Resolve srt. Prefer the newest nvm-installed copy (not writable from inside
-# the sandbox), then PATH. srt is a node script, so its bin dir goes on PATH.
-SRT=
-for d in $(ls -1d "$HOME"/.nvm/versions/node/v* 2>/dev/null | sort -t. -k1.2,1n -k2,2n -k3,3n -r); do
-  if [ -x "$d/bin/srt" ]; then SRT="$d/bin/srt"; break; fi
+# Resolve srt ONLY from nvm (not writable from inside the sandbox): newest node
+# by version sort (-V), major >= 24 (NODE_USE_ENV_PROXY), with bin/srt present.
+found=
+NODE_BIN=
+for v in $(for d in "$HOME"/.nvm/versions/node/v*; do [ -d "$d" ] && printf '%s\n' "${d##*/}"; done | /usr/bin/sort -V -r); do
+  found="$found $v"
+  major=${v#v}; major=${major%%.*}
+  case "$major" in ''|*[!0-9]*) continue ;; esac
+  [ "$major" -ge 24 ] || continue
+  d="$HOME/.nvm/versions/node/$v/bin"
+  if [ -x "$d/srt" ] && [ -x "$d/node" ]; then NODE_BIN="$d"; break; fi
 done
-[ -n "$SRT" ] || SRT=$(command -v srt 2>/dev/null || true)
-[ -n "$SRT" ] && [ -x "$SRT" ] || die "srt not found; run: npm install -g @anthropic-ai/sandbox-runtime"
-PATH="$(dirname "$SRT"):$PATH"
-export PATH
-command -v node >/dev/null 2>&1 || die "node not found on PATH (srt needs it)"
+[ -n "$NODE_BIN" ] || die "no nvm node >= 24 with srt (found:${found:- none}); run: nvm install 24 && npm install -g @anthropic-ai/sandbox-runtime"
+SRT="$NODE_BIN/srt"
 
 # Stale/unsandboxed guard: never run alongside an opencode that is not under
 # srt (its tools would be unconfined and the nvim plugin could attach to it).
 # Never kills anything; only reports. Skipped for --version/--help.
+# A server counts as sandboxed only if its environment has both markers AND an
+# ancestor is the srt node process (sandbox-exec execs into its child, so it
+# never stays in the process tree itself).
+via_srt() {
+  p=$1; n=0
+  while [ "$n" -lt 64 ]; do
+    p=$(/bin/ps -o ppid= -p "$p" 2>/dev/null | /usr/bin/tr -d ' ')
+    case "$p" in ''|*[!0-9]*) return 1 ;; esac
+    [ "$p" -gt 1 ] || return 1
+    case "$(/bin/ps -o args= -p "$p" 2>/dev/null)" in
+      *"$SRT --settings "*) return 0 ;;
+    esac
+    n=$((n + 1))
+  done
+  return 1
+}
 case "${1:-}" in
   -v|--version|-h|--help) ;;
   *)
-    candidates=$(ps -axo pid=,command= 2>/dev/null | awk -v me="$$" '
+    candidates=$(/bin/ps -axo pid=,command= 2>/dev/null | /usr/bin/awk -v me="$$" '
       { n = split($2, p, "/"); if (p[n] == "opencode" && $1 != me) print $1 }')
-    svc_pid=$(sed -n 's/.*"pid"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$STATE_DIR/service.json" 2>/dev/null | head -n 1)
+    svc_pid=$(/usr/bin/sed -n 's/.*"pid"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$STATE_DIR/service.json" 2>/dev/null | /usr/bin/head -n 1)
     [ -n "$svc_pid" ] && candidates="$candidates
 $svc_pid"
     offenders=
-    for pid in $(printf '%s\n' "$candidates" | sort -u); do
+    for pid in $(printf '%s\n' "$candidates" | /usr/bin/sort -u); do
       [ "$pid" = "$$" ] && continue
       kill -0 "$pid" 2>/dev/null || continue
       # Fail closed: if the environment cannot be read, treat as unsandboxed.
-      if ! ps eww -p "$pid" -o command= 2>/dev/null | grep -Eq '(^|[[:space:]])OPENCODE_SANDBOXED=1([[:space:]]|$)'; then
-        offenders="$offenders $pid"
-      fi
+      penv=$(/bin/ps eww -p "$pid" -o command= 2>/dev/null)
+      ok=1
+      printf '%s\n' "$penv" | /usr/bin/grep -Eq '(^|[[:space:]])OPENCODE_SANDBOXED=1([[:space:]]|$)' || ok=0
+      printf '%s\n' "$penv" | /usr/bin/grep -Eq '(^|[[:space:]])SANDBOX_RUNTIME=1([[:space:]]|$)' || ok=0
+      [ "$ok" = 1 ] && via_srt "$pid" || offenders="$offenders $pid"
     done
     if [ -n "$offenders" ]; then
       printf 'opencode-sandboxed: refusing to start: unsandboxed opencode process(es) running, PID(s):%s\n' "$offenders" >&2
@@ -73,6 +113,34 @@ $svc_pid"
     ;;
 esac
 
+# Scrub secrets from the environment handed to the sandbox. Unset every name
+# exported by ~/.secrets plus anything that looks like a credential, except
+# what opencode itself needs. (srt credentials.envVars masking would be nicer
+# but needs TLS termination; not used.)
+KEEP=" GITHUB_MCP_TOKEN ADO_ORG ADO_MCP_AUTH_TOKEN "
+secret_names=
+if [ -r "$HOME/.secrets" ]; then
+  secret_names=$(/usr/bin/sed -n -E 's/^[[:space:]]*(export[[:space:]]+)?([A-Za-z_][A-Za-z0-9_]*)=.*/\2/p' "$HOME/.secrets")
+fi
+env_names=$(/usr/bin/env | /usr/bin/cut -d= -f1 | /usr/bin/grep -E '^[A-Za-z_][A-Za-z0-9_]*$')
+scrub() {
+  case "$KEEP" in *" $1 "*) return 0 ;; esac
+  case "$1" in PATH|HOME|USER|LOGNAME|SHELL|PWD|TMPDIR|TERM) return 0 ;; esac
+  unset "$1"
+}
+for name in $secret_names; do scrub "$name"; done
+for name in $env_names; do
+  case "$name" in
+    *TOKEN*|*SECRET*|*PASSWORD*|*_PAT|*API_KEY*|*_KEY|*CREDENTIAL*|AZURE_CLIENT_*|AZURE_TENANT_ID|AZURE_USERNAME|AZURE_FEDERATED_*) scrub "$name" ;;
+  esac
+done
+
+# Explicit PATH for everything inside the sandbox (never the caller's PATH).
+# ~/.cargo/bin and ~/.local/bin are not in srt allowWrite, so safe to include.
+# ~/.bun/bin is deliberately omitted (opencode bundles its own bun).
+PATH="$NODE_BIN:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.cargo/bin:$HOME/.local/bin"
+export PATH
+
 # Environment for the sandboxed tree.
 OPENCODE_SANDBOXED=1
 export OPENCODE_SANDBOXED
@@ -80,11 +148,29 @@ export OPENCODE_SANDBOXED
 export NODE_EXTRA_CA_CERTS
 export NODE_USE_ENV_PROXY=1   # node >= 24: make fetch() honor srt's proxy env
 
-mkdir -p /tmp/claude/gradle-daemon || die "cannot create /tmp/claude/gradle-daemon"
+# Private scratch dir: must be a real dir we own (no symlink pre-planting).
+check_dir() {
+  [ ! -L "$1" ] || die "$1 is a symlink"
+  [ -d "$1" ] || die "$1 is not a directory"
+  [ "$(/usr/bin/stat -f '%u' "$1")" = "$(/usr/bin/id -u)" ] || die "$1 not owned by current user"
+}
+/bin/mkdir -p "$TMP_BASE" || die "cannot create $TMP_BASE"
+check_dir "$TMP_BASE"
+/bin/chmod 700 "$TMP_BASE" || die "cannot chmod $TMP_BASE"
+for sub in gradle-daemon npm-cache bun-cache; do
+  /bin/mkdir -p "$TMP_BASE/$sub" || die "cannot create $TMP_BASE/$sub"
+  check_dir "$TMP_BASE/$sub"
+done
+[ "$(/usr/bin/stat -f '%Lp' "$TMP_BASE")" = 700 ] || die "$TMP_BASE mode is not 700"
+
+# ~/.npm and ~/.bun are not writable in the sandbox; redirect caches.
+npm_config_cache="$TMP_BASE/npm-cache"
+BUN_INSTALL_CACHE_DIR="$TMP_BASE/bun-cache"
+export npm_config_cache BUN_INSTALL_CACHE_DIR
 
 # Append (never clobber) JVM flags. srt itself prepends its -javaagent proxy
 # agent to whatever is here, so the two coexist.
-JTO_ADD="-Djava.net.preferIPv4Stack=true -Djava.io.tmpdir=/tmp/claude -Dorg.gradle.daemon.registry.base=/tmp/claude/gradle-daemon"
+JTO_ADD="-Djava.net.preferIPv4Stack=true -Djava.io.tmpdir=$TMP_BASE -Dorg.gradle.daemon.registry.base=$TMP_BASE/gradle-daemon"
 case " ${JAVA_TOOL_OPTIONS:-} " in
   *" $JTO_ADD "*) ;;
   *) JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:+$JAVA_TOOL_OPTIONS }$JTO_ADD" ;;
@@ -94,6 +180,6 @@ export JAVA_TOOL_OPTIONS
 # srt sets NO_PROXY to include RFC1918 ranges, which would make curl/JVM dial
 # the internal Artifactory (10.161.92.100) directly and be blocked. Narrow it
 # to loopback so it goes through the srt proxy allowlist instead.
-exec "$SRT" --settings "$SETTINGS" -- /bin/sh -c \
+exec "$NODE_BIN/node" "$SRT" --settings "$SETTINGS" -- /bin/sh -c \
   'NO_PROXY=localhost,127.0.0.1,::1; no_proxy=$NO_PROXY; export NO_PROXY no_proxy; exec "$@"' \
   opencode-sandboxed "$OPENCODE_BIN" "$@"
