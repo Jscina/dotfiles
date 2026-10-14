@@ -47,11 +47,14 @@
       "command": [
         "npx",
         "-y",
-        "@azure-devops/mcp@next",
+        "@azure-devops/mcp@2.10.0",
         "{env:ADO_ORG}",
         "--authentication",
         "envvar"
-      ]
+      ],
+      "environment": {
+        "NODE_OPTIONS": "--require=/Users/jscina/dotfiles/.config/srt/mcp-ado-preload.cjs"
+      }
     },
     "websearch": {
       "type": "remote",
