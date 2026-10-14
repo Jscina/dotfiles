@@ -2,6 +2,8 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
+require("config.diagnostics") -- :DiagStats / :DiagPurge + jdtls diagnostics filter
+
 -- Large Java buffers: trim jdtls-driven per-keystroke work (threshold: vim.g.java_bigfile_lines).
 -- Treesitter highlighting is intentionally left on.
 vim.api.nvim_create_autocmd("LspAttach", {

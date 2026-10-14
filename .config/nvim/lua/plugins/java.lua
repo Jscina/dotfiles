@@ -36,6 +36,15 @@ return {
       -- Run manually when needed: :lua require('jdtls.dap').setup_dap_main_class_configs()
       dap_main = false,
       test = true,
+      -- Merged into the jdtls start_or_attach config (jdtls client only). Drops diagnostics for
+      -- unloaded files so neovim doesn't bufadd() thousands of buffers.
+      jdtls = {
+        handlers = {
+          ["textDocument/publishDiagnostics"] = function(...)
+            return require("config.diagnostics").jdtls_publish_diagnostics_filter(...)
+          end,
+        },
+      },
       root_dir = function(fname)
         local root = vim.fs.root(fname, vim.lsp.config.jdtls.root_markers)
         if root then
