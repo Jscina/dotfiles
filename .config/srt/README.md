@@ -38,40 +38,41 @@ User calls <leader>oa in nvim
   ↓
 nvim plugin (opencode.lua) calls ~/dotfiles/bin/opencode-sandboxed
   ↓
-Launcher resolves srt (newest nvm node)
+Launcher checks for unsandboxed opencode processes (fail-closed if any running)
   ↓
-Launcher detects OPENCODE_SANDBOXED=1 and SANDBOX_RUNTIME=1
+Launcher resolves srt (newest nvm >= 24 with @anthropic-ai/sandbox-runtime)
   ↓
-Launcher execs: srt --settings ~/.config/srt/opencode.json -- opencode
+Launcher execs: srt --settings ~/dotfiles/.config/srt/opencode.json -- opencode
   ↓
-OpenCode runs under Seatbelt + permission rules
+OpenCode runs under Seatbelt + permission rules with scrubbed environment
 ```
 
-**Zsh wrapper**: The `opencode()` function in `.zshrc` (lines 125–134) is **convenience only**. It allows typing `opencode` from inside nvim or a nested sandbox without re-typing the full path. It is **not** a security guarantee; the nvim plugin always uses the launcher directly.
+**Nested calls:** The `opencode()` function in `.zshrc` (lines 125–147) detects `OPENCODE_SANDBOXED=1 && SANDBOX_RUNTIME=1` markers and verifies confinement with open() probes before calling opencode directly (no re-launch). This is convenience for nested shells inside the sandbox.
 
 ## Install
 
-1. **Global srt:** Install the sandbox runtime globally under nvm:
+1. **Global srt:** Install the sandbox runtime globally under nvm (Node >= 24 required for NODE_USE_ENV_PROXY):
    ```bash
+   nvm install 24
    npm install -g @anthropic-ai/sandbox-runtime
    ```
 
-2. **Launcher symlink:** Already present as `~/dotfiles/bin/opencode-sandboxed`. It is executable and protected from edits inside the sandbox.
+2. **Launcher:** Already present as `~/dotfiles/bin/opencode-sandboxed` (regular file, not a symlink). A symlink at `~/bin/opencode-sandboxed` may point to it for convenience. The launcher is protected from edits inside the sandbox.
 
 3. **Settings file:** `~/dotfiles/.config/srt/opencode.json` is locked from edits inside the sandbox.
 
 ## Network Allowlist
 
-The following domains are reachable from inside the sandbox:
+The following domains are reachable from inside the sandbox (from `.config/srt/opencode.json`):
 
 - **GitHub:** `github.com`, `api.github.com`, `*.githubusercontent.com`, `api.githubcopilot.com`
-- **Anthropic:** `api.anthropic.com`, `console.anthropic.com`, `platform.claude.com`, `models.dev`, `models.opencode.ai`
+- **Anthropic:** `api.anthropic.com`, `console.anthropic.com`, `platform.claude.com`, `models.dev`, `models.opencode.ai`, `opencode.ai`
 - **npm:** `registry.npmjs.org`
-- **MCP servers:** `mcp.exa.ai`, `mcp.context7.com`, `mcp.grep.app`, `context7.com` (library docs)
+- **MCP servers:** `mcp.exa.ai`, `mcp.context7.com`, `mcp.grep.app`
 - **Azure:** `dev.azure.com`, `*.dev.azure.com`, `*.visualstudio.com`, `login.microsoftonline.com`, `management.azure.com`
 - **Build tools:** `services.gradle.org`, `downloads.gradle.org`, `plugins.gradle.org`, `plugins-artifacts.gradle.org`, `repo.maven.apache.org`, `repo1.maven.org`, `jitpack.io`, `repo.spring.io`, `jaspersoft.jfrog.io`, `sonarcloud.io`, `maven-repo.eastus.cloudapp.azure.com`, `www.datanucleus.org`
 - **Internal:** `10.161.92.100` (internal Artifactory; VPN required to verify)
-- **Localhost:** `127.0.0.1::1` (MCP servers, Ollama)
+- **Localhost:** `127.0.0.1`, `::1` (loopback for local MCP servers, Ollama, debuggers)
 
 ### Adding a Domain
 
@@ -110,7 +111,8 @@ Can write to:
 - `~/.local/state/opencode` &mdash; Service state (register with nvim plugin)
 - `~/.local/share/opencode` &mdash; Session artifacts
 - `~/.cache/opencode` &mdash; Cache
-- `~/.npm`, `~/.bun` &mdash; Package manager caches
+
+**Note:** `~/.npm` and `~/.bun` are not writable inside the sandbox; caches are redirected to `/tmp/claude/npm-cache` and `/tmp/claude/bun-cache` (see launcher).
 
 ### Write-Protected Paths (Locked by srt)
 Cannot edit:
@@ -137,14 +139,16 @@ Most git operations work inside the sandbox (`add`, `commit`, `branch`, `checkou
 - `git remote add/set-url` (writes `.git/config`)
 - `git branch --set-upstream-to` (writes `.git/config`)
 - `git push -u` (upstream setup tries to write `.git/config`)
-- Plain `git pull` without an explicit upstream ref (fails without `.git/config` read)
+- `git push` (denied by OpenCode permission.bash rules, though srt itself allows the `.git/config` write needed for tracking)
+- Plain `git pull` without an explicit upstream ref (fails only if upstream is not recorded in `.git/config`; read access is allowed)
 
 ## Zscaler Proxy (TLS Inspection)
 
 The sandbox honors Zscaler's MITM TLS certificate chain:
 - Launcher exports `NODE_EXTRA_CA_CERTS=$HOME/.certs/ZscalerRootCA.pem` (line 147 of launcher)
 - This must exist; if missing, HTTPS traffic fails with certificate errors
-- srt's embedded Node.js and Java tools respect the same cert chain
+- NODE_EXTRA_CA_CERTS only affects Node.js and bun; the Java/JVM uses its own truststore (srt does not modify it)
+- srt tunnels TLS without terminating it; the JVM and gradle work inside the sandbox with the host's existing trust setup
 
 ## Gradle and JVM Configuration
 
@@ -183,13 +187,9 @@ The launcher checks:
 
 If any lack `OPENCODE_SANDBOXED=1` in their environment, the launcher refuses to start (fail-closed).
 
-## Unsandboxed Bypass is Possible but Requires File Edits
+## Stale/Unsandboxed Server Guard
 
-The `opencode()` function in `.zshrc` (lines 125–147) is **convenience only**. It allows typing `opencode` from inside nvim with the sandbox's markers already set. It is **not** a security guarantee because:
-1. You can run `command opencode` to bypass the zsh wrapper and call the unsandboxed binary directly
-2. The launcher itself **does enforce** sandbox use: it checks for unsandboxed opencode processes and refuses to start if any are running
-
-**Real guarantee:** The nvim plugin (`<leader>oa` keybind) always uses the launcher directly, which enforces srt. The launcher checks that no unsandboxed opencode processes exist and exits non-zero if they do. The zsh wrapper is only a convenience; if you need hard enforcement, use the launcher directly.
+The launcher guard requires **both** `OPENCODE_SANDBOXED=1` **and** `SANDBOX_RUNTIME=1` environment markers, **and** an srt process ancestor (check: `ps eww $$` shows `/srt --settings`). The markers alone are spoofable; the launcher verifies with real open() attempts on srt-denied files to confirm confinement. Nested calls from inside the sandbox are allowed (both markers already set and srt ancestry confirmed).
 
 ## nvim and CodeCompanion Run Outside the Sandbox
 
@@ -210,7 +210,7 @@ The nvim editor process itself and its CodeCompanion MCP client run **outside** 
 | get_diagnostics | ❌ | ❌ | ❌ |
 | ask_questions | ❌ | ❌ | ❌ |
 
-Disable run_command to prevent shell access (line 171 of codecompanion.lua). Auto mode respects `protect=true` for all tools. YOLO mode and "Always accept" bypass approvals.
+The run_command tool is already disabled (`enabled = false`) in codecompanion.lua (line 200). Auto mode respects `protect=true` for all tools. YOLO mode and "Always accept" bypass approvals.
 
 ## Editing Protected Files
 
@@ -272,21 +272,34 @@ After upgrading opencode, srt, or changing sandbox/launcher settings:
 
 9. **Service registration (opencode >= 2.x only):** The nvim plugin expects opencode to write `~/.local/state/opencode/service.json`. Current opencode 1.19.0 (Homebrew) does NOT write this file. Upgrade to opencode 2.x for plugin integration; until then, use the TUI.
 
-### Open Issues to Verify
+### Known Issues and Workarounds
 
-- **opencode 1.19.0 vs 2.x:** The installed Homebrew binary (1.19.0) does not write `service.json` and returns HTML from `/api/info`. The opencode.nvim plugin targets 2.x. **Implication:** nvim plugin keybinds (`<leader>oa`) cannot auto-connect to 1.19.0 regardless of the sandbox. For now, launch via the TUI (`<leader>oa` → terminal → `opencode-sandboxed`) or upgrade to 2.x.
+- **opencode 1.19.0 vs 2.x:** The installed Homebrew binary (1.19.0) does not write `service.json` and returns HTML from `/api/info`. The opencode.nvim plugin targets 2.x. **Workaround:** Launch opencode via the terminal (`:terminal opencode-sandboxed` inside nvim) and avoid the `<leader>oa` keymaps until opencode is upgraded to 2.x. Upgrade risk: the 2.x daemon's stale guard blocks launches if the daemon detaches or changes its binary path—re-verify the setup after upgrading.
 
-- **ADO MCP 407 proxy handling:** The mcp-ado-preload.cjs shim tries to inject proxy credentials for azure-devops/typed-rest-client. This has NOT been tested inside srt. **First-run check:** Query an ADO resource via the ado MCP server and watch for 407 Proxy Authentication Required errors.
+- **ADO MCP 407 proxy handling (FIXED):** Commit a77fbe2 pins `@azure-devops/mcp@2.10.0` and injects `NODE_OPTIONS=--require=/Users/jscina/dotfiles/.config/srt/mcp-ado-preload.cjs` (for proxy credential injection). **Verified:** `core_list_projects` returned 2 projects inside the sandbox. The first-run checklist includes an ADO check (MCP list verification step).
 
 - **Plain-IP Artifactory (10.161.92.100):** Listed in allowlist but never verified (VPN required). Re-test with VPN up if you use it.
 
-## Known Gaps (By Design)
+## Known Gaps and Open Decisions
 
-- `auth.json` and `mcp-auth.json` are readable inside sandbox (needed for OpenCode to function). Do not store secrets there.
-- `service.json` is writable from inside sandbox. The nvim plugin verifies that any registered server is sandboxed (checks markers, ancestor srt, loopback host, listening port); a forged entry is rejected. But an agent **could** write a fake entry and cause the plugin to show an error message. This is accepted.
+**Known gaps (by design):**
+- `auth.json`, `mcp-auth.json` under `~/.local/share/opencode` are readable inside sandbox (needed for OpenCode to function); do not store secrets there.
+- `service.json` is writable (by design). The nvim plugin verifies sandboxing (checks markers, ancestor srt, loopback host, listening port); a forged entry is rejected.
 - `.git/hooks` and `.git/config` are always protected by srt's Seatbelt, even if accidentally included in `allowWrite`.
 - OpenCode 1.19.0 does not support sandbox verification; service.json support requires 2.x.
-- Bash patterns in permission.bash (Layer 1, not srt) use best-effort matching. Example: `cat ~/.azure*` checks the literal string, not glob expansion. Agents can evade with variable substitution (`cat $HOME/.azure/config`), but srt's read-deny catches the actual file access.
+- Bash patterns in permission.bash (Layer 1, not srt) use best-effort matching. Agents can evade with variable substitution (e.g., `cat $HOME/.azure/config`), but srt's read-deny catches the actual file access.
+- `~/.gradle` is writable as an escape route: agent-written code run later unsandboxed could access build artifacts. Same risk accepted for `~/.gradle/gradle.properties` (readable and writable; only sets `org.gradle.java.home`; denying breaks builds).
+- `GITHUB_MCP_TOKEN`, `ADO_ORG`, `ADO_MCP_AUTH_TOKEN` are in the keep-list and visible to agent bash via `env`; env scrub is a denylist (URL-embedded credentials pass through).
+- `~/dotfiles` is writable, which includes scripts that run **outside** the sandbox (yabairc, skhdrc, .tmux.conf, ghostty/kanata configs, sketchybar plugins/items). SketchyBar re-runs scripts without user action—**unresolved decision:** deny writes to these paths, or accept the risk.
+- `.claude/{skills,commands,agents}` and `.agents/skills` under projects are writable (not covered by `.opencode` denies).
+- `.opencode/plans` and `.opencode/memory` are writable by design.
+- srt's `.git` Seatbelt protections cover only the launch directory; absolute denies cover `~/repos/**` and `~/dotfiles/**`. Gap: a `.git` pointer file (worktrees/submodules) or bare repo can point to config outside the pattern.
+- `opencode`'s permission layer's `bin/` protection in the dotfiles worktree relies on srt only (no Layer 1 rule).
+
+**Open decisions:**
+1. **Dotfiles scripts deny-or-accept:** sketchybar, yabai, skhd, tmux configs—deny writes, or accept the risk of agent-modified behavior.
+2. **Azure MCP authentication inside sandbox:** `~/.azure` is read-denied, `AZURE_*` credential vars are unset. Options: run read-only `@azure/mcp@latest` outside srt as a localhost HTTP remote MCP (caveat: with localhost open the agent can call it directly with curl and skip permission prompts), use a Reader-only service principal with a separate readable config dir, or disable the entry (`"enabled": false`).
+3. **opencode 2.x upgrade risk:** See Known Issues section.
 
 ---
 
@@ -343,19 +356,19 @@ echo "malicious" >> ~/.config/opencode/opencode.json
 
 ### 7. Protected Config Files Cannot Be Written
 ```bash
-echo "malicious" >> ~/.config/srt/opencode.json
+echo "malicious" >> /Users/jscina/dotfiles/.config/srt/opencode.json
 ```
 **Expected:** Denied by srt Seatbelt.
 
 ```bash
-echo "malicious" >> ~/.config/nvim/lua/plugins/opencode.lua
+echo "malicious" >> /Users/jscina/dotfiles/.config/nvim/lua/plugins/opencode.lua
 ```
 **Expected:** Denied by srt Seatbelt.
 
 ```bash
 rm -f ~/bin/opencode-sandboxed
 ```
-**Expected:** Denied by srt Seatbelt (or may fail with permission error if symlink check runs first).
+**Expected:** Denied by srt Seatbelt (file write denied on the absolute dotfiles path).
 
 ### 8. Ancestor SRT Process Verification
 Inside opencode:

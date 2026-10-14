@@ -173,13 +173,19 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 
 **Baseline:** ConnectPlus team wiki, Development/Claude-Code: sandbox and settings baseline.
 
-**Plugins:** `opencode-gemini-auth`, `@ex-machina/opencode-anthropic-auth`, `oh-my-openagent`
+**Plugins:** `@ex-machina/opencode-anthropic-auth` (auth), `/Users/jscina/.openagent-harness/harness.ts` (orchestration).
 
-**MCP Servers:** `context7` (library search), `grep_app` (code search), `websearch` (web search), `ado` (Azure DevOps, sandboxed with PAT)
+**MCP Servers:**
+- `github` (remote, read-only via Copilot API)
+- `azure` (local, read-only `@azure/mcp@latest` with namespace filter)
+- `ado` (local, `@azure-devops/mcp@2.10.0` pinned with proxy credential injection)
+- `context7` (remote, library docs search)
+- `grep_app` (remote, code search)
+- `websearch` (remote, web search via Exa)
 
-**Local model:** Ollama with `qwen3`, `qwen2.5-vl-vision`
+**Local model:** Ollama with `qwen3`, `qwen2.5-vl-vision` (accessed at `http://localhost:11434/v1`).
 
-**Launch:** Press `<leader>oa` in Neovim. Plugin uses a verified sandboxed server (1.19.0 does not write service.json; upgrade to 2.x for full integration).
+**Launch:** Press `<leader>oa` in Neovim to start the sandboxed launcher. Note: opencode 1.19.0 does not write `service.json`; upgrade to 2.x for full nvim plugin integration (see [Known Issues](./.config/srt/README.md#known-issues-and-workarounds) section in srt README).
 
 ## GitHub CLI (`.config/gh/`)
 
