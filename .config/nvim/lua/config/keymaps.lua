@@ -16,3 +16,6 @@ vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
 
 -- Terminal mode keybind to escape
 vim.keymap.set("t", "<C-q>", "<C-\\><C-n>", { desc = "Exit terminal mode", noremap = true, silent = true })
+
+--Code Companion Keybindings
+vim.keymap.set("n", "<leader>ai", "<Cmd>CodeCompanionChat<CR>")

@@ -3,6 +3,10 @@ return {
   dependencies = { "kevinhwang91/promise-async" },
   opts = {
     provider_selector = function(bufnr, filetype, buftype)
+      -- Large Java buffers: treesitter folds are recomputed on every change, use cheap indent folds.
+      if filetype == "java" and vim.api.nvim_buf_line_count(bufnr) > (vim.g.java_bigfile_lines or 3000) then
+        return { "indent" }
+      end
       return { "treesitter", "indent" }
     end,
     fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)

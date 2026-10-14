@@ -24,3 +24,8 @@ vim.g.rustaceanvim = {
     },
   },
 }
+
+-- Java buffers with more lines than this get the lightweight settings below
+-- (see plugins/nvim_ufo.lua, plugins/treesitter-context.lua, config/autocmds.lua).
+-- snacks.bigfile only triggers at 1.5 MB, which ~300 KB / 5-7k line Java files never reach.
+vim.g.java_bigfile_lines = 3000

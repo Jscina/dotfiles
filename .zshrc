@@ -119,6 +119,14 @@ alias lzd="lazydocker"
 # Secrets (gitignored)
 [[ -f "$HOME/.secrets" ]] && source "$HOME/.secrets"
 
+opencode() {
+  if [[ -z $NVIM ]]; then
+    echo "Nope. Open it from Neovim, champ"
+    return =
+  fi
+  command opencode "$@"
+}
+
 . "$HOME/.cargo/env"
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm

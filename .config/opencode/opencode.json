@@ -88,9 +88,9 @@
       "sudo *": "ask",
       "npm publish *": "deny",
       "git push *": "deny",
-      "az * create *": "ask",
+      "az * create *": "deny",
       "az * delete *": "deny",
-      "az * update *": "ask"
+      "az * update *": "deny"
     },
     "edit": "ask",
     "task": "allow",
