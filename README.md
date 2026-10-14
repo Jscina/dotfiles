@@ -169,17 +169,17 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 
 ## OpenCode (`.config/opencode/`)
 
-[OpenCode](https://opencode.ai/) AI coding assistant, sandboxed via [srt](https://github.com/anthropics/srt) (sandbox-runtime) and macOS Seatbelt.
+[OpenCode](https://opencode.ai/) AI coding assistant, sandboxed via [srt](https://github.com/anthropic-experimental/sandbox-runtime) (sandbox-runtime) and macOS Seatbelt. Agents run confined: no credential reads, no config/launcher edits, no writes outside projects, no unlisted hosts. See [`.config/srt/README.md`](./.config/srt/README.md) for full details, allowlist, verification, and limitations.
 
-**Sandbox baseline:** Anthropic's [Claude Code sandbox-and-settings-baseline](https://connectedagents.wiki/Claude/Development/Claude-Code:-sandbox-and-settings-baseline). Agents cannot read credentials, edit config/launcher files, write outside projects, or reach unlisted hosts. See [`.config/srt/README.md`](./.config/srt/README.md) for setup, allowlist, network policy, verification checklist, and known gaps.
+**Baseline:** ConnectPlus team wiki, Development/Claude-Code: sandbox and settings baseline.
 
 **Plugins:** `opencode-gemini-auth`, `@ex-machina/opencode-anthropic-auth`, `oh-my-openagent`
 
-**MCP Servers:** `github` (Copilot), `azure` (six namespaces, read-only), `ado` (Azure DevOps), `websearch`, `context7`, `grep_app`
+**MCP Servers:** `context7` (library search), `grep_app` (code search), `websearch` (web search), `ado` (Azure DevOps, sandboxed with PAT)
 
 **Local model:** Ollama with `qwen3`, `qwen2.5-vl-vision`
 
-**Launch:** Press `<leader>oa` in Neovim. Launcher resolves srt, enforces single unsandboxed-free instance, sets up proxy/Zscaler/Gradle env, then execs srt with seatbelt settings.
+**Launch:** Press `<leader>oa` in Neovim. Plugin uses a verified sandboxed server (1.19.0 does not write service.json; upgrade to 2.x for full integration).
 
 ## GitHub CLI (`.config/gh/`)
 

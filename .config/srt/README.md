@@ -2,14 +2,15 @@
 
 ## Purpose
 
-This directory implements the **Anthropic sandbox-runtime (srt)** baseline for OpenCode, applying the constraints and best practices from [ConnectPlus.wiki Claude Code sandbox-and-settings-baseline](https://connectedagents.wiki/Claude/Development/Claude-Code:-sandbox-and-settings-baseline).
+This directory implements the **Anthropic sandbox-runtime (srt)** baseline for OpenCode, applying constraints and best practices from ConnectPlus.wiki/Development/Claude-Code: sandbox and settings baseline.
 
-OpenCode agents run confined inside the sandbox with these guarantees:
+OpenCode agents run confined inside the sandbox with these OS-enforced guarantees:
 - Cannot read credentials (~/.azure, SSH keys, shell history)
 - Cannot edit their own config, launcher, or sandbox settings
 - Cannot write outside designated project areas
 - Cannot reach hosts outside an allowlist
-- Cannot bypass the sandbox from inside
+
+**Residual (by design):** Sandboxed tools run inside the srt process and inherit its restrictions. However, nvim's CodeCompanion built-in tools (run_command, read_file, grep_search, fetch_webpage, web_search) run **outside** the sandbox in nvim's process—gated by approval prompts, not by srt's OS-enforced rules. Allowed MCP servers can send data to their permitted hosts. ADO MCP runs sandboxed but reaches dev.azure.com with a PAT. No tool can "escape" srt once spawned, but threats model assumes the process itself is trusted.
 
 ## Two Layers of Defense
 
@@ -57,17 +58,16 @@ OpenCode runs under Seatbelt + permission rules
 
 2. **Launcher symlink:** Already present as `~/dotfiles/bin/opencode-sandboxed`. It is executable and protected from edits inside the sandbox.
 
-3. **Settings file:** `~/.config/srt/opencode.json` is locked from edits inside the sandbox.
+3. **Settings file:** `~/dotfiles/.config/srt/opencode.json` is locked from edits inside the sandbox.
 
 ## Network Allowlist
 
 The following domains are reachable from inside the sandbox:
 
 - **GitHub:** `github.com`, `api.github.com`, `*.githubusercontent.com`, `api.githubcopilot.com`
-- **Anthropic:** `api.anthropic.com`, `console.anthropic.com`, `claude.ai`, `models.dev`
-- **OpenCode:** `opencode.ai`
+- **Anthropic:** `api.anthropic.com`, `console.anthropic.com`, `platform.claude.com`, `models.dev`, `models.opencode.ai`
 - **npm:** `registry.npmjs.org`
-- **MCP servers:** `mcp.exa.ai`, `mcp.context7.com`, `mcp.grep.app`
+- **MCP servers:** `mcp.exa.ai`, `mcp.context7.com`, `mcp.grep.app`, `context7.com` (library docs)
 - **Azure:** `dev.azure.com`, `*.dev.azure.com`, `*.visualstudio.com`, `login.microsoftonline.com`, `management.azure.com`
 - **Build tools:** `services.gradle.org`, `downloads.gradle.org`, `plugins.gradle.org`, `plugins-artifacts.gradle.org`, `repo.maven.apache.org`, `repo1.maven.org`, `jitpack.io`, `repo.spring.io`, `jaspersoft.jfrog.io`, `sonarcloud.io`, `maven-repo.eastus.cloudapp.azure.com`, `www.datanucleus.org`
 - **Internal:** `10.161.92.100` (internal Artifactory; VPN required to verify)
@@ -78,7 +78,7 @@ The following domains are reachable from inside the sandbox:
 If a tool or build fails with **proxy/connection error**:
 
 1. Identify the blocked hostname: check error messages or run `curl https://example.com` inside opencode (will show proxy denial)
-2. Edit `~/.config/srt/opencode.json` **from outside the sandbox** (e.g., in nvim when opencode is not running, or from a terminal with no `OPENCODE_SANDBOXED=1`):
+2. Edit `~/dotfiles/.config/srt/opencode.json` **from outside the sandbox** (e.g., in nvim when opencode is not running, or from a terminal with no `OPENCODE_SANDBOXED=1`):
    ```json
    "network": {
      "allowedDomains": [
@@ -114,32 +114,48 @@ Can write to:
 
 ### Write-Protected Paths (Locked by srt)
 Cannot edit:
-- `~/.config/opencode/opencode.json` &mdash; Config
-- `~/.config/opencode/agents`, `skills`, `commands` &mdash; Agent definitions
-- `~/.config/srt/*` &mdash; Sandbox settings
+- `~/.config/opencode/opencode.json`, `opencode.jsonc` &mdash; Config
+- `~/.config/opencode/agents`, `plugins`, `commands`, `skills`, `tools` &mdash; Agent/plugin/command dirs
+- `~/dotfiles/.config/srt/*` &mdash; Sandbox settings (both absolute and home-relative paths denied)
 - `~/dotfiles/bin/opencode-sandboxed` &mdash; Launcher
-- `~/.zshrc` &mdash; Shell config
-- `~/.config/nvim/lua/plugins/opencode.lua` &mdash; nvim plugin
-- `**/.mcp.json`, `**/opencode.json` &mdash; Config files in any project
+- `~/dotfiles/.zshrc` &mdash; Shell config
+- `~/dotfiles/.config/nvim/**` &mdash; All nvim plugin files
+- `~/dotfiles/.ssh`, `~/dotfiles/.secrets` &mdash; Credentials
+- `~/repos/**/.git/hooks`, `~/repos/**/.git/config`, `~/repos/**/.git/modules/**/hooks|config` &mdash; Git internals (absolute-anchored denies per repo)
+- `~/repos/**/.gitmodules`, `~/repos/**/.vscode`, `~/repos/**/.idea` &mdash; VCS/IDE metadata
+- `~/repos/**/opencode.json`, `opencode.jsonc`, `.mcp.json` &mdash; Config in projects
+- `~/repos/**/.opencode/agents|plugins|commands|skills|tools` &mdash; Agent definitions
 
 **Consequence:** Edit these files **outside** the sandbox. Use nvim (not from inside opencode), your shell, or any other editor. The sandbox cannot modify its own chain of launch.
+
+### Git Operations Inside the Sandbox
+
+Most git operations work inside the sandbox (`add`, `commit`, `branch`, `checkout -b`, `switch -c`, `stash`, `merge`, `rebase`, `tag`, `fetch`, `push`, `worktree add -b`, `gc`). **These fail:**
+- `git init` or `git clone` into `~/repos` or `~/dotfiles` (seatbelt blocks `.git/config` write)
+- `git submodule add/update` (tries to write `.git/config` and `.gitmodules`)
+- `git config <key> <value>` (modifies `.git/config`)
+- `git remote add/set-url` (writes `.git/config`)
+- `git branch --set-upstream-to` (writes `.git/config`)
+- `git push -u` (upstream setup tries to write `.git/config`)
+- Plain `git pull` without an explicit upstream ref (fails without `.git/config` read)
 
 ## Zscaler Proxy (TLS Inspection)
 
 The sandbox honors Zscaler's MITM TLS certificate chain:
-- Launcher exports `NODE_EXTRA_CA_CERTS=$HOME/.certs/ZscalerRootCA.pem` (line 79 of launcher)
+- Launcher exports `NODE_EXTRA_CA_CERTS=$HOME/.certs/ZscalerRootCA.pem` (line 147 of launcher)
 - This must exist; if missing, HTTPS traffic fails with certificate errors
-- Gradle respects the same cert via `JAVA_TOOL_OPTIONS` (see below)
+- srt's embedded Node.js and Java tools respect the same cert chain
 
 ## Gradle and JVM Configuration
 
 The launcher configures:
-- **Temp dir:** `/tmp/claude/gradle-daemon` (inside sandbox write-allowed area)
-- **Gradle daemon registry:** `/tmp/claude/gradle-daemon` (avoids `~/.gradle/daemon` read restriction)
-- **JVM args:** `-Djava.net.preferIPv4Stack=true -Dorg.gradle.daemon.registry.base=/tmp/claude/gradle-daemon` (line 87)
-- **Proxy:** srt's javaagent is prepended automatically; do not override
+- **Temp dir:** `/tmp/claude` (inside sandbox write-allowed area; shared with opencode)
+- **JVM tmpdir:** `-Djava.io.tmpdir=/tmp/claude` (Java temp files stay in allowed area)
+- **Gradle daemon registry:** `-Dorg.gradle.daemon.registry.base=/tmp/claude/gradle-daemon` (avoids `~/.gradle/daemon` read restriction, which is denied)
+- **Other JVM args:** `-Djava.net.preferIPv4Stack=true` (line 173 of launcher)
+- **Proxy:** srt's embedded javaagent is prepended automatically; do not override
 
-These settings allow `./gradlew build` to run inside the sandbox, with daemon temp in an allowed location.
+These settings allow `./gradlew build` to run inside the sandbox. Gradle daemon state is stored under `/tmp/claude/gradle-daemon` instead of the inaccessible `~/.gradle/daemon`.
 
 ## Stale/Unsandboxed Server
 
@@ -167,33 +183,110 @@ The launcher checks:
 
 If any lack `OPENCODE_SANDBOXED=1` in their environment, the launcher refuses to start (fail-closed).
 
-## No Escape Hatch
+## Unsandboxed Bypass is Possible but Requires File Edits
 
-By design, there is **no override variable** or fallback to unsandboxed opencode. If srt, opencode, or settings are missing, the launcher exits non-zero. The nvim plugin and zsh wrapper both force sandbox use; the `opencode` command in the shell cannot bypass this without modifying files (which is denied inside the sandbox).
+The `opencode()` function in `.zshrc` (lines 125–147) is **convenience only**. It allows typing `opencode` from inside nvim with the sandbox's markers already set. It is **not** a security guarantee because:
+1. You can run `command opencode` to bypass the zsh wrapper and call the unsandboxed binary directly
+2. The launcher itself **does enforce** sandbox use: it checks for unsandboxed opencode processes and refuses to start if any are running
 
-## Known Gaps & To-Confirm on First Run
+**Real guarantee:** The nvim plugin (`<leader>oa` keybind) always uses the launcher directly, which enforces srt. The launcher checks that no unsandboxed opencode processes exist and exits non-zero if they do. The zsh wrapper is only a convenience; if you need hard enforcement, use the launcher directly.
 
-### Confirmed Working
-- Network: GitHub, Maven, Anthropic APIs, MCP servers reachable ✓
-- Azure credentials (~/.azure) are correctly denied ✓
-- Gradle builds run with daemon temp in `/tmp/claude` ✓
-- Shell history (~/.zsh_history) denied ✓
-- Ollama reachable on localhost:11434 ✓
+## nvim and CodeCompanion Run Outside the Sandbox
 
-### Not Yet Verified
-- **Plain-IP Artifactory (10.161.92.100):** Listed in allowlist but untested (VPN down when builders tested). Re-test with VPN up.
-- **Service registration:** nvim plugin detects `~/.local/state/opencode/service.json`. Mechanism inside sandbox unclear — the launcher sets `allowWrite` for that path. **To confirm on first run:** Kill opencode, start fresh with `<leader>oa`, confirm `service.json` is written, then confirm nvim reconnects.
-- **opencode.nvim stop/toggle:** Current version only has `server.start()`. No stop or toggle. **Implication:** Must kill opencode manually; can't suspend from nvim.
+The nvim editor process itself and its CodeCompanion MCP client run **outside** srt with nvim's full environment privileges. Only the **MCP servers** (context7, grep_app, websearch, ado) run sandboxed. Built-in CodeCompanion tools run in nvim's unsandboxed process:
 
-### Security Gaps (By Design)
+| Tool | Sandbox | Approval | Protection |
+|---|---|---|---|
+| run_command | ❌ | ✓ (can be disabled) | ✓ (deny list + approval) |
+| create_file | ❌ | ✓ (must approve) | ✓ |
+| insert_edit_into_file | ❌ | ✓ (must approve per file) | ✓ |
+| read_file | ❌ | ✓ (must approve) | ✓ |
+| grep_search | ❌ | ✓ (must approve) | ✓ |
+| delete_file | ❌ | ✓ (must approve) | ✓ |
+| fetch_webpage | ❌ | ✓ (must approve) | ✓ |
+| web_search | ❌ | ✓ (must approve) | ✓ |
+| file_search | ❌ | ❌ | ❌ |
+| get_changed_files | ❌ | ❌ | ❌ |
+| get_diagnostics | ❌ | ❌ | ❌ |
+| ask_questions | ❌ | ❌ | ❌ |
+
+Disable run_command to prevent shell access (line 171 of codecompanion.lua). Auto mode respects `protect=true` for all tools. YOLO mode and "Always accept" bypass approvals.
+
+## Editing Protected Files
+
+The sandbox denies writes to its own chain of launch: launcher, settings, nvim config, .zshrc, opencode config, git internals, and agent/command dirs. You **cannot edit these files from inside opencode** (seatbelt denies the write).
+
+**How to edit them:**
+1. Launch nvim from a fresh shell (or quit the running opencode TUI)
+2. Edit the file normally in nvim (outside the sandbox)
+3. Save and close nvim
+4. Restart opencode: quit the existing TUI, then call `opencode-sandboxed` or press `<leader>oa` again
+
+**Affected files:**
+- `~/.config/opencode/opencode.json`, `opencode.jsonc`
+- `~/dotfiles/.config/srt/opencode.json`, `mcp.json`, `mcp-ado.json`
+- `~/dotfiles/.config/nvim/lua/plugins/**`
+- `~/dotfiles/bin/opencode-sandboxed`
+- `~/dotfiles/.zshrc`
+- Project `.git/config`, `.git/hooks`, `.git/modules`
+
+## First Run After Restart
+
+After upgrading opencode, srt, or changing sandbox/launcher settings:
+
+1. **Quit the existing unsandboxed opencode:** Kill any `opencode serve` or stray `opencode` TUI process:
+   ```bash
+   pgrep -fl opencode  # List all processes
+   kill <PID>          # Kill any unsandboxed ones
+   ```
+
+2. **Reload shell config:** In a fresh terminal (outside nvim):
+   ```bash
+   source ~/.zshrc
+   ```
+
+3. **Restart nvim:** Close and reopen nvim to reload the opencode.lua plugin.
+
+4. **Launch via the launcher:** Press `<leader>oa` (the keybind calls `opencode.lua`'s `M.resolve()`, which uses the launcher).
+
+5. **Verify the sandbox:**
+   ```bash
+   # Inside opencode TUI (ask an agent to run):
+   ps eww $$
+   ```
+   **Expected:** Output includes `OPENCODE_SANDBOXED=1` and `SANDBOX_RUNTIME=1`.
+
+6. **Run verification probes** (see checklist section below).
+
+7. **Test git operations:**
+   ```bash
+   cd ~/repos/some-project
+   git log --oneline -3
+   git status
+   git add some-file.txt
+   git commit -m "test commit"
+   ```
+   **Expected:** All succeed. Note that `git clone`, `git init`, and upstream setup fail (see Git Operations section).
+
+8. **Check MCP servers:** Ask CodeCompanion to list available tools. You should see context7, grep_app, websearch, and possibly ado (if ADO_ORG/ADO_MCP_AUTH_TOKEN are set).
+
+9. **Service registration (opencode >= 2.x only):** The nvim plugin expects opencode to write `~/.local/state/opencode/service.json`. Current opencode 1.19.0 (Homebrew) does NOT write this file. Upgrade to opencode 2.x for plugin integration; until then, use the TUI.
+
+### Open Issues to Verify
+
+- **opencode 1.19.0 vs 2.x:** The installed Homebrew binary (1.19.0) does not write `service.json` and returns HTML from `/api/info`. The opencode.nvim plugin targets 2.x. **Implication:** nvim plugin keybinds (`<leader>oa`) cannot auto-connect to 1.19.0 regardless of the sandbox. For now, launch via the TUI (`<leader>oa` → terminal → `opencode-sandboxed`) or upgrade to 2.x.
+
+- **ADO MCP 407 proxy handling:** The mcp-ado-preload.cjs shim tries to inject proxy credentials for azure-devops/typed-rest-client. This has NOT been tested inside srt. **First-run check:** Query an ADO resource via the ado MCP server and watch for 407 Proxy Authentication Required errors.
+
+- **Plain-IP Artifactory (10.161.92.100):** Listed in allowlist but never verified (VPN required). Re-test with VPN up if you use it.
+
+## Known Gaps (By Design)
+
 - `auth.json` and `mcp-auth.json` are readable inside sandbox (needed for OpenCode to function). Do not store secrets there.
-- `service.json` is writable from inside sandbox. Agents cannot forge it to talk to an external opencode; the nvim plugin uses localhost sockets. But an agent **could** write a fake `service.json`. This is a known limitation.
+- `service.json` is writable from inside sandbox. The nvim plugin verifies that any registered server is sandboxed (checks markers, ancestor srt, loopback host, listening port); a forged entry is rejected. But an agent **could** write a fake entry and cause the plugin to show an error message. This is accepted.
 - `.git/hooks` and `.git/config` are always protected by srt's Seatbelt, even if accidentally included in `allowWrite`.
-- `~/.m2` (Maven cache) is not explicitly writable, though builds may cache to `/tmp/claude`. Re-test with a Maven project.
-
-### Best-Effort Permission Rules
-- Bash patterns in `permission.bash` use best-effort matching. Example: `cat ~/.azure*` checks the literal string, not glob expansion. Agents can evade with variable substitution (`cat $HOME/.azure/config`), but this requires deliberate evasion.
-- Absolute paths and tilde-paths in permission rules may not catch suffix-relative or `.` paths. srt's Seatbelt catches these at the OS level.
+- OpenCode 1.19.0 does not support sandbox verification; service.json support requires 2.x.
+- Bash patterns in permission.bash (Layer 1, not srt) use best-effort matching. Example: `cat ~/.azure*` checks the literal string, not glob expansion. Agents can evade with variable substitution (`cat $HOME/.azure/config`), but srt's read-deny catches the actual file access.
 
 ---
 
@@ -248,29 +341,41 @@ echo "malicious" >> ~/.config/opencode/opencode.json
 ```
 **Expected:** Denied by srt Seatbelt.
 
-### 7. Azure MCP Read-Only (Six Namespaces)
-Inside opencode, call the Azure MCP tool to list resources in `monitor`, `compute`, `group`, `resourcehealth`, `aks`, `applicationinsights`:
+### 7. Protected Config Files Cannot Be Written
 ```bash
-# Example: ask an agent to use Azure MCP
-az-mcp list resources --namespace compute
+echo "malicious" >> ~/.config/srt/opencode.json
 ```
-**Expected:** Tool accepts `--read-only` and `--disable-proxy-tools` flags (from opencode.json). No mutations allowed.
+**Expected:** Denied by srt Seatbelt.
 
-### 8. Az CLI (Request-for-approval)
 ```bash
-az account show
+echo "malicious" >> ~/.config/nvim/lua/plugins/opencode.lua
 ```
-**Expected:** Prompted for approval (opencode permission rules ask for `az *`).
+**Expected:** Denied by srt Seatbelt.
 
-### 9. Service Registration (To Confirm)
-From nvim, press `<leader>oa` to start opencode:
-1. Check that opencode starts and connects
-2. In another terminal (outside sandbox), verify the file exists:
+```bash
+rm -f ~/bin/opencode-sandboxed
+```
+**Expected:** Denied by srt Seatbelt (or may fail with permission error if symlink check runs first).
+
+### 8. Ancestor SRT Process Verification
+Inside opencode:
+```bash
+ps eww $$ | grep -i srt
+```
+**Expected:** The output should show the environment and you should be able to trace an ancestor process running srt. (May not show srt binary name if sandbox-exec has already execs'd into a child.)
+
+Or ask an agent to run this and inspect the output for `OPENCODE_SANDBOXED=1`.
+
+### 9. Service Registration (opencode 2.x only)
+**Skip this test if using opencode 1.19.0.** With opencode >= 2.x:
+1. Kill any running opencode TUI
+2. From nvim, press `<leader>oa`
+3. In another terminal (outside sandbox):
    ```bash
    cat ~/.local/state/opencode/service.json
    ```
-   **Expected:** JSON with a `pid` field.
-3. Confirm nvim plugin can communicate with opencode (ask a question, get a response).
+   **Expected:** JSON with `pid`, `host`, `port`, and `password` fields. Host should be `127.0.0.1` or `::1`.
+4. Verify nvim's status bar shows "Opencode" (connected)
 
 ### 10. Process Verification
 Inside opencode:
@@ -287,14 +392,37 @@ cd ~/repos/myproject
 ```
 **Expected:** Build runs, daemon temp stored in `/tmp/claude/gradle-daemon` (check `~/.gradle/daemon` is not touched).
 
-### 12. Ollama Local
+### 12. Git Operations
+```bash
+cd ~/repos/an-existing-project
+git log --oneline -3
+git status
+git add somefile.txt
+git commit -m "test"
+git fetch
+```
+**Expected:** All succeed.
+
+```bash
+git clone https://github.com/user/repo.git test-clone
+```
+**Expected:** Fails with permission error on `.git/config` write (expected behavior).
+
+```bash
+git branch --set-upstream-to origin/main main
+```
+**Expected:** Fails with permission error on `.git/config` write (expected behavior).
+
+### 13. Ollama Local
 ```bash
 curl http://localhost:11434/api/tags
 ```
-**Expected:** JSON response with available models.
+**Expected:** JSON response with available models (if running on localhost:11434).
 
 ---
 
 **Last updated:** Oct 2026  
-**Sandbox baseline:** ConnectPlus.wiki Claude Code  
-**Runtime:** srt (sandbox-runtime) with macOS Seatbelt
+**Sandbox baseline:** ConnectPlus team wiki, Development/Claude-Code: sandbox and settings baseline  
+**Runtime:** srt (sandbox-runtime, @anthropic-ai/sandbox-runtime) with macOS Seatbelt  
+**OpenCode:** https://opencode.ai/ (1.19.0 current Homebrew; 2.x supports service.json)  
+**srt:** https://github.com/anthropic-experimental/sandbox-runtime
