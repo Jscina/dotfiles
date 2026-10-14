@@ -1,0 +1,57 @@
+{
+  "network": {
+    "allowedDomains": [
+      "registry.npmjs.org",
+      "dev.azure.com",
+      "*.dev.azure.com",
+      "*.visualstudio.com",
+      "vssps.dev.azure.com"
+    ],
+    "deniedDomains": [],
+    "allowLocalBinding": false
+  },
+  "filesystem": {
+    "denyRead": [
+      "~/.azure",
+      "~/.zsh_history",
+      "~/.zsh_sessions",
+      "~/.bash_history",
+      "~/.secrets",
+      "~/.ssh",
+      "/Users/jscina/dotfiles/.secrets",
+      "/Users/jscina/dotfiles/.ssh",
+      "~/.config/gh/hosts.yml",
+      "/Users/jscina/dotfiles/.config/gh/hosts.yml",
+      "~/.azd",
+      "~/.IdentityService",
+      "~/.kube/config",
+      "~/.netrc",
+      "~/.git-credentials",
+      "~/.m2/settings.xml",
+      "~/.docker/config.json",
+      "~/.npmrc",
+      "~/.python_history",
+      "~/.gradle/daemon",
+      "~/repos",
+      "~/dotfiles",
+      "~/.aws",
+      "~/.gnupg",
+      "~/.config/gh",
+      "~/.config/github-copilot",
+      "~/.local/share/opencode",
+      "~/.config/opencode",
+      "~/.cache/opencode",
+      "~/.local/state/opencode"
+    ],
+    "allowWrite": [
+      "~/.cache/codecompanion-mcp/ado"
+    ],
+    "denyWrite": [
+      "/tmp/claude",
+      "/private/tmp/claude"
+    ],
+    "allowRead": [
+      "/Users/jscina/dotfiles/.config/srt/mcp-ado-preload.cjs"
+    ]
+  }
+}
