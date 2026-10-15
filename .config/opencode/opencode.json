@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
-    "@ex-machina/opencode-anthropic-auth@1.8.6",
+  "plugins": [
+    "@ex-machina/opencode-anthropic-auth@next",
     "/Users/jscina/.openagent-harness/harness.ts"
   ],
   "compaction": {
@@ -61,8 +61,14 @@
       "url": "https://mcp.exa.ai/mcp"
     },
     "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp"
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest",
+        "--api-key",
+        "{env:UPSTASH_CONTEXT7_KEY}"
+      ]
     },
     "grep_app": {
       "type": "remote",
@@ -78,210 +84,605 @@
         "baseURL": "http://localhost:11434/v1"
       },
       "models": {
-        "qwen3-orchestrator:latest": {
+        "qwen3.6:35b-a3b": {
           "reasoning": true,
           "tool_call": true,
-          "name": "qwen3-orchestrator:latest"
+          "name": "qwen3.6:35b-a3b"
         },
-        "qwen3-coder-builder:latest": {
+        "qwen2.5-coder:7b-base": {
           "tool_call": true,
-          "name": "qwen3-coder-builder:latest"
-        },
-        "qwen3-coder-junior:latest": {
-          "tool_call": true,
-          "name": "qwen3-coder-junior:latest"
-        },
-        "qwen3-docs:latest": {
-          "reasoning": true,
-          "tool_call": true,
-          "name": "qwen3-docs:latest"
-        },
-        "qwen2.5-vl-vision": {
-          "tool_call": false,
-          "name": "qwen2.5-vl-vision:latest"
+          "name": "qwen2.5-coder:7b-base"
         }
       }
     }
   },
-  "permission": {
-    "read": {
-      "*": "allow",
-      "*.env": "deny",
-      "*.env.*": "deny",
-      "*.env.example": "allow",
-      "~/.azure/**": "deny",
-      "~/.azure": "deny",
-      "~/.gradle/daemon/**": "deny",
-      "~/.zsh_history": "deny",
-      "~/.zsh_sessions/**": "deny",
-      "~/.bash_history": "deny",
-      "~/.secrets": "deny",
-      "~/.ssh/**": "deny",
-      "~/.ssh": "deny",
-      "~/.config/gh/hosts.yml": "deny",
-      "/Users/jscina/dotfiles/.ssh/**": "deny",
-      "/Users/jscina/dotfiles/.secrets": "deny",
-      "/Users/jscina/dotfiles/.config/gh/hosts.yml": "deny",
-      "*.azure": "deny",
-      "*.azure/*": "deny",
-      "*.gradle/daemon/*": "deny",
-      "*.zsh_history": "deny",
-      "*.zsh_sessions/*": "deny",
-      "*.bash_history": "deny",
-      "*.secrets": "deny",
-      "*.ssh": "deny",
-      "*.ssh/*": "deny",
-      "*.config/gh/hosts.yml": "deny",
-      "~/.azd/**": "deny",
-      "~/.azd": "deny",
-      "~/.IdentityService/**": "deny",
-      "~/.IdentityService": "deny",
-      "~/.kube/config": "deny",
-      "~/.netrc": "deny",
-      "~/.git-credentials": "deny",
-      "~/.m2/settings.xml": "deny",
-      "~/.docker/config.json": "deny",
-      "~/.npmrc": "deny",
-      "~/.python_history": "deny",
-      "*.azd": "deny",
-      "*.azd/*": "deny",
-      "*.IdentityService": "deny",
-      "*.IdentityService/*": "deny",
-      "*.kube/config": "deny",
-      "*.netrc": "deny",
-      "*.git-credentials": "deny",
-      "*.m2/settings.xml": "deny",
-      "*.docker/config.json": "deny",
-      "*.npmrc": "deny",
-      "*.python_history": "deny"
+  "permissions": [
+    {
+      "action": "read",
+      "resource": "*",
+      "effect": "allow"
     },
-    "edit": {
-      "*": "ask",
-      "~/.azure/**": "deny",
-      "~/.azure": "deny",
-      "~/.gradle/daemon/**": "deny",
-      "~/.zsh_history": "deny",
-      "~/.zsh_sessions/**": "deny",
-      "~/.bash_history": "deny",
-      "~/.secrets": "deny",
-      "~/.ssh/**": "deny",
-      "~/.ssh": "deny",
-      "~/.config/gh/hosts.yml": "deny",
-      "/Users/jscina/dotfiles/.ssh/**": "deny",
-      "/Users/jscina/dotfiles/.secrets": "deny",
-      "/Users/jscina/dotfiles/.config/gh/hosts.yml": "deny",
-      "*.azure": "deny",
-      "*.azure/*": "deny",
-      "*.gradle/daemon/*": "deny",
-      "*.zsh_history": "deny",
-      "*.zsh_sessions/*": "deny",
-      "*.bash_history": "deny",
-      "*.secrets": "deny",
-      "*.ssh": "deny",
-      "*.ssh/*": "deny",
-      "*.config/gh/hosts.yml": "deny",
-      "**/opencode.json": "deny",
-      "**/opencode.jsonc": "deny",
-      "**/.mcp.json": "deny",
-      "opencode.json": "deny",
-      "opencode.jsonc": "deny",
-      ".mcp.json": "deny",
-      "~/.config/opencode/**": "deny",
-      "/Users/jscina/dotfiles/.config/opencode/**": "deny",
-      "/Users/jscina/dotfiles/.config/srt/**": "deny",
-      "/Users/jscina/dotfiles/bin/opencode-sandboxed": "deny",
-      "/Users/jscina/dotfiles/.zshrc": "deny",
-      "~/.zshrc": "deny",
-      "~/.config/nvim/**": "deny",
-      "/Users/jscina/dotfiles/.config/nvim/**": "deny",
-      "~/bin/**": "deny",
-      "/Users/jscina/dotfiles/bin/**": "deny",
-      "~/.bun/**": "deny",
-      "~/.azd/**": "deny",
-      "~/.azd": "deny",
-      "~/.IdentityService/**": "deny",
-      "~/.IdentityService": "deny",
-      "~/.kube/config": "deny",
-      "~/.netrc": "deny",
-      "~/.git-credentials": "deny",
-      "~/.m2/settings.xml": "deny",
-      "~/.docker/config.json": "deny",
-      "~/.npmrc": "deny",
-      "~/.python_history": "deny",
-      "**/.git/hooks/**": "deny",
-      "**/.git/config": "deny",
-      "**/.gitmodules": "deny",
-      "**/.vscode/**": "deny",
-      "**/.idea/**": "deny",
-      "**/.opencode/agent/**": "deny",
-      "**/.opencode/agents/**": "deny",
-      "**/.opencode/plugin/**": "deny",
-      "**/.opencode/plugins/**": "deny",
-      "**/.opencode/command/**": "deny",
-      "**/.opencode/commands/**": "deny",
-      "**/.opencode/skill/**": "deny",
-      "**/.opencode/skills/**": "deny",
-      "**/.opencode/tool/**": "deny",
-      "**/.opencode/tools/**": "deny",
-      "*.config/opencode/*": "deny",
-      "*.config/srt/*": "deny",
-      "*.config/nvim/*": "deny",
-      "*dotfiles/bin/*": "deny",
-      "*../bin/*": "deny",
-      "*bin/opencode-sandboxed": "deny",
-      "*.bun/*": "deny",
-      "*.zshrc": "deny",
-      "*.azd": "deny",
-      "*.azd/*": "deny",
-      "*.IdentityService": "deny",
-      "*.IdentityService/*": "deny",
-      "*.kube/config": "deny",
-      "*.netrc": "deny",
-      "*.git-credentials": "deny",
-      "*.m2/settings.xml": "deny",
-      "*.docker/config.json": "deny",
-      "*.npmrc": "deny",
-      "*.python_history": "deny",
-      "*.git/hooks/*": "deny",
-      "*.git/config": "deny",
-      "*.git/modules/*/hooks/*": "deny",
-      "*.git/modules/*/config": "deny",
-      "*.gitmodules": "deny",
-      "*.vscode/*": "deny",
-      "*.idea/*": "deny",
-      "*.opencode/agent/*": "deny",
-      "*.opencode/agents/*": "deny",
-      "*.opencode/plugin/*": "deny",
-      "*.opencode/plugins/*": "deny",
-      "*.opencode/command/*": "deny",
-      "*.opencode/commands/*": "deny",
-      "*.opencode/skill/*": "deny",
-      "*.opencode/skills/*": "deny",
-      "*.opencode/tool/*": "deny",
-      "*.opencode/tools/*": "deny"
+    {
+      "action": "read",
+      "resource": "*.env",
+      "effect": "deny"
     },
-    "bash": {
-      "*": "allow",
-      "rm *": "ask",
-      "rm -rf *": "deny",
-      "rm -fr *": "deny",
-      "rm -r -f *": "deny",
-      "rm -f -r *": "deny",
-      "rm -Rf *": "deny",
-      "rm -fR *": "deny",
-      "sudo *": "ask",
-      "npm publish *": "deny",
-      "git push *": "deny",
-      "az *": "ask",
-      "az rest *": "ask",
-      "cat ~/.azure*": "deny",
-      "* ~/.azure/*": "deny",
-      "*.zsh_history*": "deny"
+    {
+      "action": "read",
+      "resource": "*.env.*",
+      "effect": "deny"
     },
-    "external_directory": "ask",
-    "task": "allow",
-    "doom_loop": "ask"
-  },
+    {
+      "action": "read",
+      "resource": "*.env.example",
+      "effect": "allow"
+    },
+    {
+      "action": "edit",
+      "resource": "*",
+      "effect": "ask"
+    },
+    {
+      "action": "*",
+      "resource": "~/.azure/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.azure",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.gradle/daemon/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.zsh_history",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.zsh_sessions/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.bash_history",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.secrets",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.ssh/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.ssh",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.config/gh/hosts.yml",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "/Users/jscina/dotfiles/.ssh/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "/Users/jscina/dotfiles/.secrets",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "/Users/jscina/dotfiles/.config/gh/hosts.yml",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.azd/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.azd",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.IdentityService/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.IdentityService",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.kube/config",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.netrc",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.git-credentials",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.m2/settings.xml",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.docker/config.json",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.npmrc",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.python_history",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.colima/**",
+      "effect": "deny"
+    },
+    {
+      "action": "*",
+      "resource": "~/.colima",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "opencode.json",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "opencode.jsonc",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/opencode.json",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/opencode.jsonc",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": ".mcp.json",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.mcp.json",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "~/.config/opencode/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "/Users/jscina/dotfiles/.config/opencode/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "/Users/jscina/dotfiles/.config/srt/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "/Users/jscina/dotfiles/bin/opencode-sandboxed",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "/Users/jscina/dotfiles/.zshrc",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "~/.zshrc",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "~/.config/nvim/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "/Users/jscina/dotfiles/.config/nvim/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "~/bin/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "/Users/jscina/dotfiles/bin/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "~/.bun/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.git/hooks/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.git/config",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.gitmodules",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.vscode/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.idea/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/agent/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/agents/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/plugin/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/plugins/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/command/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/commands/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/skill/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/skills/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/tool/**",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "**/.opencode/tools/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "*",
+      "effect": "ask"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.azure/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.azure",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.ssh/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.ssh",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.gradle/daemon/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.azd/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.azd",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.IdentityService/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.IdentityService",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.secrets",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.colima/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.colima",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.config/nvim/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/bin/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.bun/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.zshrc",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.zsh_history",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.zsh_sessions/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.bash_history",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.python_history",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.m2/settings.xml",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.netrc",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.git-credentials",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.docker/config.json",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.npmrc",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.config/gh/hosts.yml",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "~/.gradle/gradle.properties",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/.ssh/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/.secrets",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/.config/gh/hosts.yml",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/.config/opencode/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/.config/srt/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/.config/nvim/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/bin/**",
+      "effect": "deny"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/jscina/dotfiles/.zshrc",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "*",
+      "effect": "allow"
+    },
+    {
+      "action": "shell",
+      "resource": "rm *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -rf *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -fr *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -r -f *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -f -r *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -Rf *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "rm -fR *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "sudo *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "npm publish *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "git push *",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "az *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "az rest *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "az account show*",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "az account get-access-token*",
+      "effect": "deny"
+    },
+    {
+      "action": "shell",
+      "resource": "docker compose *",
+      "effect": "ask"
+    },
+    {
+      "action": "shell",
+      "resource": "docker run *",
+      "effect": "ask"
+    },
+    {
+      "action": "subagent",
+      "resource": "*",
+      "effect": "allow"
+    }
+  ],
   "agent": {
     "build": {
       "disable": true

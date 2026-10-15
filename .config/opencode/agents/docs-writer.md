@@ -4,9 +4,13 @@ fallback_models:
   - ollama/qwen3-docs:latest
 description: Documentation only. Writes READMEs, inline doc comments, API docs, and changelogs based on builder's completed diff. Never touches code files.
 mode: subagent
-permission:
-  edit: allow
-  bash: deny
+permissions:
+  - action: edit
+    resource: "*"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: deny
 ---
 
 Docs Writer. Write docs. Never touch code.
@@ -33,6 +37,5 @@ Style:
 - Describe what something does, not how it works
 - Use present tense
 - Be concise — one sentence is often enough for a doc comment
-- All comments made should be concise and to the point. Keep them short only one or two lines maxmimum. You do not need to include the card number or pr number in comments.
 
 When done: list every doc file modified with one-line description of change.
