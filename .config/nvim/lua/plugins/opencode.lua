@@ -16,8 +16,12 @@ local function launcher()
   return vim.fn.expand("~/dotfiles/bin/opencode-sandboxed")
 end
 
+-- `--nvim`: sandboxed private server + TUI, registered in service.json.
+M.cmd = { launcher(), "--nvim" }
+M.term_opts = { win = { position = "right", enter = false } }
+
 function M.launch()
-  vim.cmd("vsplit term://" .. vim.fn.fnameescape(launcher()) .. " | wincmd p")
+  require("snacks.terminal").open(M.cmd, M.term_opts)
 end
 
 function M.state_path()
@@ -264,11 +268,20 @@ return {
           M.resolve(callback)
         end,
         -- Unused by the plugin while `url` is set; kept pointing at the sandbox launcher.
-        start = function()
-          M.launch()
-        end,
+        start = M.launch,
       },
     }
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "OpencodeEvent:session.execution.started",
+      callback = function()
+        local win = require("snacks.terminal").get(M.cmd, vim.tbl_extend("force", M.term_opts, { create = false }))
+        if win then
+          win:show()
+        end
+      end,
+    })
+
     -- Required for `opts.events.reload`.
     vim.o.autoread = true
     -- Recommended/example keymaps
@@ -278,7 +291,9 @@ return {
     vim.keymap.set({ "n", "x" }, "<leader>os", function()
       require("opencode").select()
     end, { desc = "Select opencode…" })
-
+    vim.keymap.set("n", "<leader>ot", function()
+      require("snacks.terminal").toggle(M.cmd, M.term_opts)
+    end, { desc = "Toggle opencode window" })
     vim.keymap.set({ "n", "x" }, "go", function()
       return require("opencode").operator("@this ")
     end, { desc = "Add range to opencode", expr = true })

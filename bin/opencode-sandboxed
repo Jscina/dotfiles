@@ -1,6 +1,7 @@
 #!/bin/sh
 # Trusted PATH before ANY command: never resolve tools via the caller's PATH.
-PATH=/usr/bin:/bin:/usr/sbin:/sbin; export PATH
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+export PATH
 
 # opencode-sandboxed: run opencode inside the Anthropic sandbox-runtime (srt,
 # macOS Seatbelt). Layer 2 of the opencode hardening; details and known gaps
@@ -25,7 +26,10 @@ LAUNCHER="$HOME/dotfiles/bin/opencode-sandboxed"
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/opencode"
 TMP_BASE=/tmp/claude
 
-die() { printf 'opencode-sandboxed: %s\n' "$*" >&2; exit 1; }
+die() {
+  printf 'opencode-sandboxed: %s\n' "$*" >&2
+  exit 1
+}
 
 [ -x "$OPENCODE_BIN" ] || die "opencode not found at $OPENCODE_BIN"
 
@@ -47,7 +51,16 @@ if [ "${OPENCODE_SANDBOXED:-}" = 1 ] && [ "${SANDBOX_RUNTIME:-}" = 1 ]; then
       die "markers set but not sandboxed ($f is readable)"
     fi
   done
+  [ "${1:-}" != --nvim ] || die "--nvim cannot be used from inside the sandbox"
   exec "$OPENCODE_BIN" "$@"
+fi
+
+# --nvim: private server + attached TUI, both inside one srt (own proxy/profile),
+# registered in service.json for opencode.nvim. Nothing outlives the session.
+MODE=tui
+if [ "${1:-}" = --nvim ]; then
+  MODE=nvim
+  shift
 fi
 
 [ -r "$SETTINGS" ] || die "srt settings not found: $SETTINGS"
@@ -58,11 +71,15 @@ found=
 NODE_BIN=
 for v in $(for d in "$HOME"/.nvm/versions/node/v*; do [ -d "$d" ] && printf '%s\n' "${d##*/}"; done | /usr/bin/sort -V -r); do
   found="$found $v"
-  major=${v#v}; major=${major%%.*}
-  case "$major" in ''|*[!0-9]*) continue ;; esac
+  major=${v#v}
+  major=${major%%.*}
+  case "$major" in '' | *[!0-9]*) continue ;; esac
   [ "$major" -ge 24 ] || continue
   d="$HOME/.nvm/versions/node/$v/bin"
-  if [ -x "$d/srt" ] && [ -x "$d/node" ]; then NODE_BIN="$d"; break; fi
+  if [ -x "$d/srt" ] && [ -x "$d/node" ]; then
+    NODE_BIN="$d"
+    break
+  fi
 done
 [ -n "$NODE_BIN" ] || die "no nvm node >= 24 with srt (found:${found:- none}); run: nvm install 24 && npm install -g @anthropic-ai/sandbox-runtime"
 SRT="$NODE_BIN/srt"
@@ -74,43 +91,44 @@ SRT="$NODE_BIN/srt"
 # ancestor is the srt node process (sandbox-exec execs into its child, so it
 # never stays in the process tree itself).
 via_srt() {
-  p=$1; n=0
+  p=$1
+  n=0
   while [ "$n" -lt 64 ]; do
     p=$(/bin/ps -o ppid= -p "$p" 2>/dev/null | /usr/bin/tr -d ' ')
-    case "$p" in ''|*[!0-9]*) return 1 ;; esac
+    case "$p" in '' | *[!0-9]*) return 1 ;; esac
     [ "$p" -gt 1 ] || return 1
     case "$(/bin/ps -o args= -p "$p" 2>/dev/null)" in
-      *"$SRT --settings "*) return 0 ;;
+    *"$SRT --settings "*) return 0 ;;
     esac
     n=$((n + 1))
   done
   return 1
 }
 case "${1:-}" in
-  -v|--version|-h|--help) ;;
-  *)
-    candidates=$(/bin/ps -axo pid=,command= 2>/dev/null | /usr/bin/awk -v me="$$" '
+-v | --version | -h | --help) ;;
+*)
+  candidates=$(/bin/ps -axo pid=,command= 2>/dev/null | /usr/bin/awk -v me="$$" '
       { n = split($2, p, "/"); if (p[n] == "opencode" && $1 != me) print $1 }')
-    svc_pid=$(/usr/bin/sed -n 's/.*"pid"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$STATE_DIR/service.json" 2>/dev/null | /usr/bin/head -n 1)
-    [ -n "$svc_pid" ] && candidates="$candidates
+  svc_pid=$(/usr/bin/sed -n 's/.*"pid"[[:space:]]*:[[:space:]]*\([0-9][0-9]*\).*/\1/p' "$STATE_DIR/service.json" 2>/dev/null | /usr/bin/head -n 1)
+  [ -n "$svc_pid" ] && candidates="$candidates
 $svc_pid"
-    offenders=
-    for pid in $(printf '%s\n' "$candidates" | /usr/bin/sort -u); do
-      [ "$pid" = "$$" ] && continue
-      kill -0 "$pid" 2>/dev/null || continue
-      # Fail closed: if the environment cannot be read, treat as unsandboxed.
-      penv=$(/bin/ps eww -p "$pid" -o command= 2>/dev/null)
-      ok=1
-      printf '%s\n' "$penv" | /usr/bin/grep -Eq '(^|[[:space:]])OPENCODE_SANDBOXED=1([[:space:]]|$)' || ok=0
-      printf '%s\n' "$penv" | /usr/bin/grep -Eq '(^|[[:space:]])SANDBOX_RUNTIME=1([[:space:]]|$)' || ok=0
-      [ "$ok" = 1 ] && via_srt "$pid" || offenders="$offenders $pid"
-    done
-    if [ -n "$offenders" ]; then
-      printf 'opencode-sandboxed: refusing to start: unsandboxed opencode process(es) running, PID(s):%s\n' "$offenders" >&2
-      printf 'Stop them yourself (e.g. kill <pid>), then retry. Nothing was killed.\n' >&2
-      exit 1
-    fi
-    ;;
+  offenders=
+  for pid in $(printf '%s\n' "$candidates" | /usr/bin/sort -u); do
+    [ "$pid" = "$$" ] && continue
+    kill -0 "$pid" 2>/dev/null || continue
+    # Fail closed: if the environment cannot be read, treat as unsandboxed.
+    penv=$(/bin/ps eww -p "$pid" -o command= 2>/dev/null)
+    ok=1
+    printf '%s\n' "$penv" | /usr/bin/grep -Eq '(^|[[:space:]])OPENCODE_SANDBOXED=1([[:space:]]|$)' || ok=0
+    printf '%s\n' "$penv" | /usr/bin/grep -Eq '(^|[[:space:]])SANDBOX_RUNTIME=1([[:space:]]|$)' || ok=0
+    [ "$ok" = 1 ] && via_srt "$pid" || offenders="$offenders $pid"
+  done
+  if [ -n "$offenders" ]; then
+    printf 'opencode-sandboxed: refusing to start: unsandboxed opencode process(es) running, PID(s):%s\n' "$offenders" >&2
+    printf 'Stop them yourself (e.g. kill <pid>), then retry. Nothing was killed.\n' >&2
+    exit 1
+  fi
+  ;;
 esac
 
 # Scrub secrets from the environment handed to the sandbox. Unset every name
@@ -125,13 +143,13 @@ fi
 env_names=$(/usr/bin/env | /usr/bin/cut -d= -f1 | /usr/bin/grep -E '^[A-Za-z_][A-Za-z0-9_]*$')
 scrub() {
   case "$KEEP" in *" $1 "*) return 0 ;; esac
-  case "$1" in PATH|HOME|USER|LOGNAME|SHELL|PWD|TMPDIR|TERM) return 0 ;; esac
+  case "$1" in PATH | HOME | USER | LOGNAME | SHELL | PWD | TMPDIR | TERM) return 0 ;; esac
   unset "$1"
 }
 for name in $secret_names; do scrub "$name"; done
 for name in $env_names; do
   case "$name" in
-    *TOKEN*|*SECRET*|*PASSWORD*|*_PAT|*API_KEY*|*_KEY|*CREDENTIAL*|AZURE_CLIENT_*|AZURE_TENANT_ID|AZURE_USERNAME|AZURE_FEDERATED_*) scrub "$name" ;;
+  *TOKEN* | *SECRET* | *PASSWORD* | *_PAT | *API_KEY* | *_KEY | *CREDENTIAL* | AZURE_CLIENT_* | AZURE_TENANT_ID | AZURE_USERNAME | AZURE_FEDERATED_*) scrub "$name" ;;
   esac
 done
 
@@ -146,7 +164,7 @@ OPENCODE_SANDBOXED=1
 export OPENCODE_SANDBOXED
 : "${NODE_EXTRA_CA_CERTS:=$HOME/.certs/ZscalerRootCA.pem}"
 export NODE_EXTRA_CA_CERTS
-export NODE_USE_ENV_PROXY=1   # node >= 24: make fetch() honor srt's proxy env
+export NODE_USE_ENV_PROXY=1 # node >= 24: make fetch() honor srt's proxy env
 
 # Private scratch dir: must be a real dir we own (no symlink pre-planting).
 check_dir() {
@@ -157,7 +175,7 @@ check_dir() {
 /bin/mkdir -p "$TMP_BASE" || die "cannot create $TMP_BASE"
 check_dir "$TMP_BASE"
 /bin/chmod 700 "$TMP_BASE" || die "cannot chmod $TMP_BASE"
-for sub in gradle-daemon npm-cache bun-cache; do
+for sub in gradle-daemon npm-cache bun-cache dotnet-extract; do
   /bin/mkdir -p "$TMP_BASE/$sub" || die "cannot create $TMP_BASE/$sub"
   check_dir "$TMP_BASE/$sub"
 done
@@ -172,14 +190,53 @@ export npm_config_cache BUN_INSTALL_CACHE_DIR
 # agent to whatever is here, so the two coexist.
 JTO_ADD="-Djava.net.preferIPv4Stack=true -Djava.io.tmpdir=$TMP_BASE -Dorg.gradle.daemon.registry.base=$TMP_BASE/gradle-daemon"
 case " ${JAVA_TOOL_OPTIONS:-} " in
-  *" $JTO_ADD "*) ;;
-  *) JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:+$JAVA_TOOL_OPTIONS }$JTO_ADD" ;;
+*" $JTO_ADD "*) ;;
+*) JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:+$JAVA_TOOL_OPTIONS }$JTO_ADD" ;;
 esac
 export JAVA_TOOL_OPTIONS
 
 # srt sets NO_PROXY to include RFC1918 ranges, which would make curl/JVM dial
 # the internal Artifactory (10.161.92.100) directly and be blocked. Narrow it
 # to loopback so it goes through the srt proxy allowlist instead.
+if [ "$MODE" = nvim ]; then
+  exec "$NODE_BIN/node" "$SRT" --settings "$SETTINGS" -- /bin/sh -c '
+    NO_PROXY=localhost,127.0.0.1,::1; no_proxy=$NO_PROXY; export NO_PROXY no_proxy
+    BIN=$1; STATE=$2; TMP=$3; shift 3
+    PW=$(/usr/bin/head -c 24 /dev/urandom | /usr/bin/base64 | /usr/bin/tr -d "/+=\n")
+    [ -n "$PW" ] || { echo "opencode-sandboxed: no random password" >&2; exit 1; }
+    LOG="$TMP/serve.$$.log"
+    SPID=
+    cleanup() {
+      [ -n "$SPID" ] && kill "$SPID" 2>/dev/null
+      /usr/bin/grep -q "\"pid\":$SPID," "$STATE/service.json" 2>/dev/null && /bin/rm -f "$STATE/service.json"
+      /bin/rm -f "$LOG"
+    }
+    trap cleanup EXIT
+    trap "exit 143" INT TERM HUP
+    # Loopback server on a random port; retry on collision.
+    tries=0
+    while [ "$tries" -lt 5 ]; do
+      PORT=$((20000 + $(/usr/bin/od -An -N2 -tu2 /dev/urandom) % 30000))
+      : > "$LOG"
+      OPENCODE_SERVER_PASSWORD=$PW "$BIN" serve --hostname 127.0.0.1 --port "$PORT" >"$LOG" 2>&1 &
+      SPID=$!
+      n=0
+      while [ "$n" -lt 75 ]; do
+        /usr/bin/grep -q "server listening on" "$LOG" 2>/dev/null && break 2
+        kill -0 "$SPID" 2>/dev/null || break
+        /bin/sleep 0.2; n=$((n + 1))
+      done
+      kill "$SPID" 2>/dev/null; SPID=; tries=$((tries + 1))
+    done
+    [ -n "$SPID" ] || { echo "opencode-sandboxed: server failed to start" >&2; exit 1; }
+    URL="http://127.0.0.1:$PORT"
+    umask 077
+    /bin/mkdir -p "$STATE"
+    printf "{\"url\":\"%s\",\"pid\":%s,\"password\":\"%s\"}\n" "$URL" "$SPID" "$PW" > "$STATE/service.json.$SPID" \
+      && /bin/mv -f "$STATE/service.json.$SPID" "$STATE/service.json"
+    OPENCODE_PASSWORD=$PW "$BIN" --server "$URL" "$@"
+  ' opencode-sandboxed-nvim "$OPENCODE_BIN" "$STATE_DIR" "$TMP_BASE" "$@"
+fi
 exec "$NODE_BIN/node" "$SRT" --settings "$SETTINGS" -- /bin/sh -c \
   'NO_PROXY=localhost,127.0.0.1,::1; no_proxy=$NO_PROXY; export NO_PROXY no_proxy; exec "$@"' \
   opencode-sandboxed "$OPENCODE_BIN" "$@"

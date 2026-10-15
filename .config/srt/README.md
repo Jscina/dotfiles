@@ -270,11 +270,11 @@ After upgrading opencode, srt, or changing sandbox/launcher settings:
 
 8. **Check MCP servers:** Ask CodeCompanion to list available tools. You should see context7, grep_app, websearch, and possibly ado (if ADO_ORG/ADO_MCP_AUTH_TOKEN are set).
 
-9. **Service registration (opencode >= 2.x only):** The nvim plugin expects opencode to write `~/.local/state/opencode/service.json`. Current opencode 1.19.0 (Homebrew) does NOT write this file. Upgrade to opencode 2.x for plugin integration; until then, use the TUI.
+9. **nvim integration (`opencode-sandboxed --nvim`):** Starts `opencode serve` on a random loopback port with a random password, writes `~/.local/state/opencode/service.json`, and attaches the TUI (`--server`); both run in one srt. On exit the server is killed and the registration removed. Verify: press `<leader>ot`, then `<leader>oa`; after quitting, no `opencode` process and no `service.json` remain. Requires the shared service disabled: `opencode service stop && opencode service set disabled true` (a shared service keeps the proxy/profile of the srt that first started it and gets `ConnectionRefused` once that exits).
 
 ### Known Issues and Workarounds
 
-- **opencode 1.19.0 vs 2.x:** The installed Homebrew binary (1.19.0) does not write `service.json` and returns HTML from `/api/info`. The opencode.nvim plugin targets 2.x. **Workaround:** Launch opencode via the terminal (`:terminal opencode-sandboxed` inside nvim) and avoid the `<leader>oa` keymaps until opencode is upgraded to 2.x. Upgrade risk: the 2.x daemon's stale guard blocks launches if the daemon detaches or changes its binary path—re-verify the setup after upgrading.
+- **One nvim registration at a time:** `--nvim` writes a single `service.json`; a second concurrent nvim launch overwrites it, so the first nvim's plugin keymaps then target the second server. Run one sandboxed nvim session at a time.
 
 - **ADO MCP 407 proxy handling (FIXED):** Commit a77fbe2 pins `@azure-devops/mcp@2.10.0` and injects `NODE_OPTIONS=--require=/Users/jscina/dotfiles/.config/srt/mcp-ado-preload.cjs` (for proxy credential injection). **Verified:** `core_list_projects` returned 2 projects inside the sandbox. The first-run checklist includes an ADO check (MCP list verification step).
 
@@ -286,7 +286,6 @@ After upgrading opencode, srt, or changing sandbox/launcher settings:
 - `auth.json`, `mcp-auth.json` under `~/.local/share/opencode` are readable inside sandbox (needed for OpenCode to function); do not store secrets there.
 - `service.json` is writable (by design). The nvim plugin verifies sandboxing (checks markers, ancestor srt, loopback host, listening port); a forged entry is rejected.
 - `.git/hooks` and `.git/config` are always protected by srt's Seatbelt, even if accidentally included in `allowWrite`.
-- OpenCode 1.19.0 does not support sandbox verification; service.json support requires 2.x.
 - Bash patterns in permission.bash (Layer 1, not srt) use best-effort matching. Agents can evade with variable substitution (e.g., `cat $HOME/.azure/config`), but srt's read-deny catches the actual file access.
 - `~/.gradle` is writable as an escape route: agent-written code run later unsandboxed could access build artifacts. Same risk accepted for `~/.gradle/gradle.properties` (readable and writable; only sets `org.gradle.java.home`; denying breaks builds).
 - `GITHUB_MCP_TOKEN`, `ADO_ORG`, `ADO_MCP_AUTH_TOKEN` are in the keep-list and visible to agent bash via `env`; env scrub is a denylist (URL-embedded credentials pass through).

@@ -185,7 +185,7 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 
 **Local model:** Ollama with `qwen3`, `qwen2.5-vl-vision` (accessed at `http://localhost:11434/v1`).
 
-**Launch:** Press `<leader>oa` in Neovim to start the sandboxed launcher. Note: opencode 1.19.0 does not write `service.json`; upgrade to 2.x for full nvim plugin integration (see [Known Issues](./.config/srt/README.md#known-issues-and-workarounds) section in srt README).
+**Launch:** Press `<leader>ot` (or any plugin keymap such as `<leader>oa`) in Neovim to start `opencode-sandboxed --nvim`: a private loopback server plus TUI inside one srt, registered in `service.json` and removed on exit. Requires the shared service to be disabled (`opencode service stop && opencode service set disabled true`). See the [srt README](./.config/srt/README.md#known-issues-and-workarounds).
 
 ## GitHub CLI (`.config/gh/`)
 

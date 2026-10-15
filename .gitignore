@@ -3,3 +3,4 @@
 .config/azp/options.json
 .config/gh-copilot/config.yml
 .secrets
+.config/opencode/service.json
