@@ -119,33 +119,6 @@ alias lzd="lazydocker"
 # Secrets (gitignored)
 [[ -f "$HOME/.secrets" ]] && source "$HOME/.secrets"
 
-# Convenience only; bypassable (`command opencode`, /opt/homebrew/bin/opencode).
-# Real guarantee: the nvim plugin and launcher always use srt, and the launcher
-# refuses to start while an unsandboxed opencode exists.
-opencode() {
-  if [[ $OPENCODE_SANDBOXED == 1 && $SANDBOX_RUNTIME == 1 ]]; then
-    # Markers alone are spoofable: verify with real open() attempts that srt denies.
-    local f
-    [[ -f $HOME/dotfiles/.zshrc ]] || { echo "opencode: cannot verify sandbox" >&2; return 1; }
-    if ( exec 3>>"$HOME/dotfiles/.zshrc" ) 2>/dev/null; then
-      echo "opencode: markers set but not sandboxed" >&2
-      return 1
-    fi
-    for f in "$HOME/.zsh_history" "$HOME/.secrets"; do
-      if [[ -e $f ]] && ( exec 3<"$f" ) 2>/dev/null; then
-        echo "opencode: markers set but not sandboxed" >&2
-        return 1
-      fi
-    done
-    command opencode "$@"
-  elif [[ -z $NVIM ]]; then
-    echo "Nope. Open it from Neovim, champ"
-    return 1
-  else
-    "$HOME/dotfiles/bin/opencode-sandboxed" "$@"
-  fi
-}
-
 . "$HOME/.cargo/env"
 export NVM_DIR="$HOME/.nvm"
   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
