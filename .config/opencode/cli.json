@@ -15,7 +15,17 @@
   "session": {
     "sidebar": "auto",
     "scrollbar": false,
-    "thinking": "show"
+    "thinking": "show",
+    "permissions": "prompt"
   },
-  "animations": true
+  "animations": true,
+  "attention": {
+    "notifications": true
+  },
+  "debug": {
+    "devtools": false
+  },
+  "terminal": {
+    "title": true
+  }
 }

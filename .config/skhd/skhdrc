@@ -39,5 +39,5 @@ cmd + shift - n : yabai -m window --focus stack.next
 cmd + shift- p : yabai -m window --focus stack.prev
 
 # applications
-cmd - b : open -a "Arc" -n
+cmd - b : open -a "Zen" -n
 cmd - i: open -a "Ghostty" -n

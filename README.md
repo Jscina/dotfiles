@@ -4,19 +4,19 @@ Personal dotfiles for a macOS development environment. Manages shell, terminal, 
 
 ## Overview
 
-| Component | Tool | Config Path |
-|---|---|---|
-| Shell | Zsh + Oh My Zsh | `.zshrc` |
-| Terminal Multiplexer | tmux | `.tmux.conf` |
-| Terminal Emulator | Ghostty | `.config/ghostty/config` |
-| Editor | Neovim (LazyVim) | `.config/nvim/` |
-| Window Manager | yabai + skhd | `.config/skhd/skhdrc` |
-| Status Bar | SketchyBar | `.config/sketchybar/` |
-| AI Coding | OpenCode | `.config/opencode/` |
-| GitHub CLI | gh | `.config/gh/` |
-| Azure Tooling | azp | `.config/azp/` |
-| SSH | OpenSSH | `.ssh/config` |
-| Container Runtime | Colima | `.ssh/config` |
+| Component            | Tool             | Config Path              |
+| -------------------- | ---------------- | ------------------------ |
+| Shell                | Zsh + Oh My Zsh  | `.zshrc`                 |
+| Terminal Multiplexer | tmux             | `.tmux.conf`             |
+| Terminal Emulator    | Ghostty          | `.config/ghostty/config` |
+| Editor               | Neovim (LazyVim) | `.config/nvim/`          |
+| Window Manager       | yabai + skhd     | `.config/skhd/skhdrc`    |
+| Status Bar           | SketchyBar       | `.config/sketchybar/`    |
+| AI Coding            | OpenCode         | `.config/opencode/`      |
+| GitHub CLI           | gh               | `.config/gh/`            |
+| Azure Tooling        | azp              | `.config/azp/`           |
+| SSH                  | OpenSSH          | `.ssh/config`            |
+| Container Runtime    | Colima           | `.ssh/config`            |
 
 ## Shell (`.zshrc`)
 
@@ -25,11 +25,13 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 **Plugins:** `git`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `fzf`, `tmux`
 
 **Key behavior:**
+
 - tmux auto-starts on shell launch (session name: `main`)
 - Hyphen-insensitive completion enabled
 - Secrets sourced from `~/.secrets` (gitignored)
 
 **Runtime managers:**
+
 - [nvm](https://github.com/nvm-sh/nvm) for Node.js
 - [pyenv](https://github.com/pyenv/pyenv) for Python
 - [Cargo](https://doc.rust-lang.org/cargo/) for Rust
@@ -37,10 +39,12 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 - [pipx](https://pypa.github.io/pipx/) for isolated Python CLIs
 
 **Aliases:**
+
 - `lzg` &rarr; `lazygit`
 - `lzd` &rarr; `lazydocker`
 
 **Other:**
+
 - [zoxide](https://github.com/ajeetdsouza/zoxide) replaces `cd`
 - Microsoft telemetry disabled (`FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT`, `AZURE_DEV_COLLECT_TELEMETRY`)
 - Zscaler root CA configured for Node.js (`NODE_EXTRA_CA_CERTS`)
@@ -51,14 +55,16 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 **Prefix:** `Ctrl-a` (rebound from default `Ctrl-b`)
 
 **Keybindings:**
-| Key | Action |
-|---|---|
-| `\|` | Split horizontal |
-| `-` | Split vertical |
-| `r` | Reload config |
+
+| Key            | Action                     |
+| -------------- | -------------------------- |
+| `\|`           | Split horizontal           |
+| `-`            | Split vertical             |
+| `r`            | Reload config              |
 | `Ctrl-h/j/k/l` | Navigate panes (vim-aware) |
 
 **Features:**
+
 - [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) integration for seamless pane/split switching
 - Mouse mode enabled
 - Window numbering starts at 1
@@ -66,6 +72,7 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 - Status bar at top
 
 **Plugins** (via [TPM](https://github.com/tmux-plugins/tpm)):
+
 - `tmux-pain-control` &mdash; sensible pane bindings
 - `tmux-sensible` &mdash; reasonable defaults
 - `tokyo-night-tmux` &mdash; theme (transparent status bar background)
@@ -85,6 +92,7 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 [LazyVim](https://www.lazyvim.org/) distribution (managed as a git submodule).
 
 **Enabled LazyVim extras:**
+
 - **AI:** Copilot, Copilot Chat
 - **Coding:** blink, nvim-cmp
 - **Debugging:** DAP core
@@ -97,30 +105,30 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 
 **Custom plugins** (22 total in `lua/plugins/`):
 
-| Plugin | Purpose |
-|---|---|
-| `blink` | Completion engine config |
-| `copilot` | GitHub Copilot |
-| `core` | Core overrides |
-| `dap` | Debug Adapter Protocol |
-| `disabled` | Explicitly disabled plugins |
-| `ecolog` | Environment variable support |
-| `go-up` | Navigation helper |
-| `indent_blankline` | Indentation guides |
-| `java` | Java/JDTLS config |
-| `lazydocker` | Docker TUI integration |
-| `lazygit` | Git TUI integration |
-| `lsp` | LSP configuration |
-| `neotest` | Test runner |
-| `neotree` | File explorer |
-| `nvim_ufo` | Code folding |
-| `opencode` | OpenCode AI integration |
-| `tailwind_tools` | Tailwind CSS utilities |
-| `tmux` | tmux-navigator integration |
-| `transparent` | Transparent background |
-| `treesitter-context` | Sticky function headers |
-| `undotree` | Undo history visualization |
-| `venv-selector` | Python virtualenv picker |
+| Plugin               | Purpose                      |
+| -------------------- | ---------------------------- |
+| `blink`              | Completion engine config     |
+| `copilot`            | GitHub Copilot               |
+| `core`               | Core overrides               |
+| `dap`                | Debug Adapter Protocol       |
+| `disabled`           | Explicitly disabled plugins  |
+| `ecolog`             | Environment variable support |
+| `go-up`              | Navigation helper            |
+| `indent_blankline`   | Indentation guides           |
+| `java`               | Java/JDTLS config            |
+| `lazydocker`         | Docker TUI integration       |
+| `lazygit`            | Git TUI integration          |
+| `lsp`                | LSP configuration            |
+| `neotest`            | Test runner                  |
+| `neotree`            | File explorer                |
+| `nvim_ufo`           | Code folding                 |
+| `opencode`           | OpenCode AI integration      |
+| `tailwind_tools`     | Tailwind CSS utilities       |
+| `tmux`               | tmux-navigator integration   |
+| `transparent`        | Transparent background       |
+| `treesitter-context` | Sticky function headers      |
+| `undotree`           | Undo history visualization   |
+| `venv-selector`      | Python virtualenv picker     |
 
 **Lua formatting:** StyLua (2-space indent, 120 column width)
 
@@ -129,22 +137,24 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 [skhd](https://github.com/koekeishiya/skhd) hotkey daemon for [yabai](https://github.com/koekeishiya/yabai) tiling window manager.
 
 **Focus windows:**
-| Key | Action |
-|---|---|
-| `Cmd-h/j/k/l` | Focus west/south/north/east |
-| `Cmd+Shift-h/j/k/l` | Warp (move) window |
-| `Cmd+Shift-[1-9]` | Send window to space |
-| `Cmd-d` | Toggle zoom parent |
-| `Cmd-f` | Toggle fullscreen zoom |
-| `Cmd+Shift-v` | Toggle float |
-| `Cmd+Shift-n/p` | Focus next/prev in stack |
+
+| Key                 | Action                      |
+| ------------------- | --------------------------- |
+| `Cmd-h/j/k/l`       | Focus west/south/north/east |
+| `Cmd+Shift-h/j/k/l` | Warp (move) window          |
+| `Cmd+Shift-[1-9]`   | Send window to space        |
+| `Cmd-d`             | Toggle zoom parent          |
+| `Cmd-f`             | Toggle fullscreen zoom      |
+| `Cmd+Shift-v`       | Toggle float                |
+| `Cmd+Shift-n/p`     | Focus next/prev in stack    |
 
 **App launchers:**
-| Key | App |
-|---|---|
+
+| Key     | App             |
+| ------- | --------------- |
 | `Cmd-s` | System Settings |
-| `Cmd-b` | Arc Browser |
-| `Cmd-i` | Alacritty |
+| `Cmd-b` | Zen Browser     |
+| `Cmd-i` | Alacritty       |
 
 **Service:** `Cmd+Alt+Ctrl-r` restarts yabai.
 
@@ -155,6 +165,7 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 **Theme:** Tokyo Night (dark variant)
 
 **Layout:**
+
 - **Left:** Spaces, Front App
 - **Center:** Spotify (notch area)
 - **Right:** Clock, Calendar, Battery, Volume, CPU
@@ -176,6 +187,7 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 **Plugins:** `@ex-machina/opencode-anthropic-auth` (auth), `/Users/jscina/.openagent-harness/harness.ts` (orchestration).
 
 **MCP Servers:**
+
 - `github` (remote, read-only via Copilot API)
 - `azure` (local, read-only `@azure/mcp@latest` with namespace filter)
 - `ado` (local, `@azure-devops/mcp@2.10.0` pinned with proxy credential injection)
@@ -203,11 +215,13 @@ Zsh with [Oh My Zsh](https://ohmyz.sh/) using the `rkj-repos` theme.
 [Colima](https://github.com/abiosoft/colima) runs Docker locally without Docker Desktop.
 
 **Install:**
+
 ```bash
 brew install colima docker docker-compose docker-buildx
 ```
 
 **Link as CLI plugins** (Homebrew doesn't do this automatically, so `docker compose`/`docker buildx` won't work as subcommands without it):
+
 ```bash
 mkdir -p ~/.docker/cli-plugins
 ln -sfn "$(brew --prefix docker-compose)/bin/docker-compose" ~/.docker/cli-plugins/docker-compose
@@ -215,11 +229,13 @@ ln -sfn "$(brew --prefix docker-buildx)/bin/docker-buildx" ~/.docker/cli-plugins
 ```
 
 **Start** (reproduces this machine's profile):
+
 ```bash
 colima start --cpus 4 --memory 8 --disk 100 --arch aarch64 --vm-type vz --vz-rosetta --mount-type virtiofs
 ```
 
 **Profile** (`~/.colima/default/colima.yaml`, local to the machine &mdash; not tracked in this repo):
+
 - **CPU:** 4
 - **Memory:** 8 GiB
 - **Disk:** 100 GiB
@@ -229,16 +245,18 @@ colima start --cpus 4 --memory 8 --disk 100 --arch aarch64 --vm-type vz --vz-ros
 - **Rosetta:** enabled, for running x86_64 images
 
 **Integration:**
+
 - `.ssh/config` &mdash; auto-includes Colima's generated SSH config
 - Docker CLI, Compose, and Buildx target the Colima socket automatically (no `DOCKER_HOST` override needed)
 - `lzd` alias &mdash; opens [lazydocker](https://github.com/jesseduffield/lazydocker) against the Colima runtime
 
 **Commands:**
-| Command | Action |
-|---|---|
-| `colima status` | Check VM state |
-| `colima stop` | Stop the VM |
-| `colima ssh` | Shell into the VM |
+
+| Command         | Action                                                                 |
+| --------------- | ---------------------------------------------------------------------- |
+| `colima status` | Check VM state                                                         |
+| `colima stop`   | Stop the VM                                                            |
+| `colima ssh`    | Shell into the VM                                                      |
 | `colima delete` | Destroy the VM (required before changing arch, VM type, or mount type) |
 
 ## Gitignored / Secrets
