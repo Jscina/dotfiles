@@ -1,6 +1,9 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugins": ["@ex-machina/opencode-anthropic-auth@next", "/home/joshs/.openagent-harness/harness.ts"],
+  "plugins": [
+    "@ex-machina/opencode-anthropic-auth@next",
+    "/home/joshs/.openagent-harness/harness.ts"
+  ],
   "mcp": {
     "servers": {
       "github": {
@@ -13,7 +16,10 @@
       },
       "websearch": {
         "type": "remote",
-        "url": "https://mcp.exa.ai/mcp"
+        "url": "https://mcp.exa.ai/mcp",
+        "headers": {
+          "x-api-key": "{env:WEBSEARCH_MCP_API_KEY}"
+        }
       },
       "context7": {
         "type": "remote",
@@ -112,8 +118,16 @@
 
     { "action": "edit", "resource": "*.git/hooks/*", "effect": "deny" },
     { "action": "edit", "resource": "*.git/config", "effect": "deny" },
-    { "action": "edit", "resource": "*.git/modules/*/hooks/*", "effect": "deny" },
-    { "action": "edit", "resource": "*.git/modules/*/config", "effect": "deny" },
+    {
+      "action": "edit",
+      "resource": "*.git/modules/*/hooks/*",
+      "effect": "deny"
+    },
+    {
+      "action": "edit",
+      "resource": "*.git/modules/*/config",
+      "effect": "deny"
+    },
     { "action": "edit", "resource": "*.gitmodules", "effect": "deny" },
     { "action": "edit", "resource": "*.vscode/*", "effect": "deny" },
     { "action": "edit", "resource": "*.idea/*", "effect": "deny" },
