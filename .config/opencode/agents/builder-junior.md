@@ -1,7 +1,5 @@
 ---
 model: openai/gpt-5.6-terra
-fallback_models:
-  - anthropic/claude-sonnet-5-5
 description: Executes one narrowly scoped coding task. Given an exact spec by builder — which file, what change, what the expected outcome is. Never explores, never plans, never reviews.
 mode: subagent
 permissions:
@@ -27,6 +25,8 @@ Spec from builder:
 - Which file or files to touch
 - What change to make
 - What the expected outcome is
+
+Read the `<memory-context>` block at the top of your prompt, if present, and respect any ruled-out hypotheses.
 
 Before touching files: apply `git-worktree` skill — confirm right worktree, right branch.
 
