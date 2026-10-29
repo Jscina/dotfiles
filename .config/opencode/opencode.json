@@ -1,6 +1,24 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugins": ["@ex-machina/opencode-anthropic-auth@next", "/Users/jscina/.openagent-harness"],
+  "plugins": [
+    "@ex-machina/opencode-anthropic-auth@next",
+    "/Users/jscina/.openagent-harness",
+    {
+      "package": "/Users/jscina/opencode-v2-lsp-support",
+      "options": { "diagnosticsTimeoutMs": 15000 }
+    }
+  ],
+  "lsp": {
+    "jdtls": {
+      "command": [
+        "/Users/jscina/.local/share/nvim/mason/bin/jdtls",
+        "--java-executable=/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home/bin/java",
+        "--jvm-arg=-Xmx6G",
+        "-data",
+        "/Users/jscina/.cache/opencode-jdtls/connect-plus"
+      ]
+    }
+  },
   "compaction": {
     "auto": true,
     "buffer": 10000
@@ -74,18 +92,6 @@
         "type": "remote",
         "url": "https://mcp.grep.app"
       }
-    },
-    "websearch": {
-      "type": "remote",
-      "url": "https://mcp.exa.ai/mcp"
-    },
-    "context7": {
-      "type": "remote",
-      "url": "https://mcp.context7.com/mcp"
-    },
-    "grep_app": {
-      "type": "remote",
-      "url": "https://mcp.grep.app"
     }
   },
   "experimental": {

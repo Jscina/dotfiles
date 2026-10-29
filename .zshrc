@@ -84,7 +84,7 @@ source $ZSH/oh-my-zsh.sh
 # Disable microsoft telemetry
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 export AZURE_DEV_COLLECT_TELEMETRY='no'
-export JAVA_HOME="/opt/homebrew/opt/openjdk@21"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@25"
 export PATH="$JAVA_HOME/bin:$PATH"
 export PATH="/usr/local/opt/node@22/bin:$PATH"
 export PATH="$HOME/nvrh:$PATH"

@@ -4,7 +4,7 @@ return {
     config = function()
       require("minuet").setup({
         provider = "openai_fim_compatible",
-        n_completions = 5, -- recommended for local models to save resources
+        n_completions = 2, -- recommended for local models to save resources
         -- Start with a small context window and increase it gradually,
         -- depending on your local computing power.
         context_window = 512,
@@ -25,6 +25,14 @@ return {
           auto_trigger_ft = { "*" }, -- enables auto-triggering for all filetypes
           auto_trigger_ignore_ft = {},
           show_on_completion_menu = true, -- ensures ghost text works even when blink is active
+          keymap = {
+            accept = "<A-A>", -- accept whole suggestion
+            accept_line = "<A-a>", -- accept one line
+            accept_n_lines = "<A-z>",
+            prev = "<A-[>",
+            next = "<A-]>",
+            dismiss = "<A-e>",
+          },
         },
       })
     end,

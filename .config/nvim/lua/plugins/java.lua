@@ -1,5 +1,5 @@
 local jdk17 = "/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
-local jdk21 = "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+local jdk25 = "/opt/homebrew/opt/openjdk@25/libexec/openjdk.jdk/Contents/Home"
 
 return {
   {
@@ -9,7 +9,7 @@ return {
     opts = {
       -- Run jdtls itself on JDK 21, regardless of $JAVA_HOME.
       cmd = {
-        "--java-executable=" .. jdk21 .. "/bin/java",
+        "--java-executable=" .. jdk25 .. "/bin/java",
         -- Mason's wrapper sets no -Xmx (JVM could grow to ~16 GB); cap at 6G for a
         -- 17-module project on a 64 GB machine. Remaining flags: vscode-java recommended.
         "--jvm-arg=-Xmx6G",
@@ -105,7 +105,7 @@ return {
           configuration = {
             runtimes = {
               { name = "JavaSE-17", path = jdk17, default = true },
-              { name = "JavaSE-21", path = jdk21 },
+              { name = "JavaSE-25", path = jdk25 },
             },
           },
           import = {

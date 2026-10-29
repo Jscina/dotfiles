@@ -151,11 +151,29 @@ local function public_server(argv)
   end
 end
 
+local function public_server_with_env(argv, pass)
+  return function()
+    local cmd = sandboxed("public", "mcp.json", argv, pass)
+    return cmd and { cmd = cmd } or skipped()
+  end
+end
+
 return {
   {
     "olimorris/codecompanion.nvim",
     version = "^19.0.0",
     opts = {
+      adapters = {
+        http = {
+          ollama = function()
+            return require("codecompanion.adapters").extend("ollama", {
+              schema = {
+                keep_alive = { default = "30m" },
+              },
+            })
+          end,
+        },
+      },
       interactions = {
         chat = {
           adapter = {
@@ -183,7 +201,11 @@ return {
               opts = { require_approval_before = true, protect = true },
             },
             ["insert_edit_into_file"] = {
-              opts = { require_approval_before = { buffer = true, file = true }, protect = true },
+              opts = {
+                require_approval_before = { buffer = false, file = false },
+                require_confirmation_after = true,
+                protect = true,
+              },
             },
             ["read_file"] = {
               opts = { require_approval_before = true, protect = true },
@@ -203,16 +225,20 @@ return {
           },
         },
       },
+      display = { diff = { enabled = true, threshold_for_chat = 0 } },
       -- MCP (stdio only). Intentionally omitted from opencode.json:
       --   azure:  very large tool surface and write operations.
       --   github: remote-HTTP-only with a huge tool surface; overwhelms a local model.
       mcp = {
         servers = {
           -- stdio-native, tiny tool surface
-          context7 = public_server({ PIN.context7 }),
-          -- remote HTTP servers bridged to stdio via mcp-remote
+          context7 = public_server_with_env({ PIN.context7 }, { "CONTEXT7_API_KEY" }),
           grep_app = public_server({ PIN.mcp_remote, "https://mcp.grep.app" }),
-          websearch = public_server({ PIN.mcp_remote, "https://mcp.exa.ai/mcp" }),
+          websearch = public_server_with_env(
+            { PIN.mcp_remote, "https://mcp.exa.ai/mcp", "--header", "x-api-key:$EXA_API_KEY" },
+            { "EXA_API_KEY" }
+          ),
+          -- remote HTTP servers bridged to stdio via mcp-remote
           -- large tool surface: manual start only, approval required for every tool.
           -- Own sandbox profile so the PAT is never in a process that can reach the
           -- public MCP hosts. Only ADO_MCP_AUTH_TOKEN is passed in.
@@ -234,7 +260,7 @@ return {
           end,
         },
         opts = {
-          default_servers = { "context7", "grep_app" },
+          default_servers = { "context7", "grep_app", "websearch" },
         },
       },
     },
