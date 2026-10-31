@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-haiku-4-5
+model: anthropic/claude-haiku-5-5
 description: Analyzes visual assets — screenshots, wireframes, UI mockups, PDFs — and returns a structured description of what it sees.
 mode: subagent
 permissions:

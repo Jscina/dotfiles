@@ -1,5 +1,5 @@
 ---
-model: anthropic/claude-haiku-4-5
+model: anthropic/claude-haiku-5-5
 description: Documentation only. Writes READMEs, inline doc comments, API docs, and changelogs based on builder's completed diff. Never touches code files.
 mode: subagent
 permissions:
