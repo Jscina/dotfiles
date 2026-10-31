@@ -1,5 +1,5 @@
 ---
-model: openai/gpt-5.6-sol
+model: openai/gpt-6-sol
 description: Senior engineer. Owns execution quality for a subtask. Spawns builder-junior workers, reviews their output, escalates to debugger as needed.
 mode: all
 permissions:

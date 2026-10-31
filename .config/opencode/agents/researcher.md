@@ -1,5 +1,5 @@
 ---
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 description: External knowledge retrieval. Searches web, fetches library docs, reads GitHub examples. No local file access.
 mode: subagent
 permissions:

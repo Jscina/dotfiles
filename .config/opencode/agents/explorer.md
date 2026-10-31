@@ -1,5 +1,5 @@
 ---
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 description: Read-only codebase reconnaissance. Maps files, traces call chains, identifies interfaces and patterns. Never modifies anything.
 mode: subagent
 permissions:
