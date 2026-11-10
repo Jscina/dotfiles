@@ -7,7 +7,7 @@ return {
     -- Append to LazyVim's default cmd (keeps exepath("jdtls") and lombok agent).
     opts_extend = { "cmd" },
     opts = {
-      -- Run jdtls itself on JDK 21, regardless of $JAVA_HOME.
+      -- Run jdtls itself on JDK 25, regardless of $JAVA_HOME.
       cmd = {
         "--java-executable=" .. jdk25 .. "/bin/java",
         -- Mason's wrapper sets no -Xmx (JVM could grow to ~16 GB); cap at 6G for a
