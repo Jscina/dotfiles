@@ -71,7 +71,7 @@ return {
           },
         },
         opts = {
-          default_servers = { "context7", "grep_app" },
+          default_servers = { "context7", "grep_app", "websearch" },
         },
       },
     },
